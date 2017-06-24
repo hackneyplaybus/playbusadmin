@@ -1,0 +1,8 @@
+cron:
+- description: Datastore backup
+  url: /_ah/datastore_admin/backup.create?name=BackupToCloud&kind=child&filesystem=gs&gs_bucket_name=playtest
+  schedule: every day 00:00
+  timezone: Europe/London
+  target: ah-builtin-python-bundle
+- description: Bigtable load
+  url: https://www.googleapis.com/bigquery/v2/

@@ -65,6 +65,9 @@ type Carer struct {
 
 	Locations []*Location `datastore:"-" json:"locations,omitempty"`
 	Referrals []*Referral `datastore:"-" json:"referrals,omitempty"`
+
+	// This is set for autocomplete
+	LoweredNameSet []string `json:"-"`
 }
 
 type Location struct {

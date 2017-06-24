@@ -1,12 +1,16 @@
-package hello
+package app
 
 import (
-	"net/http"
+	"fmt"
 
-	"github.com/hackneyplaybus/playbusadmin/handlers"
+	uuid "github.com/nu7hatch/gouuid"
 )
 
+//"github.com/hackneyplaybus/playbusadmin/packages/handlers"
+
 func init() {
-	http.HandleFunc("/child", handlers.WriteChildHandler)
-	http.HandleFunc("/backup", handlers.Backup)
+	// http.HandleFunc("/child", handlers.WriteChildHandler)
+	// http.HandleFunc("/backup", handlers.Backup)
+	id, _ := uuid.NewV4()
+	fmt.Printf("%s\n", id.String())
 }

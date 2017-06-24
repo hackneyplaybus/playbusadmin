@@ -9,8 +9,8 @@ import (
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/user"
 
-	"github.com/hackneyplaybus/playbusadmin/dao"
-	"github.com/hackneyplaybus/playbusadmin/wire"
+	"github.com/hackneyplaybus/playbusadmin/packages/dao"
+	"github.com/hackneyplaybus/playbusadmin/packages/wire"
 )
 
 func WriteChildHandler(w http.ResponseWriter, r *http.Request) {
