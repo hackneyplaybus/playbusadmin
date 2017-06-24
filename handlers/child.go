@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"google.golang.org/appengine"
+	"google.golang.org/appengine/user"
 
 	"github.com/hackneyplaybus/playbusadmin/dao"
 	"github.com/hackneyplaybus/playbusadmin/wire"
@@ -48,4 +49,16 @@ func WriteChildHandler(w http.ResponseWriter, r *http.Request) {
 
 		fmt.Fprintf(w, "Read Child %s", newChild.Name)
 	}
+}
+
+var NotLoggedIn = fmt.Errorf("Not Logged In")
+
+func auth(w http.ResponseWriter, r *http.Request) (*user.User, error) {
+	ctx := appengine.NewContext(r)
+	u := user.Current(ctx)
+	if u == nil {
+		// TODO: Write login page response
+		return nil, NotLoggedIn
+	}
+	return u, nil
 }

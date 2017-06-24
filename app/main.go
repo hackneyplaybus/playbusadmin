@@ -7,6 +7,5 @@ import (
 )
 
 func init() {
-	//http.HandleFunc("/", handlers.RootHandler)
 	http.HandleFunc("/child", handlers.WriteChildHandler)
 }
