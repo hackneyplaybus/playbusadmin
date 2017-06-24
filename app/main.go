@@ -8,5 +8,5 @@ import (
 
 func init() {
 	http.HandleFunc("/child", handlers.WriteChildHandler)
-
+	http.HandleFunc("/backup", handlers.Backup)
 }

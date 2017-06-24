@@ -7,6 +7,9 @@ basic_scaling:
   idle_timeout: 1m
 
 handlers:
+- url: /backup
+  script: _go_app
+  login: required
 - url: /
   static_files: static/html/index.html
   upload: static/html/index\.html
