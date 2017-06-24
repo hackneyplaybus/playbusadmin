@@ -10,8 +10,9 @@ type Family struct {
 }
 
 type Child struct {
-	FamilyId     string    `json:"family_id,omitempty"`
-	ChildId      string    `json:"child_id,omitempty"`
+	FamilyId string `json:"family_id,omitempty"`
+	// This is the ID value in datastore, manually set this
+	ChildId      string    `datastore:"-" json:"child_id,omitempty"`
 	Name         string    `json:"name,omitempty"`
 	FirstName    string    `json:"first_name,omitempty"`
 	LastName     string    `json:"last_name,omitempty"`
@@ -22,6 +23,9 @@ type Child struct {
 	PhotoConsent bool      `json:"photo_consent,omitempty"`
 
 	Locations []*Location `datastore:"-" json:"locations,omitempty"`
+
+	// This is set for autocomplete
+	LoweredNameSet []string `json:"-"`
 }
 
 type Note struct {
@@ -41,8 +45,9 @@ type Referral struct {
 }
 
 type Carer struct {
-	FamilyId      string    `json:"family_id,omitempty"`
-	CarerId       string    `json:"carer_id,omitempty"`
+	FamilyId string `json:"family_id,omitempty"`
+	// This is the ID value in datastore, manually set this on read
+	CarerId       string    `datastore:"-" json:"carer_id,omitempty"`
 	Name          string    `json:"name,omitempty"`
 	FirstName     string    `json:"first_name,omitempty"`
 	LastName      string    `json:"last_name,omitempty"`

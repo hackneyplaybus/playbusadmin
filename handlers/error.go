@@ -1,15 +1,26 @@
 package handlers
 
 import (
-	"fmt"
+	"encoding/json"
 	"net/http"
+
+	"golang.org/x/net/context"
+
+	"google.golang.org/appengine/log"
 )
 
-func writeErrorPage(w http.ResponseWriter, err error) {
-	// TODO: Template error page out.
+type WireError struct {
+	Description string `json:"description,omitempty"`
+	Error       string `json:"error,omitempty"`
 }
 
-func writeError(w http.ResponseWriter, err error, code int, message string) {
+func writeError(ctx context.Context, w http.ResponseWriter, r *http.Request, err error, code int, message string) {
+	log.Errorf(ctx, "Handler Error: Endpoint: %s Error: %s, Message: %s", r.URL.Path, err, message)
+
 	w.WriteHeader(code)
-	fmt.Fprintf(w, "Error: %v", err)
+	bb, _ := json.Marshal(&WireError{
+		Description: message,
+		Error:       err.Error(),
+	})
+	w.Write(bb)
 }

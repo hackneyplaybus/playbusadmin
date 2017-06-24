@@ -19,19 +19,19 @@ func WriteChildHandler(w http.ResponseWriter, r *http.Request) {
 		bb, err := ioutil.ReadAll(r.Body)
 		defer r.Body.Close()
 		if err != nil {
-			writeError(w, err, http.StatusInternalServerError, "Error decoding payload")
+			writeError(ctx, w, r, err, http.StatusInternalServerError, "Error decoding payload")
 			return
 		}
 
 		child := &wire.Child{}
 		if err = json.Unmarshal(bb, child); err != nil {
-			writeError(w, err, http.StatusBadRequest, "Bad message format")
+			writeError(ctx, w, r, err, http.StatusBadRequest, "Bad message format")
 			return
 		}
 
 		err = dao.CreateChild(ctx, child)
 		if err != nil {
-			writeError(w, err, http.StatusInternalServerError, "Unable to write to datastore")
+			writeError(ctx, w, r, err, http.StatusInternalServerError, "Unable to write to datastore")
 			return
 		}
 
@@ -41,13 +41,31 @@ func WriteChildHandler(w http.ResponseWriter, r *http.Request) {
 	} else if r.Method == "GET" {
 
 		name := r.URL.Query().Get("name")
-		newChild, err := dao.ReadChild(ctx, name)
-		if err != nil {
-			writeError(w, err, http.StatusInternalServerError, "Unable to write to datastore")
+		if name != "" {
+			newChild, err := dao.ReadChild(ctx, name)
+			if err != nil {
+				writeError(ctx, w, r, err, http.StatusInternalServerError, "Unable to read from datastore")
+				return
+			}
+
+			fmt.Fprintf(w, "Read Child %s", newChild.Name)
+			return
+		}
+		term := r.URL.Query().Get("prefix")
+		if term != "" {
+			children, err := dao.AutoCompleteChild(ctx, term)
+			if err != nil {
+				writeError(ctx, w, r, err, http.StatusInternalServerError, "Unable to read from datastore")
+				return
+			}
+
+			for _, child := range children {
+				fmt.Fprintf(w, "%s\n", child.Name)
+			}
+
 			return
 		}
 
-		fmt.Fprintf(w, "Read Child %s", newChild.Name)
 	}
 }
 
