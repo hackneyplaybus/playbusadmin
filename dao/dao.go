@@ -1,7 +1,7 @@
 package dao
 
 import (
-	"wire"
+	"github.com/hackneyplaybus/playbusadmin/wire"
 
 	"golang.org/x/net/context"
 

@@ -8,8 +8,8 @@ import (
 
 	"google.golang.org/appengine"
 
-	"dao"
-	"wire"
+	"github.com/hackneyplaybus/playbusadmin/dao"
+	"github.com/hackneyplaybus/playbusadmin/wire"
 )
 
 func WriteChildHandler(w http.ResponseWriter, r *http.Request) {

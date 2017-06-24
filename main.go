@@ -3,7 +3,7 @@ package hello
 import (
 	"net/http"
 
-	"handlers"
+	"github.com/hackneyplaybus/playbusadmin/handlers"
 )
 
 func init() {
