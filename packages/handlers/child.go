@@ -13,6 +13,32 @@ import (
 	"github.com/hackneyplaybus/playbusadmin/packages/wire"
 )
 
+func AutocompleteChildHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := appengine.NewContext(r)
+	term := r.URL.Query().Get("term")
+	children, err := dao.AutoCompleteChild(ctx, term)
+	if err != nil {
+		writeError(ctx, w, r, err, http.StatusInternalServerError, "Error decoding payload")
+		return
+	}
+	rsp := []map[string]string{}
+	for _, child := range children {
+		rsp = append(rsp, map[string]string{
+			"label": child.Name,
+			"value": child.Name,
+		})
+	}
+
+	bb, err := json.Marshal(rsp)
+	if err != nil {
+		writeError(ctx, w, r, err, http.StatusInternalServerError, "Error decoding payload")
+		return
+	}
+
+	w.Write(bb)
+
+}
+
 func WriteChildHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := appengine.NewContext(r)
 	if r.Method == "POST" {
@@ -29,26 +55,30 @@ func WriteChildHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		err = dao.CreateChild(ctx, child)
+		err = dao.CreateChild(ctx, child, nil)
 		if err != nil {
 			writeError(ctx, w, r, err, http.StatusInternalServerError, "Unable to write to datastore")
 			return
 		}
-
-		fmt.Fprintf(w, "Got Child %s", child.Name)
+		bb, err = json.Marshal(child)
+		if err != nil {
+			writeError(ctx, w, r, err, http.StatusInternalServerError, "Unable to write to datastore")
+			return
+		}
+		w.Write(bb)
 		return
 
 	} else if r.Method == "GET" {
 
 		name := r.URL.Query().Get("name")
 		if name != "" {
-			newChild, err := dao.ReadChild(ctx, name)
+			newChild, err := dao.AutoCompleteChild(ctx, name)
 			if err != nil {
 				writeError(ctx, w, r, err, http.StatusInternalServerError, "Unable to read from datastore")
 				return
 			}
 
-			fmt.Fprintf(w, "Read Child %s", newChild.Name)
+			fmt.Fprintf(w, "Read Child %s", newChild[0].Name)
 			return
 		}
 		term := r.URL.Query().Get("prefix")

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<title>Hackney Playbus Admin</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="static/css/w3.css">
+<link rel="stylesheet" href="static/css/animate.min.css">
+<link rel="stylesheet" href="static/css/w3-theme-yellow.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="apple-touch-icon" sizes="57x57" href="static/img/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="static/img/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="static/img/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="static/img/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="static/img/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="static/img/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="static/img/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="static/img/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="static/img/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="static/img/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="static/img/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="static/img/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="static/img/favicon-16x16.png">
+<link rel="manifest" href="static/js/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="static/img/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="static/js/masked.min.js"></script>
+<script src="static/js/requests.js"></script>
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+</style>
+<body>
+
+<!-- Navbar -->
+<div id="nav-placeholder"></div>
+
+<!-- Sidebar -->
+<div id="sidebar-placeholder"></div>
+
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+<div class="w3-main" style="margin-left:250px">
+
+  <div class="w3-row w3-padding-64">
+    <div class="w3-container">
+      <h1 class="w3-text-teal">Welcome to the Hackney Playbus</h1>
+      <div class="w3-bar w3-theme-l1">
+        <button class="w3-bar-item w3-button childButton" onclick="openForm('Child')">Child</button>
+        <button class="w3-bar-item w3-button carerButton" onclick="openForm('Carer')">Carer</button>        
+      </div>
+
+      <div id="Child" class="w3-container registrationForm" >
+        
+        <form onsubmit="submitChild(event);" id='child-form' class="w3-container w3-card-4 w3-text-yellow w3-margin" style="padding-bottom: 10px;">
+          <h2 class="w3-center w3-text-teal">Register Your Child</h2>          
+          <div class="w3-row w3-section">
+            <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-user"></i></div>
+              <div class="w3-rest">
+                <input class="w3-input w3-threequarter w3-border w3-round-medium" name="child-name" id="child-name" type="text" placeholder="Name" required>
+              </div>
+          </div>
+          <div class="w3-row w3-section">
+            <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-birthday-cake"></i></div>
+              <div class="w3-rest">
+                <input class="w3-input w3-threequarter w3-border w3-round-medium" id='child-dob'  name="child-dob" type="text" placeholder="Birthday" required>
+              </div>
+          </div>
+          <div class="w3-row w3-section">
+            <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-users"></i></div>
+              <div class="w3-rest">
+                <select class="w3-input w3-threequarter w3-border w3-round-medium" id='child-ethnicity' name="child-ethnicity" type="text" placeholder="Ethnicity">
+                  <option value="" disabled selected hidden>Ethnicity</option>
+                </select>                  
+              </div>
+          </div>
+
+          <div class="w3-row w3-section">
+            <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-transgender-alt"></i></div>
+              <div class="w3-rest">
+                <select class="w3-input w3-threequarter w3-border w3-round-medium" id='child-gender' name="child-gender" type="text" placeholder="Gender">
+                  <option value="" disabled selected hidden>Gender</option>
+                  <option value="female">Female</option>
+                  <option value="male">Male</option>
+                  <option value="other">Other</option>                  
+                </select>
+                
+                </select>                  
+              </div>
+          </div>
+          <input class="w3-button w3-right w3-text-teal w3-border" type="submit" value="Submit">
+        </form>
+      </div>
+
+      <div id="Carer" class="w3-container registrationForm" style="display:none">
+        <h2>Carer</h2>
+        <p>This is the Carer reg form</p> 
+      </div>
+      
+    </div>
+  </div>
+
+  
+
+
+<!-- END MAIN -->
+</div>
+
+<script>
+  // Add in the sidebar and navigation bar. These will be common to all pages.
+  $(function(){
+    $("#sidebar-placeholder").load("static/html/sidebar.html");
+    $("#nav-placeholder").load("static/html/navbar.html");
+  });
+
+
+  String.prototype.replaceAt=function(index, endIndex, replacement) {
+      return this.substr(0, index) + replacement+ this.substr(endIndex);
+  }
+
+  function openForm(formName) {
+      var i;
+      var x = document.getElementsByClassName("registrationForm");
+      for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";  
+      }
+      document.getElementById(formName).style.display = "block";  
+  }
+
+  jQuery(function($){
+    $("#child-dob").mask("99/99/9999",{placeholder:"dd/mm/yyyy"});
+  });
+
+  // Validates that the input string is a valid date formatted as "dd/mm/yyyy"
+  function isValidDate(dateString)
+  {
+      // First check for the pattern
+      if(!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString))
+          return false;
+
+      // Parse the date parts to integers
+      var parts = dateString.split("/");
+      var day = parseInt(parts[0], 10);
+      var month = parseInt(parts[1], 10);
+      var year = parseInt(parts[2], 10);
+
+      // Check the ranges of month and year
+      if(year < 1000 || year > 3000 || month == 0 || month > 12)
+          return false;
+
+      var monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+
+      // Adjust for leap years
+      if(year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+          monthLength[1] = 29;
+
+      // Check the range of the day
+      return day > 0 && day <= monthLength[month - 1];
+  };
+  ethnicityDropdown();
+  function ethnicityDropdown() { 
+    getEthnicityList().then((resp) => resp.json()).then(function(response) {
+      var list = document.getElementById('child-ethnicity');
+
+      response.forEach(function(item){
+        var option = document.createElement('option');
+        option.value = item;
+        option.innerText = item;
+        list.appendChild(option);
+      });
+		}).catch(function(err) {
+			console.log("Could not get ethnicity list", err)
+		});
+  }
+
+  nameAutocomplete();
+  function nameAutocomplete(){
+    $('#child-name').autocomplete({
+      autoFill: true,
+      autoFocus: true,      
+      source: function( request, response ) {
+        getChildAutocomplete(request.term).then((resp) => resp.json()).then(function(rsp) {
+          response(rsp);
+        }).catch(function(err){
+          response([]);
+        });        
+      },
+      select: function (event, ui) {
+        $("#child-name").val(ui.item.label);                
+        return false;
+      },
+      messages: {
+        noResults: '',
+        results: function() {}
+      }
+    });
+  }
+
+  function submitChild(evt) {
+    evt.preventDefault();
+    var formEl = document.getElementById('child-form');
+    var headers = new Headers();
+    // Tell the server we want JSON back
+    headers.set('Accept', 'application/json');
+    
+    
+    var child = {};
+    for (var i = 0; i < formEl.length; ++i) {
+      switch (formEl[i].name) {
+        case "child-name":
+          child.name = formEl[i].value;
+        case "child-dob":
+          child.date_of_birth = formEl[i].value;
+        case "child-ethnicity":
+          child.ethnicity = formEl[i].value;
+        case "child-gender":
+          child.gender = formEl[i].value;
+      }
+    }
+    
+
+    var url = '/child/create';
+    var fetchOptions = {
+      method: 'POST',
+      headers,
+      credentials: "same-origin",
+      body: JSON.stringify(child)
+    };
+
+    fetch(url, fetchOptions).then(function(response) {
+      if (response.status >= 200 && response.status <= 299) {
+        var childRsp = response.json();
+        window.location.href = "/consent?childId="+childRsp.child_id;
+      }
+		}).catch(function(err) {
+			console.log("Could not update child", err)
+		});
+    
+
+    return false
+  }
+</script>
+
+</body>
+</html>
