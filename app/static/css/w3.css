@@ -54,7 +54,7 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
 .w3-dropdown-content{cursor:auto;color:#000;background-color:#fff;display:none;position:absolute;min-width:160px;margin:0;padding:0}
 .w3-check,.w3-radio{width:24px;height:24px;position:relative;top:6px}
 .w3-sidebar{height:100%;width:150px;background-color:#fff;position:fixed!important;z-index:1;overflow:auto}
-.w3-search.w3-search.w3-search{border: 2px solid #ccc;border-radius: 4px;background-image: url('../img/searchicon.png');background-position: 10px 10px;background-repeat: no-repeat;padding: 8px 16px 12px 40px;}
+.w3-search.w3-search.w3-search{width: 190px; border: 2px solid #ccc;border-radius: 4px;background-image: url('../img/searchicon.png');background-position: 10px 10px;background-repeat: no-repeat;padding: 8px 16px 8px 40px;}
 .w3-bar-block .w3-dropdown-hover,.w3-bar-block .w3-dropdown-click{width:100%}
 .w3-bar-block .w3-dropdown-hover .w3-dropdown-content,.w3-bar-block .w3-dropdown-click .w3-dropdown-content{min-width:100%}
 .w3-bar-block .w3-dropdown-hover .w3-button,.w3-bar-block .w3-dropdown-click .w3-button{width:100%;text-align:left;padding:8px 16px}
