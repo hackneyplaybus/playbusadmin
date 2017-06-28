@@ -10,13 +10,21 @@ Family
  |
   -> child
       |
-       -> location
+       -> visit
+      |
+       -> referral
  |
   -> carer
       |
-       -> referral
+       -> vist
       |
-       -> location
+       -> referral
  |
   -> notes
+
 ```
+
+project is the funding
+
+locations can have many projects
+project can have many siblings

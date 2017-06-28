@@ -50,8 +50,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
  
       <h1 class="w3-text-teal">Photography Consent</h1>
       <p>I, the carer completing this form, give my consent for the children named in this form to be photographed during Playbus sessions by Hackney Playbus staff, volunteers and partner organisations. I consent to photographs of my children being displayed on the Hackney Playbus website, Facebook and Twitter and also in any advertising material for the Hackney Playbus, their funders or partner organisations.</p>
-      <input class="w3-button w3-right w3-border" type="submit" value="No">
-      <input class="w3-button w3-left w3-border" type="submit" value="Yes">
+      <input class="w3-button w3-right w3-border" type="submit" value="No" onclick="consent(false);">
+      <input class="w3-button w3-left w3-border" type="submit" value="Yes" onclick="consent(true);">
      </div>
     </div>
   </div>
@@ -62,6 +62,23 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     $("#sidebar-placeholder").load("static/html/sidebar.html");
     $("#nav-placeholder").load("static/html/navbar.html");
   });
+
+  function consent(val) {
+    var childId = getParameterByName('childId');    
+    var carerId = getParameterByName('carerId');
+    updatePhotoConsent(childId, carerId, val).then(function(response) {
+      if (response.status >= 200 && response.status <= 299) {
+          response.json().then(function(json) {
+            window.location.href = "/family?familyId="+json.family_id;
+          });
+      } else {
+        console.log('Unable to update photo consent', response);
+      }
+    }).catch(function(err) {
+        console.log('Unable to update photo consent', err);
+    });
+  }
+
 </script>
 </body>
 </html>

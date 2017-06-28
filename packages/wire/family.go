@@ -10,9 +10,8 @@ type Family struct {
 }
 
 type Child struct {
-	FamilyId string `json:"family_id,omitempty"`
-	// This is the ID value in datastore, manually set this
-	ChildId      string    `datastore:"-" json:"child_id,omitempty"`
+	FamilyId     string    `json:"family_id,omitempty"`
+	ChildId      string    `json:"child_id,omitempty"`
 	Name         string    `json:"name,omitempty"`
 	FirstName    string    `json:"first_name,omitempty"`
 	LastName     string    `json:"last_name,omitempty"`
@@ -22,20 +21,31 @@ type Child struct {
 	FirstSeen    time.Time `json:"first_seen,omitempty"`
 	PhotoConsent bool      `json:"photo_consent,omitempty"`
 
-	Locations []*Location `datastore:"-" json:"locations,omitempty"`
+	Visits []*Visit `datastore:"-" json:"visits,omitempty"`
 
 	// This is set for autocomplete
 	LoweredNameSet []string `json:"-"`
 }
 
+type ChildPhotoConsentRequest struct {
+	ChildId      string `json:"child_id,omitempty"`
+	PhotoConsent bool   `json:"photo_consent,omitempty"`
+}
+type CarerPhotoConsentRequest struct {
+	CarerId      string `json:"carer_id,omitempty"`
+	PhotoConsent bool   `json:"photo_consent,omitempty"`
+}
+
 type Note struct {
-	FamilyId  string
+	NoteId    string    `json:"note_id,omitempty"`
+	FamilyId  string    `json:"family_id,omitempty"`
 	Timestamp time.Time `json:"timestamp,omitempty"`
 	NoteTaker string    `json:"note_taker,omitempty"`
 	Note      string    `json:"note,omitempty"`
 }
 
 type Referral struct {
+	ReferralId   string    `json:"referral_id,omitempty"`
 	FamilyId     string    `json:"family_id,omitempty"`
 	CarerId      string    `json:"carer_id,omitempty"`
 	ReferredBy   string    `json:"referred_by,omitempty"`
@@ -45,9 +55,8 @@ type Referral struct {
 }
 
 type Carer struct {
-	FamilyId string `json:"family_id,omitempty"`
-	// This is the ID value in datastore, manually set this on read
-	CarerId       string    `datastore:"-" json:"carer_id,omitempty"`
+	FamilyId      string    `json:"family_id,omitempty"`
+	CarerId       string    `json:"carer_id,omitempty"`
 	Name          string    `json:"name,omitempty"`
 	FirstName     string    `json:"first_name,omitempty"`
 	LastName      string    `json:"last_name,omitempty"`
@@ -55,29 +64,36 @@ type Carer struct {
 	Ethnicity     string    `json:"ethnicity,omitempty"`
 	Gender        string    `json:"gender,omitempty"`
 	Address       string    `json:"address,omitempty"`
-	Postcode      string    `json:"postcode,omitempty"`
+	PostalCode    string    `json:"postal_code,omitempty"`
+	City          string    `json:"city,omitempty"`
 	Phone         string    `json:"phone,omitempty"`
 	Email         string    `json:"email,omitempty"`
 	Benefits      string    `json:"benefits,omitempty"`
 	BenefitsOther string    `json:"benefits_other,omitempty"`
 	LoneCarer     bool      `json:"lone_carer,omitempty"`
 	FirstSeen     time.Time `json:"first_seen,omitempty"`
+	PhotoConsent  bool      `json:"photo_consent,omitempty"`
 
-	Locations []*Location `datastore:"-" json:"locations,omitempty"`
+	Visits    []*Visit    `datastore:"-" json:"visits,omitempty"`
 	Referrals []*Referral `datastore:"-" json:"referrals,omitempty"`
 
 	// This is set for autocomplete
-	LoweredNameSet []string `json:"-"`
+	LoweredNameSet         []string `json:"-,omitempty"`
+	LoweredNameAndEmailSet []string `json:"-,omitempty"`
 }
 
-type Location struct {
+type Visit struct {
+	VisitId      string    `json:"visit_id,omitempty"`
 	FamilyId     string    `json:"family_id,omitempty"`
 	ChildId      string    `json:"child_id,omitempty"`
 	CarerId      string    `json:"carer_id,omitempty"`
 	DateAttended time.Time `json:"date_attended,omitempty"`
 	DateRecorded time.Time `json:"date_recorded,omitempty"`
-	Project      string    `json:"project,omitempty"`
-	Location     string    `json:"location,omitempty"`
+	ProjectId    string    `json:"project_id,omitempty"`
+	LocationId   string    `json:"location_id,omitempty"`
+
+	Project  *Project  `datastore:"-" json:"project,omitempty"`
+	Location *Location `datastore:"-" json:"location,omitempty"`
 }
 
 var (

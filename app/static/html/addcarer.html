@@ -1,0 +1,87 @@
+<script src="static/js/submitform.js"></script>
+<form onsubmit="submitCarer(event);" id='carer-form' class="w3-container w3-card-4 w3-text-yellow w3-left" style="margin-top: 16px; width: 63%; padding-bottom: 10px;">
+    <h2 class="w3-center w3-text-teal">Register A Carer</h2>          
+    <div class="w3-row w3-section">
+        <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-user"></i></div>
+            <div class="w3-rest">
+            <input class="w3-input w3-border w3-round-medium" name="carer-name" onkeydown='nameAutocomplete(this, "carer");' oninput='nameAutocomplete(this, "carer");' onpaste='nameAutocomplete(this, "carer");' id="carer-name" type="text" placeholder="Name" required>
+            </div>
+        </div>
+    </div>
+    
+    <div class="w3-row w3-section">
+        <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-birthday-cake"></i></div>
+            <div class="w3-rest">
+            <input class="w3-input w3-border w3-round-medium date-input" id='carer-dob'  name="carer-dob" type="date" placeholder="Birthday" min="1900-01-01" max="2020-04-30" required>
+            </div>
+        </div>
+    </div>
+    
+    <div class="w3-row w3-section">
+        <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-home"></i></div>
+            <div class="w3-rest">
+                <input class="w3-input w3-border w3-round-medium" name="carer-postalcode" id="carer-postalcode" type="text" placeholder="Postal Code" required>
+            </div>
+        </div> 
+    </div>
+    <div class="w3-row w3-section">
+        <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-home"></i></div>
+            <div class="w3-rest">
+                <input class="w3-input w3-border w3-round-medium" name="carer-address" id="carer-address" type="text" placeholder="Address" required>
+            </div>
+        </div>
+    </div>    
+
+    <div class="w3-row w3-section">
+        <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-building"></i></div>
+            <div class="w3-rest">
+                <input class="w3-input w3-border w3-round-medium" name="carer-city" id="carer-city" type="text" placeholder="City" required>
+            </div>
+        </div>
+    </div>
+    <div class="w3-row w3-section">
+        <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-phone"></i></div>
+            <div class="w3-rest">
+                <input class="w3-input w3-border w3-round-medium" name="carer-phone" id="carer-phone" type="text" placeholder="Phone" required>
+            </div>
+        </div>
+    </div>
+    <div class="w3-row w3-section">
+        <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-envelope"></i></div>
+            <div class="w3-rest">
+                <input class="w3-input w3-border w3-round-medium" name="carer-email" id="carer-email" type="text" placeholder="Email" required>
+            </div>
+        </div>
+    </div>
+    <div class="w3-row w3-section">
+        <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-users"></i></div>
+            <div class="w3-rest">
+                <select class="w3-input w3-border w3-round-medium ethnicity-dropdown" id='carer-ethnicity' name="carer-ethnicity" type="text" placeholder="Ethnicity">
+                    <option value="" disabled selected hidden>Ethnicity</option>
+                </select>                  
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row w3-section">
+    <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-transgender-alt"></i></div>
+        <div class="w3-rest">
+        <select class="w3-input w3-border w3-round-medium" id='carer-gender' name="carer-gender" type="text" placeholder="Gender">
+            <option value="" disabled selected hidden>Gender</option>
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+            <option value="other">Other</option>                  
+        </select>
+        
+        </select>                  
+        </div>
+    </div>
+    <input class="w3-button w3-right w3-text-teal w3-border" type="submit" value="Submit">
+</form>
+<div class="w3-container w3-third w3-card-4 w3-right" style="margin-top: 16px; padding: 5px;">
+    <h3 class="w3-center w3-text-teal">Been Here Before?</h3>
+    <table class="w3-table w3-hoverable w3-bordered">          
+    <tbody id='autocomplete-table-carer'>
+    </tbody>
+    </table>
+</div>
