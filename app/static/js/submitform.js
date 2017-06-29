@@ -71,6 +71,10 @@
       rsp.forEach(function(item){
         var tr = document.createElement('TR');
         tr.classList.add('w3-cell-row');
+        tr.classList.add('w3-button');
+        tr.addEventListener("click",function() {           
+          window.location.href = '/family?familyId='+item.family_id;
+        });
         var td1 = document.createElement('TD');
         var td2 = document.createElement('TD');
         td2.classList.add('w3-right-align');
@@ -80,8 +84,11 @@
         tr.appendChild(td2);
         
         table.appendChild(tr);
+        
       });
       
+      
+        
     }).catch(function(err){
       
     });        

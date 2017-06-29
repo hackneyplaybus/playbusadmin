@@ -66,6 +66,8 @@ type Carer struct {
 	Address       string    `json:"address,omitempty"`
 	PostalCode    string    `json:"postal_code,omitempty"`
 	City          string    `json:"city,omitempty"`
+	Latitude      float64   `json:"latitude,omitempty"`
+	Longitude     float64   `json:"longitude,omitempty"`
 	Phone         string    `json:"phone,omitempty"`
 	Email         string    `json:"email,omitempty"`
 	Benefits      string    `json:"benefits,omitempty"`

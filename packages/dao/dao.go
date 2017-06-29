@@ -34,21 +34,21 @@ func ReadFamily(ctx context.Context, familyId string) (*wire.Family, error) {
 		Notes:    []*wire.Note{},
 	}
 
-	query := datastore.NewQuery(KindChild).Filter("familyId =", familyId)
+	query := datastore.NewQuery(KindChild).Filter("FamilyId =", familyId)
 
 	_, err := query.GetAll(ctx, &family.Children)
 	if err != nil {
 		return nil, err
 	}
 
-	query = datastore.NewQuery(KindCarer).Filter("familyId =", familyId)
+	query = datastore.NewQuery(KindCarer).Filter("FamilyId =", familyId)
 
 	_, err = query.GetAll(ctx, &family.Carers)
 	if err != nil {
 		return nil, err
 	}
 
-	query = datastore.NewQuery(KindNotes).Filter("familyId =", familyId)
+	query = datastore.NewQuery(KindNotes).Filter("FamilyId =", familyId)
 	_, err = query.GetAll(ctx, &family.Notes)
 	if err != nil {
 		return nil, err

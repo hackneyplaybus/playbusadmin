@@ -6,6 +6,13 @@ function getEthnicityList() {
 		})
 }
 
+function getFamily(familyId) {
+    return fetch('/family/all?familyId='+familyId, {
+			method: 'get',
+			credentials: "same-origin"			
+		})
+}
+
 function getAutocomplete(term, type) {
     return fetch('/'+type+'/autocomplete?term='+term, {
 			method: 'get',

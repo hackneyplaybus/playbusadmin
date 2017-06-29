@@ -16,5 +16,6 @@ func init() {
 	http.HandleFunc("/carer/photoconsent", handlers.CatchPanic(handlers.CarerPhotoConsentHandler))
 	http.HandleFunc("/carer/create", handlers.CatchPanic(handlers.WriteCarerHandler))
 	http.HandleFunc("/carer/autocomplete", handlers.CatchPanic(handlers.AutocompleteCarerHandler))
+	http.HandleFunc("/family/all", handlers.CatchPanic(handlers.ReadFamilyHandler))
 
 }

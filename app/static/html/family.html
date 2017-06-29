@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<title>Hackney Playbus Admin</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="static/css/w3.css">
+<link rel="stylesheet" href="static/css/animate.min.css">
+<link rel="stylesheet" href="static/css/w3-theme-yellow.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="apple-touch-icon" sizes="57x57" href="static/img/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="static/img/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="static/img/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="static/img/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="static/img/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="static/img/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="static/img/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="static/img/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="static/img/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="static/img/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="static/img/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="static/img/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="static/img/favicon-16x16.png">
+<link rel="manifest" href="static/js/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="static/img/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="static/js/masked.min.js"></script>
+<script src="static/js/requests.js"></script>
+
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+</style>
+<body>
+
+<!-- Navbar -->
+<div id="nav-placeholder"></div>
+
+<!-- Sidebar -->
+<div id="sidebar-placeholder"></div>
+
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+<div class="w3-main" style="margin-left:150px">
+    <div class="w3-row w3-padding-64">
+        <div  class="w3-half w3-container" style="margin-top:16px">
+            <div class="w3-card-4" style="margin-left:8px">
+                <i class="w3-xlarge fa fa-user-plus w3-right w3-text-teal w3-button" onclick='displayModal("child-modal");' style="padding:6px 12px;"></i>
+                <h3 class="w3-center w3-text-teal">Children</h3>
+                <div id='child-card-placeholder'></div>
+            </div>
+        </div>
+        <div class="w3-half w3-container" style="margin-top:16px">
+            <div class="w3-card-4" style="margin-left:8px">
+                <i class="w3-xlarge fa fa-user-plus w3-right w3-text-teal w3-button"  onclick='displayModal("carer-modal");' style="padding:6px 12px;"></i>
+                <h3 class="w3-center w3-text-teal">Carers</h3>
+                <div id='carer-card-placeholder'></div>
+            </div>
+        </div>
+  </div>
+</div>
+<!-- END MAIN -->
+<div id="child-modal" class="w3-modal">
+    <div class="w3-modal-content w3-padding-16">
+        <div class="w3-container">
+            <div id="child-placeholder"></div>
+        </div>
+    </div>
+</div>
+
+<div id="carer-modal" class="w3-modal">
+    <div class="w3-modal-content w3-padding-16">
+        <div class="w3-container">
+            <div id="carer-placeholder"></div>
+        </div>
+    </div>
+</div>
+
+<div id='child-card' class="w3-card-4" style='display:none;'>
+
+    <header class="w3-container w3-text-teal w3-theme-l2">
+        <h3 class='child-name'></h3>
+    </header>
+
+    <div class="w3-container">
+        <table class="w3-table w3-text-gray">          
+            <tr>
+            <td>Date of Birth:</td>
+            <td class='child-dob'></td>                             
+            </tr>
+            <tr>
+            <td>Gender:</td>
+            <td class='child-gender'></td>                             
+            </tr>
+            <tr>
+            <td>Ethnicity:</td>
+            <td class='child-ethnicity'></td>                             
+            </tr>                          
+            <tr>
+            <td>First Seen:</td>
+            <td class='child-firstseen'></td>                             
+            </tr>
+            <tr>
+            <td>Photo Consent:</td>
+            <td class='child-photoconsent'></td>                             
+            </tr>
+        </table>
+        <hr>  
+    </div>
+</div>
+
+<div id='carer-card' class="w3-card-4" style='display:none;'>
+
+    <header class="w3-container w3-text-teal w3-theme-l2">
+        <h3 class='carer-name'></h3>
+    </header>
+
+    <div class="w3-container">
+        <table class="w3-table w3-text-gray">          
+            <tr>
+            <td>Date of Birth:</td>
+            <td class='carer-dob'></td>                             
+            </tr>
+            <tr>
+            <td>Gender:</td>
+            <td class='carer-gender'></td>                             
+            </tr>
+            <tr>
+            <td>Ethnicity:</td>
+            <td class='carer-ethnicity'></td>                             
+            </tr>                          
+            <tr>
+            <td>First Seen:</td>
+            <td class='carer-firstseen'></td>                             
+            </tr>
+            <tr>
+            <td>Photo Consent:</td>
+            <td class='carer-photoconsent'></td>                             
+            </tr>
+        </table>
+        <hr>  
+    </div>
+</div>
+
+<script>
+  // Add in the sidebar and navigation bar. These will be common to all pages.
+  $(function(){    
+    $("#sidebar-placeholder").load("static/html/sidebar.html");
+    $("#nav-placeholder").load("static/html/navbar.html");   
+    $("#child-placeholder").load("static/html/addchild.html", function(){
+        document.getElementById('child-before').style.display = 'none';
+        document.getElementById('child-form').classList.remove('w3-twothird');
+    });
+    $("#carer-placeholder").load("static/html/addcarer.html", function(){
+        document.getElementById('carer-before').style.display = 'none';
+        document.getElementById('carer-form').classList.remove('w3-twothird');
+    });  
+  });  
+
+  var familyId = getParameterByName('familyId');    
+  getFamily(familyId).then(function(response) {
+      if (response.status >= 200 && response.status <= 299) {
+        response.json().then(function(json){
+            if (json.children) {
+                var origChildCard = document.getElementById('child-card');
+                var childAnchor = document.getElementById('child-card-placeholder');
+                for (var ii = 0; ii < json.children.length; ++ii) {                
+                    var newCard = origChildCard.cloneNode(true);                
+                    newCard.querySelector('.child-name').innerText = json.children[ii].name;
+                    newCard.querySelector('.child-dob').innerText = json.children[ii].date_of_birth;
+                    newCard.querySelector('.child-gender').innerText = json.children[ii].gender;
+                    newCard.querySelector('.child-ethnicity').innerText = json.children[ii].ethnicity;
+                    newCard.querySelector('.child-firstseen').innerText = json.children[ii].first_seen;
+                    newCard.querySelector('.child-photoconsent').innerText = json.children[ii].photo_consent;
+                    newCard.style = '';
+                    childAnchor.appendChild(newCard);
+                }
+            }
+            if (json.carers) {
+                var origCarerCard = document.getElementById('carer-card');
+                var carerAnchor = document.getElementById('carer-card-placeholder');
+                for (var ii = 0; ii < json.carers.length; ++ii) {                
+                    var newCard = origCarerCard.cloneNode(true);                
+                    newCard.querySelector('.carer-name').innerText = json.carers[ii].name;
+                    newCard.querySelector('.carer-dob').innerText = json.carers[ii].date_of_birth;
+                    newCard.querySelector('.carer-gender').innerText = json.carers[ii].gender;
+                    newCard.querySelector('.carer-ethnicity').innerText = json.carers[ii].ethnicity;
+                    newCard.querySelector('.carer-firstseen').innerText = json.carers[ii].first_seen;
+                    newCard.querySelector('.carer-photoconsent').innerText = json.carers[ii].photo_consent;
+                    newCard.style = '';
+                    carerAnchor.appendChild(newCard);
+                }
+            }
+        });        
+      }
+		}).catch(function(err) {
+			console.log("Could not update child", err)
+		});
+            
+    function displayModal(modal) {
+        var modalElem = document.getElementById(modal);
+        modalElem.style.display = "block";
+    }
+    window.onclick = function(event) {
+        var modals = document.getElementsByClassName('w3-modal');
+        for(var ii = 0; ii < modals.length; ++ii){
+            if (event.target == modals[ii]) {
+                modals[ii].style.display = "none";
+            }
+        }
+        
+    }
+</script>
+
+</body>
+</html>

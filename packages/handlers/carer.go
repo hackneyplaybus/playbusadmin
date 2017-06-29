@@ -6,8 +6,10 @@ import (
 	"net/http"
 
 	"github.com/hackneyplaybus/playbusadmin/packages/dao"
+	"github.com/hackneyplaybus/playbusadmin/packages/domain"
 	"github.com/hackneyplaybus/playbusadmin/packages/wire"
 	"google.golang.org/appengine"
+	"google.golang.org/appengine/log"
 )
 
 func AutocompleteCarerHandler(w http.ResponseWriter, r *http.Request) {
@@ -83,6 +85,14 @@ func WriteCarerHandler(w http.ResponseWriter, r *http.Request) {
 		if err = json.Unmarshal(bb, carer); err != nil {
 			writeError(ctx, w, r, err, http.StatusBadRequest, "Bad message format")
 			return
+		}
+
+		latlng, err := domain.Geocode(ctx, domain.ConstructAddress(carer.Address, carer.PostalCode, carer.City))
+		if err != nil {
+			log.Warningf(ctx, "Error geocoding address: %v", err)
+		} else {
+			carer.Latitude = latlng.Lat
+			carer.Longitude = latlng.Lng
 		}
 
 		err = dao.CreateCarer(ctx, carer)

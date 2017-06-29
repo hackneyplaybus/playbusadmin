@@ -18,6 +18,10 @@ handlers:
   static_files: static/html/consent.html
   upload: static/html/consent\.html
   login: required
+- url: /family
+  static_files: static/html/family.html
+  upload: static/html/family\.html
+  login: required
 - url: /static
   static_dir: static
   login: required
