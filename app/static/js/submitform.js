@@ -222,3 +222,113 @@
 
     return false
   }
+
+
+  function submitNote(evt, redirectFunc) {
+    evt.preventDefault();
+    var formEl = document.getElementById('note-form');
+    var headers = new Headers();
+    // Tell the server we want JSON back
+    headers.set('Accept', 'application/json');
+    var note = {};
+    for (var i = 0; i < formEl.length; ++i) {
+      switch (formEl[i].name) {
+        case "note-text":
+          note.note = formEl[i].value;
+          break;        
+      }
+    }
+    
+    var familyId = getParameterByName('familyId');
+    if (familyId) {
+        note.family_id = familyId;
+    }
+    
+    var url = '/note/create';
+    var fetchOptions = {
+      method: 'POST',
+      headers,
+      credentials: "same-origin",
+      body: JSON.stringify(note)
+    };
+
+    if (!redirectFunc) {
+        redirectFunc = function(json) {
+          location.reload();
+        }
+    }
+
+    fetch(url, fetchOptions).then(function(response) {
+      if (response.status >= 200 && response.status <= 299) {
+        response.json().then(redirectFunc);
+      }
+		}).catch(function(err) {
+			console.log("Could not update child", err)
+		});
+    
+
+    return false
+  }
+
+  function submitLocation(evt, redirectFunc) {
+    evt.preventDefault();
+    var formEl = document.getElementById('location-form');
+    var headers = new Headers();
+    // Tell the server we want JSON back
+    headers.set('Accept', 'application/json');
+    var loc = {};
+    for (var i = 0; i < formEl.length; ++i) {
+      switch (formEl[i].name) {
+        case "location-name":
+          loc.name = formEl[i].value;
+          var id = formEl[i].getAttribute('data-id');
+          if (id) {
+            loc.location_id = id;
+          }
+          break;
+        case "location-description":
+          loc.description = formEl[i].value;
+          break;
+        case "location-address":
+          loc.address = formEl[i].value;
+          break;
+        case "location-postalcode":
+          loc.postal_code = formEl[i].value;
+          break;
+        case "location-city":
+          loc.city = formEl[i].value;
+          break;
+        case "location-latitude":
+          loc.latitude = parseFloat(formEl[i].value);
+          break;   
+        case "location-longitude":
+          loc.longitude = parseFloat(formEl[i].value);
+          break;   
+      }
+    }
+            
+    var url = '/location/create';
+    var fetchOptions = {
+      method: 'POST',
+      headers,
+      credentials: "same-origin",
+      body: JSON.stringify(loc)
+    };
+
+    if (!redirectFunc) {
+        redirectFunc = function(json) {
+          location.reload();
+        }
+    }
+
+    fetch(url, fetchOptions).then(function(response) {
+      if (response.status >= 200 && response.status <= 299) {
+        response.json().then(redirectFunc);
+      }
+		}).catch(function(err) {
+			console.log("Could not update location", err)
+		});
+    
+
+    return false
+  }

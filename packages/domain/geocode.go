@@ -55,3 +55,15 @@ func Geocode(ctx context.Context, address string) (*maps.LatLng, error) {
 func ConstructAddress(address, postalCode, city string) string {
 	return fmt.Sprintf("%s, %s, %s, UK", address, postalCode, city)
 }
+
+func GetMapKey(ctx context.Context) string {
+	mapsLock.Lock()
+	defer mapsLock.Unlock()
+	if mapKey == "" {
+		mk := &MapsKey{}
+		datastore.Get(ctx, datastore.NewKey(ctx, "mapskey", "mapskey", 0, nil), mk)
+		mapKey = mk.MapsKey
+	}
+
+	return mapKey
+}

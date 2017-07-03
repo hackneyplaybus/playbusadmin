@@ -19,7 +19,7 @@ type Child struct {
 	Ethnicity    string    `json:"ethnicity,omitempty"`
 	Gender       string    `json:"gender,omitempty"`
 	FirstSeen    time.Time `json:"first_seen,omitempty"`
-	PhotoConsent bool      `json:"photo_consent,omitempty"`
+	PhotoConsent bool      `json:"photo_consent"`
 
 	Visits []*Visit `datastore:"-" json:"visits,omitempty"`
 
@@ -29,11 +29,11 @@ type Child struct {
 
 type ChildPhotoConsentRequest struct {
 	ChildId      string `json:"child_id,omitempty"`
-	PhotoConsent bool   `json:"photo_consent,omitempty"`
+	PhotoConsent bool   `json:"photo_consent"`
 }
 type CarerPhotoConsentRequest struct {
 	CarerId      string `json:"carer_id,omitempty"`
-	PhotoConsent bool   `json:"photo_consent,omitempty"`
+	PhotoConsent bool   `json:"photo_consent"`
 }
 
 type Note struct {
@@ -72,9 +72,9 @@ type Carer struct {
 	Email         string    `json:"email,omitempty"`
 	Benefits      string    `json:"benefits,omitempty"`
 	BenefitsOther string    `json:"benefits_other,omitempty"`
-	LoneCarer     bool      `json:"lone_carer,omitempty"`
+	LoneCarer     bool      `json:"lone_carer"`
 	FirstSeen     time.Time `json:"first_seen,omitempty"`
-	PhotoConsent  bool      `json:"photo_consent,omitempty"`
+	PhotoConsent  bool      `json:"photo_consent"`
 
 	Visits    []*Visit    `datastore:"-" json:"visits,omitempty"`
 	Referrals []*Referral `datastore:"-" json:"referrals,omitempty"`
@@ -158,3 +158,8 @@ var (
 		"Albanian":                              struct{}{},
 	}
 )
+
+type SearchResponse struct {
+	Carers   []*Carer `json:"carers,omitempty"`
+	Children []*Child `json:"children,omitempty"`
+}

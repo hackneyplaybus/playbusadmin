@@ -48,7 +48,7 @@ func ReadFamily(ctx context.Context, familyId string) (*wire.Family, error) {
 		return nil, err
 	}
 
-	query = datastore.NewQuery(KindNotes).Filter("FamilyId =", familyId)
+	query = datastore.NewQuery(KindNotes).Filter("FamilyId =", familyId).Order("-Timestamp")
 	_, err = query.GetAll(ctx, &family.Notes)
 	if err != nil {
 		return nil, err
@@ -65,7 +65,7 @@ func CreateCarer(ctx context.Context, carer *wire.Carer) error {
 		carer.FamilyId = newKey("family-", DefaultKeyLen)
 	}
 
-	carer.FirstSeen = time.Now()
+	carer.FirstSeen = time.Now().Round(time.Second)
 
 	carer.FirstName, carer.LastName, carer.LoweredNameSet = augmentName(carer.Name, carer.FirstName, carer.LastName)
 	carer.LoweredNameAndEmailSet = []string{carer.Email}
@@ -87,6 +87,7 @@ func CreateVisit(ctx context.Context, visit *wire.Visit, parentKey *datastore.Ke
 }
 
 func CreateNote(ctx context.Context, note *wire.Note) error {
+	note.Timestamp = time.Now().Round(time.Second)
 	note.NoteId = newKey("note-", DefaultKeyLen)
 	_, err := datastore.Put(ctx, datastore.NewKey(ctx, KindNotes, note.NoteId, 0, nil), note)
 	if err != nil {
@@ -105,12 +106,23 @@ func CreateReferral(ctx context.Context, referral *wire.Referral) error {
 }
 
 func CreateLocation(ctx context.Context, location *wire.Location) error {
-	location.LocationId = newKey("location-", DefaultKeyLen)
+	if location.LocationId == "" {
+		location.LocationId = newKey("location-", DefaultKeyLen)
+	}
 	_, err := datastore.Put(ctx, datastore.NewKey(ctx, KindLocation, location.LocationId, 0, nil), location)
 	if err != nil {
 		return err
 	}
 	return nil
+}
+
+func ReadLocations(ctx context.Context) ([]*wire.Location, error) {
+	locs := []*wire.Location{}
+	_, err := datastore.NewQuery(KindLocation).GetAll(ctx, &locs)
+	if err != nil {
+		return nil, err
+	}
+	return locs, nil
 }
 
 func CreateProject(ctx context.Context, project *wire.Project) error {
@@ -194,7 +206,7 @@ func CreateChild(ctx context.Context, child *wire.Child) error {
 		child.FamilyId = newKey("family-", DefaultKeyLen)
 	}
 
-	child.FirstSeen = time.Now()
+	child.FirstSeen = time.Now().Round(time.Second)
 	child.FirstName, child.LastName, child.LoweredNameSet = augmentName(child.Name, child.FirstName, child.LastName)
 	_, err := datastore.Put(ctx, datastore.NewKey(ctx, KindChild, child.ChildId, 0, nil), child)
 	if err != nil {
@@ -268,6 +280,52 @@ func AutoCompleteCarer(ctx context.Context, term string) ([]*wire.Carer, error) 
 		query := datastore.NewQuery(KindCarer).
 			Filter("LoweredNameSet >=", prefix).
 			Filter("LoweredNameSet <=", prefixSuccessor(prefix))
+
+		carers := []*wire.Carer{}
+		keys, err := query.GetAll(ctx, &carers)
+		if err != nil {
+			return nil, err
+		}
+		for ii, carer := range carers {
+
+			log.Infof(ctx, "CarerId: %s, %#v", carer.CarerId, keys[ii])
+			if ccount, ok := carerCountMap[carer.CarerId]; !ok {
+				carerCountMap[carer.CarerId] = itemCount{
+					item:  carer,
+					count: 1,
+				}
+			} else {
+				ccount.count++
+				carerCountMap[carer.CarerId] = ccount
+			}
+		}
+
+	}
+	toArr := make([]itemCount, len(carerCountMap))
+	ii := 0
+	for _, ccount := range carerCountMap {
+		toArr[ii] = ccount
+		ii++
+	}
+	sort.Sort(sort.Reverse(byCount(toArr)))
+
+	carers := make([]*wire.Carer, len(toArr))
+	for ii, carer := range toArr {
+		carers[ii] = carer.item.(*wire.Carer)
+	}
+
+	return carers, nil
+}
+
+func AutoCompleteCarerEmail(ctx context.Context, term string) ([]*wire.Carer, error) {
+	term = strings.ToLower(term)
+
+	termArr := strings.Fields(term)
+	carerCountMap := map[string]itemCount{}
+	for _, prefix := range termArr {
+		query := datastore.NewQuery(KindCarer).
+			Filter("LoweredNameAndEmailSet >=", prefix).
+			Filter("LoweredNameAndEmailSet <=", prefixSuccessor(prefix))
 
 		carers := []*wire.Carer{}
 		keys, err := query.GetAll(ctx, &carers)

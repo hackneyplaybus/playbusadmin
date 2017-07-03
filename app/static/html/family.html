@@ -29,6 +29,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="static/js/masked.min.js"></script>
 <script src="static/js/requests.js"></script>
+<script src="static/js/date.js"></script>
 
 <style>
 html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
@@ -59,30 +60,67 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
             </div>
         </div>
   </div>
+  <div class="w3-row w3-padding-8">
+      <div class="w3-half w3-container">
+        <div id="map" style="width:100%; height:400px;"></div>
+      </div>
+      <div class="w3-half w3-container">
+        <div class="w3-card-4" style="margin-left:8px">
+            <i class="w3-xlarge fa fa-plus-square w3-right w3-text-teal w3-button"  onclick='displayModal("note-modal");' style="padding:6px 12px;"></i>
+            <h3 class="w3-center w3-text-teal">Notes</h3>
+            <div id='note-card-placeholder'></div>
+        </div>
+      </div>
+  </div>
+  <div class="w3-row w3-padding-8">      
+      <div class="w3-container">
+        <div class="w3-card-4" style="margin-left:8px">
+            <i class="w3-xlarge fa fa-plus-square w3-right w3-text-teal w3-button"  onclick='displayModal("referral-modal");' style="padding:6px 12px;"></i>
+            <h3 class="w3-center w3-text-teal">Referrals</h3>
+            <div id='referral-card-placeholder'></div>
+        </div>
+      </div>
+  </div>
 </div>
 <!-- END MAIN -->
 <div id="child-modal" class="w3-modal">
-    <div class="w3-modal-content w3-padding-16">
-        <div class="w3-container">
+    <div class="w3-modal-content">
+        <div class="w3-container" style='padding-left:0px;padding-right:0px;'>
             <div id="child-placeholder"></div>
         </div>
     </div>
 </div>
 
 <div id="carer-modal" class="w3-modal">
-    <div class="w3-modal-content w3-padding-16">
-        <div class="w3-container">
+    <div class="w3-modal-content">
+        <div class="w3-container" style='padding-left:0px;padding-right:0px;'>
             <div id="carer-placeholder"></div>
+        </div>
+    </div>
+</div>
+
+<div id="note-modal" class="w3-modal">    
+    <div class="w3-modal-content">
+        <div class="w3-container" style='padding-left:0px;padding-right:0px;'>
+            <div id="note-placeholder"></div>
+        </div>
+    </div>
+</div>
+
+<div id="referral-modal" class="w3-modal">
+    <div class="w3-modal-content">
+        <div class="w3-container" style='padding-left:0px;padding-right:0px;'>
+            <div id="referral-placeholder"></div>
         </div>
     </div>
 </div>
 
 <div id='child-card' class="w3-card-4" style='display:none;'>
 
-    <header class="w3-container w3-text-teal w3-theme-l2">
+    <header class="w3-container w3-text-teal w3-theme-l2">        
         <h3 class='child-name'></h3>
     </header>
-
+    <b class="w3-text-teal w3-large fa fa-plus visit-button w3-button" onclick='addVisit(event, this);'> Visit</b><b class="w3-text-teal w3-large fa w3-right w3-button" onclick='displayModal("visit-modal");'> Different Location?</b>
     <div class="w3-container">
         <table class="w3-table w3-text-gray">          
             <tr>
@@ -111,11 +149,12 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 </div>
 
 <div id='carer-card' class="w3-card-4" style='display:none;'>
-
-    <header class="w3-container w3-text-teal w3-theme-l2">
+    <header class="w3-container w3-text-teal w3-theme-l2">        
         <h3 class='carer-name'></h3>
     </header>
 
+    <b class="w3-text-teal w3-large fa fa-plus visit-button w3-button" onclick='displayModal("child-modal");'> Visit</b><b class="w3-text-teal w3-large fa w3-right w3-button" onclick='displayModal("child-modal");'> Different Location?</b>
+    
     <div class="w3-container">
         <table class="w3-table w3-text-gray">          
             <tr>
@@ -135,11 +174,50 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
             <td class='carer-firstseen'></td>                             
             </tr>
             <tr>
-            <td>Photo Consent:</td>
+            <td>Photo Consent?:</td>
             <td class='carer-photoconsent'></td>                             
             </tr>
-        </table>
+            <tr>
+            <td>Address:</td>
+            <td class='carer-address'></td>                             
+            </tr>
+            <tr>
+            <td>Postal Code:</td>
+            <td class='carer-postalcode'></td>                             
+            </tr>
+            <tr>
+            <td>City:</td>
+            <td class='carer-city'></td>                             
+            </tr>
+            <tr>                
+            <td>Phone:</td>
+            <td class='carer-phone'></td>
+            </tr>
+            <tr>
+            <td>Email:</td>
+            <td class='carer-email'></td>
+            </tr>
+            <tr>
+            <td>Benifits:</td>
+            <td class='carer-benifits'></td>
+            </tr>
+            <tr>
+            <td>Lone Carer?:</td>
+            <td class='carer-lonecarer'></td>
+            </tr>
+	
+        </table>        
         <hr>  
+    </div>
+</div>
+
+<div id='note-card' class="w3-border-top" style='display:none;'>
+    <div class="w3-container w3-text-dark-grey" style='padding-top:16px;'>
+        <div class='note-text'></div>
+        <hr> 
+        <div class='w3-text-grey'>
+            By <i class='note-author'></i> at <i class='note-timestamp'></i><br/><br/>
+        </div>
     </div>
 </div>
 
@@ -156,8 +234,18 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
         document.getElementById('carer-before').style.display = 'none';
         document.getElementById('carer-form').classList.remove('w3-twothird');
     });  
+    $("#note-placeholder").load("static/html/addnote.html");   
   });  
+   
+  var lastloc = getCookie('last_location');
+  var visitbuttons = document.getElementsByClassName('visit-button');
+  for (var ii = 0; ii < visitbuttons.length; ++ii) {
+      visitbuttons[ii].innerText = " "+lastloc;
 
+  }
+
+
+  var carers = {};
   var familyId = getParameterByName('familyId');    
   getFamily(familyId).then(function(response) {
       if (response.status >= 200 && response.status <= 299) {
@@ -168,11 +256,12 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                 for (var ii = 0; ii < json.children.length; ++ii) {                
                     var newCard = origChildCard.cloneNode(true);                
                     newCard.querySelector('.child-name').innerText = json.children[ii].name;
-                    newCard.querySelector('.child-dob').innerText = json.children[ii].date_of_birth;
-                    newCard.querySelector('.child-gender').innerText = json.children[ii].gender;
-                    newCard.querySelector('.child-ethnicity').innerText = json.children[ii].ethnicity;
-                    newCard.querySelector('.child-firstseen').innerText = json.children[ii].first_seen;
-                    newCard.querySelector('.child-photoconsent').innerText = json.children[ii].photo_consent;
+                                        
+                    displayField(newCard.querySelector('.child-dob'), timeParser(json.children[ii].date_of_birth, 'yyyy-MM-dd', 'dd/MM/yyyy'));                    
+                    displayField(newCard.querySelector('.child-gender'), json.children[ii].gender);
+                    displayField(newCard.querySelector('.child-ethnicity'), json.children[ii].ethnicity);
+                    displayField(newCard.querySelector('.child-firstseen'), timeParser(json.children[ii].first_seen));                    
+                    displayField(newCard.querySelector('.child-photoconsent'), json.children[ii].photo_consent);
                     newCard.style = '';
                     childAnchor.appendChild(newCard);
                 }
@@ -180,16 +269,39 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
             if (json.carers) {
                 var origCarerCard = document.getElementById('carer-card');
                 var carerAnchor = document.getElementById('carer-card-placeholder');
+                carers = json.carers;
+                loadScript()                
                 for (var ii = 0; ii < json.carers.length; ++ii) {                
                     var newCard = origCarerCard.cloneNode(true);                
                     newCard.querySelector('.carer-name').innerText = json.carers[ii].name;
-                    newCard.querySelector('.carer-dob').innerText = json.carers[ii].date_of_birth;
-                    newCard.querySelector('.carer-gender').innerText = json.carers[ii].gender;
-                    newCard.querySelector('.carer-ethnicity').innerText = json.carers[ii].ethnicity;
-                    newCard.querySelector('.carer-firstseen').innerText = json.carers[ii].first_seen;
-                    newCard.querySelector('.carer-photoconsent').innerText = json.carers[ii].photo_consent;
+                                        
+                    displayField(newCard.querySelector('.carer-dob'), timeParser(json.carers[ii].date_of_birth, 'yyyy-MM-dd', 'dd/MM/yyyy'));                    
+                    displayField(newCard.querySelector('.carer-gender'), json.carers[ii].gender);
+                    displayField(newCard.querySelector('.carer-ethnicity'), json.carers[ii].ethnicity);                
+                    displayField(newCard.querySelector('.carer-firstseen'), timeParser(json.carers[ii].first_seen));                
+                    displayField(newCard.querySelector('.carer-address'), json.carers[ii].address);
+                    displayField(newCard.querySelector('.carer-postalcode'), json.carers[ii].postal_code);
+                    displayField(newCard.querySelector('.carer-city'), json.carers[ii].city);
+                    displayField(newCard.querySelector('.carer-phone'), json.carers[ii].phone);
+                    displayField(newCard.querySelector('.carer-email'), json.carers[ii].email);
+                    displayField(newCard.querySelector('.carer-benifits'),json.carers[ii].benifits);
+                    displayField(newCard.querySelector('.carer-lonecarer'), json.carers[ii].lone_carer);
+                    displayField(newCard.querySelector('.carer-photoconsent'), json.carers[ii].photo_consent);
+
                     newCard.style = '';
-                    carerAnchor.appendChild(newCard);
+                    carerAnchor.appendChild(newCard);                
+                }                           
+            }
+            if (json.notes) {
+                var origNoteCard = document.getElementById('note-card');
+                var noteAnchor = document.getElementById('note-card-placeholder');                                
+                for (var ii = 0; ii < json.notes.length; ++ii) {                
+                    var newCard = origNoteCard.cloneNode(true);                
+                    newCard.querySelector('.note-text').innerText = json.notes[ii].note;
+                    displayField(newCard.querySelector('.note-author'), json.notes[ii].note_taker);
+                    displayField(newCard.querySelector('.note-timestamp'), timeParser(json.notes[ii].timestamp));
+                    newCard.style = '';
+                    noteAnchor.appendChild(newCard);                
                 }
             }
         });        
@@ -209,7 +321,60 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                 modals[ii].style.display = "none";
             }
         }
-        
+    }
+
+    function displayField(elem, val) {
+        if (typeof val != 'undefined') {
+            elem.innerText = val;
+        } else {
+            elem.innerText = '';
+        }
+    }
+
+    function timeParser(val, parse, format) {
+        if (!parse) {
+            parse = "yyyy-MM-ddTHH:mm:ssZ";
+        }
+        if (!format) {
+            format = 'dd/MM/yyyy HH:mm:ss';
+        }
+        var fs = Date.parseExact(val, parse);
+        if (fs) {
+            return fs.toString(format)
+        }
+        return ''
+    }
+
+    function loadScript() {
+        fetch('/mapskey', {
+			method: 'get',
+			credentials: "same-origin"			
+		}).then(function(response) {
+            if (response.status >= 200 && response.status <= 299) {
+                response.json().then(function(json){
+                    var script = document.createElement('script');
+                    script.type = 'text/javascript';
+                    script.src = 'https://maps.googleapis.com/maps/api/js?v=3' + '&key=' + json.map_key +'&callback=initmap'; 
+                    document.body.appendChild(script);
+                });
+            }
+        });
+    }
+
+    function initmap() {        
+        var map = new google.maps.Map(document.getElementById('map'),{
+            zoom: 13,        
+            scrollwheel: false,         
+        });
+        for (var ii = 0; ii < carers.length; ++ii) {
+            if (carers[ii].latitude && carers[ii].longitude) {
+                var marker = new google.maps.Marker({
+                    position: {lat: carers[ii].latitude, lng: carers[ii].longitude},
+                    map: map
+                });
+                map.setCenter(marker.getPosition());
+            }
+        }
     }
 </script>
 

@@ -1,0 +1,31 @@
+<div class='w3-container w3-card-4 w3-margin'>
+    <h3 id='locationselector-title' class="w3-text-teal">Locations</h3>    
+    <div id='location-list'></div>
+</div>
+<div id='location-instance' style='display:none;'>
+    <i id='location-elm' class='location-element w3-button'></i>
+    <br/>
+</div>
+
+<script>
+    readLocations().then(function(response) {
+      if (response.status >= 200 && response.status <= 299) {
+        response.json().then(function(json){
+            var list = document.getElementById('location-list');
+            var origloc =document.getElementById('location-instance');            
+            for(var ii = 0; ii < json.length; ++ii) {
+                var loc = origloc.cloneNode(true);   
+                
+                var nameElm = loc.querySelector('.location-element');
+                nameElm.setAttribute('data-location', JSON.stringify(json[ii]));
+                nameElm.innerText = json[ii].name;
+                loc.style.display = "block";
+                list.appendChild(loc);
+                
+            }
+        });
+      }
+    }).catch(function(err) {
+        console.log("Could not read location", err)
+    });
+</script>
