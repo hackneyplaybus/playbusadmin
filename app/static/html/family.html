@@ -29,6 +29,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="static/js/masked.min.js"></script>
 <script src="static/js/requests.js"></script>
+<script src="static/js/submitform.js"></script>
 <script src="static/js/date.js"></script>
 
 <style>
@@ -107,6 +108,22 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     </div>
 </div>
 
+<div id='location-modal' class="w3-modal">
+    <div class="w3-modal-content">
+        <div class="w3-container" style='padding-left:0px;padding-right:0px;'>
+            <div id='location-list-placeholder'></div>
+        </div>
+    </div>
+</div>
+
+<div id='project-modal' class="w3-modal">
+    <div class="w3-modal-content">
+        <div class="w3-container" style='padding-left:0px;padding-right:0px;'>
+            <div id='project-list-placeholder'></div>
+        </div>
+    </div>
+</div>
+
 <div id="referral-modal" class="w3-modal">
     <div class="w3-modal-content">
         <div class="w3-container" style='padding-left:0px;padding-right:0px;'>
@@ -120,7 +137,22 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     <header class="w3-container w3-text-teal w3-theme-l2">        
         <h3 class='child-name'></h3>
     </header>
-    <b class="w3-text-teal w3-large fa fa-plus visit-button w3-button" onclick='addVisit(event, this);'> Visit</b><b class="w3-text-teal w3-large fa w3-right w3-button" onclick='displayModal("visit-modal");'> Different Location?</b>
+    <div class='w3-text-teal w3-large'>        
+        <table>
+            <tr id='child-visit-row' class='w3-hover-opacity child-visit-row' onclick='addVisit(event, this);'>
+                <td><b class="fa fa-plus"></b></td>
+                <td><span class="visit-location">set location</span></td>
+                <td><span> - </span></td>
+                <td><span class="visit-project">  set project</span></td>                             
+            </tr>
+            <tr class='w3-small' align="center" >
+                <td></td>
+                <td class='w3-hover-opacity' onclick='displayModal("location-modal");'>(change)</td>
+                <td></td>
+                <td class='w3-hover-opacity' onclick='displayModal("project-modal");'>(change)</td>
+            </tr>
+        </table>
+    </div>    
     <div class="w3-container">
         <table class="w3-table w3-text-gray">          
             <tr>
@@ -148,7 +180,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     </div>
 </div>
 
-<div id='carer-card' class="w3-card-4" style='display:none;'>
+<div id='carer-card' class="w3-card-4" style='display:none;' onclick='addVisit(event, this);'>
     <header class="w3-container w3-text-teal w3-theme-l2">        
         <h3 class='carer-name'></h3>
     </header>
@@ -234,14 +266,64 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
         document.getElementById('carer-before').style.display = 'none';
         document.getElementById('carer-form').classList.remove('w3-twothird');
     });  
-    $("#note-placeholder").load("static/html/addnote.html");   
+    $("#note-placeholder").load("static/html/addnote.html");
+    $("#location-list-placeholder").load("static/html/locationlist.html", function(){
+        var locelm = document.getElementById('location-list');        
+        locelm.onclick = function(e) {
+            e=e||event; // IE sucks
+            var target = e.target||e.srcElement; // and sucks again
+            if (target && target.getAttribute('id') =='location-elm') {
+
+                var elems = document.getElementsByClassName('location-element');                
+                var locstr = target.getAttribute('data-location');
+                var loc = JSON.parse(locstr);                          
+                setCookie('last_location', locstr);                
+                setLastLocationText();
+                var modal = document.getElementById('location-modal');
+                modal.style.display = "none";
+            }
+            return false
+        };           
+    });
+    $("#project-list-placeholder").load("static/html/projectlist.html", function(){
+        var locelm = document.getElementById('project-list');        
+        locelm.onclick = function(e) {
+            e=e||event; // IE sucks
+            var target = e.target||e.srcElement; // and sucks again
+            if (target && target.getAttribute('id') =='project-elm') {
+
+                var elems = document.getElementsByClassName('project-element');                
+                var locstr = target.getAttribute('data-location');
+                var loc = JSON.parse(locstr);                          
+                setCookie('last_project', locstr);                
+                setLastLocationText();
+                var modal = document.getElementById('project-modal');
+                modal.style.display = "none";
+            }
+            return false
+        };           
+    });
   });  
    
-  var lastloc = getCookie('last_location');
-  var visitbuttons = document.getElementsByClassName('visit-button');
-  for (var ii = 0; ii < visitbuttons.length; ++ii) {
-      visitbuttons[ii].innerText = " "+lastloc;
-
+  setLastLocationText(); 
+  function setLastLocationText(){ 
+    var lastlocstr = getCookie('last_location');
+    var lastprojstr = getCookie('last_project');
+    
+    if (lastlocstr) {
+        var loc = JSON.parse(lastlocstr);
+        var visitbuttons = document.getElementsByClassName('visit-location');
+        for (var ii = 0; ii < visitbuttons.length; ++ii) {
+            visitbuttons[ii].innerText = "  "+loc.name;
+        }
+    }
+    if (lastprojstr) {
+        proj = JSON.parse(lastprojstr);
+        var visitbuttons = document.getElementsByClassName('visit-project');
+        for (var ii = 0; ii < visitbuttons.length; ++ii) {
+            visitbuttons[ii].innerText = "  "+proj.name;
+        }
+    }
   }
 
 
@@ -256,7 +338,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                 for (var ii = 0; ii < json.children.length; ++ii) {                
                     var newCard = origChildCard.cloneNode(true);                
                     newCard.querySelector('.child-name').innerText = json.children[ii].name;
-                                        
+                    newCard.querySelector('.child-visit-row').setAttribute('data-location', JSON.stringify(json.children[ii]));
                     displayField(newCard.querySelector('.child-dob'), timeParser(json.children[ii].date_of_birth, 'yyyy-MM-dd', 'dd/MM/yyyy'));                    
                     displayField(newCard.querySelector('.child-gender'), json.children[ii].gender);
                     displayField(newCard.querySelector('.child-ethnicity'), json.children[ii].ethnicity);
@@ -274,7 +356,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                 for (var ii = 0; ii < json.carers.length; ++ii) {                
                     var newCard = origCarerCard.cloneNode(true);                
                     newCard.querySelector('.carer-name').innerText = json.carers[ii].name;
-                                        
+                    newCard.setAttribute('data-location', JSON.stringify(json.carers[ii]));
                     displayField(newCard.querySelector('.carer-dob'), timeParser(json.carers[ii].date_of_birth, 'yyyy-MM-dd', 'dd/MM/yyyy'));                    
                     displayField(newCard.querySelector('.carer-gender'), json.carers[ii].gender);
                     displayField(newCard.querySelector('.carer-ethnicity'), json.carers[ii].ethnicity);                
@@ -315,6 +397,10 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
         modalElem.style.display = "block";
     }
     window.onclick = function(event) {
+        closeModals(event);
+    }
+
+    function closeModals(event) {
         var modals = document.getElementsByClassName('w3-modal');
         for(var ii = 0; ii < modals.length; ++ii){
             if (event.target == modals[ii]) {
@@ -375,6 +461,33 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                 map.setCenter(marker.getPosition());
             }
         }
+    }
+
+    function addVisit(e, elm) {
+
+            e=e||event; // IE sucks
+            var target = e.target||e.srcElement;
+            var visit = {}
+            var cdstr = elm.getAttribute('data-location');
+            var lastlocstr = getCookie('last_location');
+            var lastprojstr = getCookie('last_project');
+            var cd = JSON.parse(cdstr);
+            if (lastlocstr) {
+                var loc = JSON.parse(lastlocstr);
+                visit.location_id = loc.location_id
+            }
+            if (lastprojstr) {
+                proj = JSON.parse(lastprojstr);
+                visit.project_id = proj.project_id
+            }
+            if (cd.child_id) {
+                visit.child_id = cd.child_id;
+            }
+            if (cd.family_id) {
+                visit.family_id = cd.family_id;
+            }
+            
+            submitVisit(visit);
     }
 </script>
 

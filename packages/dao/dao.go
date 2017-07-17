@@ -32,6 +32,7 @@ func ReadFamily(ctx context.Context, familyId string) (*wire.Family, error) {
 		Children: []*wire.Child{},
 		Carers:   []*wire.Carer{},
 		Notes:    []*wire.Note{},
+		Visits:   []*wire.Visit{},
 	}
 
 	query := datastore.NewQuery(KindChild).Filter("FamilyId =", familyId)
@@ -44,6 +45,11 @@ func ReadFamily(ctx context.Context, familyId string) (*wire.Family, error) {
 	query = datastore.NewQuery(KindCarer).Filter("FamilyId =", familyId)
 
 	_, err = query.GetAll(ctx, &family.Carers)
+	if err != nil {
+		return nil, err
+	}
+
+	family.Visits, err = ReadFamilyVisits(ctx, familyId)
 	if err != nil {
 		return nil, err
 	}
@@ -77,13 +83,29 @@ func CreateCarer(ctx context.Context, carer *wire.Carer) error {
 	return nil
 }
 
-func CreateVisit(ctx context.Context, visit *wire.Visit, parentKey *datastore.Key) error {
+func CreateVisit(ctx context.Context, visit *wire.Visit) error {
 	visit.VisitId = newKey("visit-", DefaultKeyLen)
+	visit.DateRecorded = time.Now()
 	_, err := datastore.Put(ctx, datastore.NewKey(ctx, KindVisit, visit.VisitId, 0, nil), visit)
 	if err != nil {
 		return err
 	}
 	return nil
+}
+
+func ReadFamilyVisits(ctx context.Context, familyId string) ([]*wire.Visit, error) {
+	query := datastore.NewQuery(KindCarer).Filter("FamilyId =", familyId)
+	visits := []*wire.Visit{}
+	_, err := query.GetAll(ctx, &visits)
+	if err != nil {
+		return nil, err
+	}
+
+	for ii, visit := range visits {
+		// TODO READ LOCATIONS AND PROJECTS
+	}
+
+	return visits, nil
 }
 
 func CreateNote(ctx context.Context, note *wire.Note) error {
@@ -132,6 +154,15 @@ func CreateProject(ctx context.Context, project *wire.Project) error {
 		return err
 	}
 	return nil
+}
+
+func ReadProjects(ctx context.Context) ([]*wire.Project, error) {
+	locs := []*wire.Project{}
+	_, err := datastore.NewQuery(KindProject).GetAll(ctx, &locs)
+	if err != nil {
+		return nil, err
+	}
+	return locs, nil
 }
 
 func UpdateChildPhotoConsent(ctx context.Context, childId string, consent bool) (*wire.Child, error) {

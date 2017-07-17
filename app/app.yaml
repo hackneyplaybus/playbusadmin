@@ -30,6 +30,10 @@ handlers:
   static_files: static/html/locations.html
   upload: static/html/locations\.html
   login: required
+- url: /projects
+  static_files: static/html/projects.html
+  upload: static/html/projects\.html
+  login: required
 - url: /static
   static_dir: static
   login: required

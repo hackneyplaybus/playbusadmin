@@ -24,6 +24,11 @@ func init() {
 	http.HandleFunc("/location/create", handlers.CatchPanic(handlers.WriteLocationHandler))
 	http.HandleFunc("/location/all", handlers.CatchPanic(handlers.ReadLocationsHandler))
 
+	http.HandleFunc("/project/create", handlers.CatchPanic(handlers.WriteProjectHandler))
+	http.HandleFunc("/project/all", handlers.CatchPanic(handlers.ReadProjectsHandler))
+
+	http.HandleFunc("/visit/create", handlers.CatchPanic(handlers.WriteVisitHandler))
+
 	http.HandleFunc("/mapskey", handlers.CatchPanic(handlers.MapKeyHandler))
 	http.HandleFunc("/ethnicitylist", handlers.CatchPanic(handlers.EthnicityList))
 

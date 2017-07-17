@@ -46,6 +46,13 @@ function readLocations() {
 		})
 }
 
+function readProjects() {
+	return fetch('/project/all', {
+			method: 'get',
+			credentials: "same-origin"			
+		})
+}
+
 function getCookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);

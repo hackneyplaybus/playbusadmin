@@ -7,6 +7,7 @@ type Family struct {
 	Children []*Child `json:"children,omitempty"`
 	Carers   []*Carer `json:"carers,omitempty"`
 	Notes    []*Note  `json:"notes,omitempty"`
+	Visits   []*Visit `json:"visits,omitempty"`
 }
 
 type Child struct {

@@ -332,3 +332,77 @@
 
     return false
   }
+
+  function submitProject(evt, redirectFunc) {
+    evt.preventDefault();
+    var formEl = document.getElementById('project-form');
+    var headers = new Headers();
+    // Tell the server we want JSON back
+    headers.set('Accept', 'application/json');
+    var loc = {};
+    for (var i = 0; i < formEl.length; ++i) {
+      switch (formEl[i].name) {
+        case "project-name":
+          loc.name = formEl[i].value;
+          var id = formEl[i].getAttribute('data-id');
+          if (id) {
+            loc.project_id = id;
+          }
+          break;
+      }
+    }
+            
+    var url = '/project/create';
+    var fetchOptions = {
+      method: 'POST',
+      headers,
+      credentials: "same-origin",
+      body: JSON.stringify(loc)
+    };
+
+    if (!redirectFunc) {
+        redirectFunc = function(json) {
+          location.reload();
+        }
+    }
+
+    fetch(url, fetchOptions).then(function(response) {
+      if (response.status >= 200 && response.status <= 299) {
+        response.json().then(redirectFunc);
+      }
+		}).catch(function(err) {
+			console.log("Could not update project", err)
+		});
+    
+
+    return false
+  }
+
+  function submitVisit(visit, redirectFunc) {
+    var headers = new Headers();
+    // Tell the server we want JSON back
+    headers.set('Accept', 'application/json');
+    var url = '/visit/create';
+    var fetchOptions = {
+      method: 'POST',
+      headers,
+      credentials: "same-origin",
+      body: JSON.stringify(visit)
+    };
+
+    if (!redirectFunc) {
+        redirectFunc = function(json) {
+          location.reload();
+        }
+    }
+
+    fetch(url, fetchOptions).then(function(response) {
+      if (response.status >= 200 && response.status <= 299) {
+        response.json().then(redirectFunc);
+      } else {
+        console.log("Could not update visit", response);
+      }
+		}).catch(function(err) {
+			console.log("Could not update visit", err);
+		});
+  }
