@@ -327,11 +327,12 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
   }
 
 
-  var carers = {};
+  var family = {};
   var familyId = getParameterByName('familyId');    
   getFamily(familyId).then(function(response) {
       if (response.status >= 200 && response.status <= 299) {
         response.json().then(function(json){
+            family = json;
             if (json.children) {
                 var origChildCard = document.getElementById('child-card');
                 var childAnchor = document.getElementById('child-card-placeholder');
@@ -350,8 +351,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
             }
             if (json.carers) {
                 var origCarerCard = document.getElementById('carer-card');
-                var carerAnchor = document.getElementById('carer-card-placeholder');
-                carers = json.carers;
+                var carerAnchor = document.getElementById('carer-card-placeholder');                
                 loadScript()                
                 for (var ii = 0; ii < json.carers.length; ++ii) {                
                     var newCard = origCarerCard.cloneNode(true);                
@@ -452,13 +452,46 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
             zoom: 13,        
             scrollwheel: false,         
         });
-        for (var ii = 0; ii < carers.length; ++ii) {
-            if (carers[ii].latitude && carers[ii].longitude) {
-                var marker = new google.maps.Marker({
-                    position: {lat: carers[ii].latitude, lng: carers[ii].longitude},
+
+        // TODO Probably use this for overlapping markers
+        // https://github.com/jawj/OverlappingMarkerSpiderfier
+        for (var ii = 0; ii < family.carers.length; ++ii) {
+            if (family.carers[ii].latitude && family.carers[ii].longitude) {
+                var familyMark = new google.maps.Marker({
+                    position: {lat: family.carers[ii].latitude, lng: family.carers[ii].longitude},
                     map: map
                 });
-                map.setCenter(marker.getPosition());
+                var familyInfo = new google.maps.InfoWindow({
+                    content: "<div>" +
+                        "<h1>Carer Home</h1>" +                        
+                    "</div>"
+                });
+
+                familyMark.addListener('click', function(info, marker) {
+                   return function(){info.open(map, marker);};
+                }(familyInfo, familyMark));
+
+                map.setCenter(familyMark.getPosition());
+            }
+        }
+        for (var ii = 0; ii < family.visits.length; ++ii) {
+            if (family.visits[ii].location.latitude && family.visits[ii].location.longitude) {
+                var visitMark = new google.maps.Marker({
+                    position: {lat: family.visits[ii].location.latitude, lng: family.visits[ii].location.longitude},
+                    map: map
+                });
+
+                var visitInfo = new google.maps.InfoWindow({
+                    content: "<div>" +
+                        "<h1>Visit</h1>" +                        
+                    "</div>"
+                });
+
+                visitMark.addListener('click', function(info, marker) {
+                    return function(){info.open(map, marker);};
+                }(visitInfo, visitMark));
+
+                map.setCenter(visitMark.getPosition());
             }
         }
     }

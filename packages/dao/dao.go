@@ -94,15 +94,24 @@ func CreateVisit(ctx context.Context, visit *wire.Visit) error {
 }
 
 func ReadFamilyVisits(ctx context.Context, familyId string) ([]*wire.Visit, error) {
-	query := datastore.NewQuery(KindCarer).Filter("FamilyId =", familyId)
+	query := datastore.NewQuery(KindVisit).Filter("FamilyId =", familyId)
 	visits := []*wire.Visit{}
 	_, err := query.GetAll(ctx, &visits)
 	if err != nil {
 		return nil, err
 	}
 
-	for ii, visit := range visits {
-		// TODO READ LOCATIONS AND PROJECTS
+	for _, visit := range visits {
+		visit.Location, err = ReadLocation(ctx, visit.LocationId)
+		if err != nil {
+			return nil, err
+		}
+
+		visit.Project, err = ReadProject(ctx, visit.ProjectId)
+		if err != nil {
+			return nil, err
+		}
+
 	}
 
 	return visits, nil
@@ -147,6 +156,15 @@ func ReadLocations(ctx context.Context) ([]*wire.Location, error) {
 	return locs, nil
 }
 
+func ReadLocation(ctx context.Context, locationId string) (*wire.Location, error) {
+	loc := &wire.Location{}
+	key := datastore.NewKey(ctx, KindLocation, locationId, 0, nil)
+	if err := datastore.Get(ctx, key, loc); err != nil {
+		return nil, err
+	}
+	return loc, nil
+}
+
 func CreateProject(ctx context.Context, project *wire.Project) error {
 	project.ProjectId = newKey("project-", DefaultKeyLen)
 	_, err := datastore.Put(ctx, datastore.NewKey(ctx, KindProject, project.ProjectId, 0, nil), project)
@@ -163,6 +181,15 @@ func ReadProjects(ctx context.Context) ([]*wire.Project, error) {
 		return nil, err
 	}
 	return locs, nil
+}
+
+func ReadProject(ctx context.Context, projectId string) (*wire.Project, error) {
+	project := &wire.Project{}
+	key := datastore.NewKey(ctx, KindProject, projectId, 0, nil)
+	if err := datastore.Get(ctx, key, project); err != nil {
+		return nil, err
+	}
+	return project, nil
 }
 
 func UpdateChildPhotoConsent(ctx context.Context, childId string, consent bool) (*wire.Child, error) {
