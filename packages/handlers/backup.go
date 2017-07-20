@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"golang.org/x/net/context"
 
@@ -10,47 +11,52 @@ import (
 	"cloud.google.com/go/storage"
 	"google.golang.org/api/iterator"
 	"google.golang.org/appengine"
-	"google.golang.org/appengine/file"
 	"google.golang.org/appengine/log"
+	"google.golang.org/appengine/runtime"
+)
+
+const (
+	bucketStr = "playtest"
 )
 
 func Backup(w http.ResponseWriter, r *http.Request) {
 	ctx := appengine.NewContext(r)
 
-	names, err := getBuckets(ctx)
+	names, attrs, err := getBuckets(ctx)
 	if err != nil {
 		log.Errorf(ctx, "Failed to list buckets: %v", err)
 		return
 	}
-	for _, bucket := range names {
-		log.Infof(ctx, "Bucket: %s ", bucket)
+
+	err = runtime.RunInBackground(ctx, func(ctx context.Context) {
+		err = loadBQ(ctx, names)
+		if err != nil {
+			log.Errorf(ctx, "Failed to load BQ: %v", err)
+			return
+		}
+
+		err = deleteBuckets(ctx, attrs)
+		if err != nil {
+			log.Errorf(ctx, "Failed to delete buckets: %v", err)
+			return
+		}
+	})
+	if err != nil {
+		log.Errorf(ctx, "Failed to run in background: %v", err)
+		w.Write([]byte(err.Error()))
+		return
 	}
-
-	// err = loadBQ(ctx, names)
-	// if err != nil {
-	// 	log.Errorf("Failed to load BQ: %v", err)
-	// 	return
-	// }
-
-	// if err = deleteBuckets(); err != nil {
-	// 	log.Errorf("Failed to Delete buckets: %v", err)
-	// 	return
-	// }
-
 }
 
-func getBuckets(ctx context.Context) ([]string, error) {
-	bucketStr, err := file.DefaultBucketName(ctx)
-	if err != nil {
-		return nil, err
-	}
+func getBuckets(ctx context.Context) ([]string, []*storage.ObjectAttrs, error) {
 
 	gcsClient, err := storage.NewClient(ctx)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	backups := []string{}
+	backupsAttrs := []*storage.ObjectAttrs{}
 	bh := gcsClient.Bucket(bucketStr)
 	itr := bh.Objects(ctx, nil)
 	for {
@@ -59,18 +65,18 @@ func getBuckets(ctx context.Context) ([]string, error) {
 			break
 		}
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
-		backups = append(backups, objAttrs.MediaLink)
+
+		if strings.HasSuffix(objAttrs.Name, ".backup_info") {
+			backups = append(backups, "gs://"+bucketStr+"/"+objAttrs.Name)
+		}
+		backupsAttrs = append(backupsAttrs, objAttrs)
 	}
-	return backups, nil
+	return backups, backupsAttrs, nil
 }
 
-func deleteBuckets(ctx context.Context, buckets []string) error {
-	bucketStr, err := file.DefaultBucketName(ctx)
-	if err != nil {
-		return err
-	}
+func deleteBuckets(ctx context.Context, buckets []*storage.ObjectAttrs) error {
 
 	gcsClient, err := storage.NewClient(ctx)
 	if err != nil {
@@ -79,7 +85,7 @@ func deleteBuckets(ctx context.Context, buckets []string) error {
 
 	bh := gcsClient.Bucket(bucketStr)
 	for _, obj := range buckets {
-		oh := bh.Object(obj)
+		oh := bh.Object(obj.Name)
 		err := oh.Delete(ctx)
 		if err != nil {
 			return err
@@ -99,13 +105,18 @@ func loadBQ(ctx context.Context, backups []string) error {
 		return fmt.Errorf("could not create service: %v", err)
 	}
 
-	myDataset := bq.Dataset("playbus-data")
-	jobs := make([]*bigquery.Job, len(backups))
+	myDataset := bq.Dataset("playbusdata")
+	jobs := make([]*bigquery.Job, 0, len(backups))
 	for _, url := range backups {
+		urlArr := strings.Split(url, ".")
+		if len(urlArr) == 2 {
+			continue
+		}
+
 		gcsRef := bigquery.NewGCSReference(url)
 		gcsRef.SourceFormat = "DATASTORE_BACKUP"
-		loader := myDataset.Table("dest").LoaderFrom(gcsRef)
-		loader.CreateDisposition = bigquery.CreateNever
+		loader := myDataset.Table(urlArr[1]).LoaderFrom(gcsRef)
+		loader.WriteDisposition = bigquery.WriteTruncate
 		job, err := loader.Run(ctx)
 		if err != nil {
 			return fmt.Errorf("could not create service: %v", err)

@@ -9,7 +9,7 @@ basic_scaling:
 handlers:
 - url: /backup
   script: _go_app
-  login: required
+  login: admin
 - url: /
   static_files: static/html/record.html
   upload: static/html/record\.html

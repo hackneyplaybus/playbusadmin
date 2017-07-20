@@ -7,7 +7,7 @@ import (
 )
 
 func init() {
-	//http.HandleFunc("/backup", handlers.Backup)
+	http.HandleFunc("/backup", handlers.Backup)
 
 	http.HandleFunc("/family/all", handlers.CatchPanic(handlers.ReadFamilyHandler))
 
