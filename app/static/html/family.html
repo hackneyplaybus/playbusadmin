@@ -92,6 +92,16 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     </div>
 </div>
 
+<div id="delete-modal" class="w3-modal">
+    <div class="w3-modal-content">
+        <div class="w3-container w3-card-4 w3-center w3-text-teal w3-padding-16">
+            <h3>Are you sure you want to delete?</h3>
+            <input class="w3-button w3-right w3-border" type="submit" value="No" onclick="consent(false);">
+            <input class="w3-button w3-left w3-border" type="submit" value="Yes" onclick="consent(true);">
+        </div>
+    </div>
+</div>
+
 <div id="carer-modal" class="w3-modal">
     <div class="w3-modal-content">
         <div class="w3-container" style='padding-left:0px;padding-right:0px;'>
@@ -135,11 +145,13 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 <div id='child-card' class="w3-card-4" style='display:none;'>
 
     <header class="w3-container w3-text-teal w3-theme-l2">        
+        <i class="w3-xlarge fa fa-times w3-right w3-text-teal w3-button delete-button" onclick='displayModal("delete-modal", this);' style="padding:16px 12px;"></i>
+        <i class="w3-xlarge fa fa-edit w3-right w3-text-teal w3-button edit-button" onclick='displayModal("child-modal", this);' style="padding:16px 12px;"></i>        
         <h3 class='child-name'></h3>
     </header>
-    <div class='w3-text-teal w3-large'>        
-        <table>
-            <tr id='child-visit-row' class='w3-hover-opacity child-visit-row' onclick='addVisit(event, this);'>
+    <div class='w3-text-teal w3-large w3-border w3-margin'>                        
+        <table style='margin-left:auto;margin-right:auto;'>
+            <tr id='visit-row' class='w3-hover-opacity visit-row' onclick='addVisit(event, this);' style='cursor:pointer;'>
                 <td><b class="fa fa-plus"></b></td>
                 <td><span class="visit-location">set location</span></td>
                 <td><span> - </span></td>
@@ -147,9 +159,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
             </tr>
             <tr class='w3-small' align="center" >
                 <td></td>
-                <td class='w3-hover-opacity' onclick='displayModal("location-modal");'>(change)</td>
+                <td class='w3-hover-opacity' onclick='displayModal("location-modal");' style='cursor:pointer;'>(change location)</td>
                 <td></td>
-                <td class='w3-hover-opacity' onclick='displayModal("project-modal");'>(change)</td>
+                <td class='w3-hover-opacity' onclick='displayModal("project-modal");' style='cursor:pointer;'>(change project)</td>
             </tr>
         </table>
     </div>    
@@ -181,11 +193,28 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 </div>
 
 <div id='carer-card' class="w3-card-4" style='display:none;' onclick='addVisit(event, this);'>
-    <header class="w3-container w3-text-teal w3-theme-l2">        
+    <header class="w3-container w3-text-teal w3-theme-l2">   
+        <i class="w3-xlarge fa fa-times w3-right w3-text-teal w3-button delete-button" onclick='displayModal("delete-modal", this);' style="padding:16px 12px;"></i>
+        <i class="w3-xlarge fa fa-edit w3-right w3-text-teal w3-button edit-button" onclick='displayModal("carer-modal", this);' style="padding:16px 12px;"></i>             
         <h3 class='carer-name'></h3>
     </header>
 
-    <b class="w3-text-teal w3-large fa fa-plus visit-button w3-button" onclick='displayModal("child-modal");'> Visit</b><b class="w3-text-teal w3-large fa w3-right w3-button" onclick='displayModal("child-modal");'> Different Location?</b>
+    <div class='w3-text-teal w3-large w3-border w3-margin'>             
+        <table style='margin-left:auto;margin-right:auto;'>
+            <tr id='visit-row' class='w3-hover-opacity visit-row' onclick='addVisit(event, this);' style='cursor:pointer;'>
+                <td><b class="fa fa-plus"></b></td>
+                <td><span class="visit-location">set location</span></td>
+                <td><span> - </span></td>
+                <td><span class="visit-project">  set project</span></td>                             
+            </tr>
+            <tr class='w3-small' align="center" >
+                <td></td>
+                <td class='w3-hover-opacity' onclick='displayModal("location-modal");' style='cursor:pointer;'>(change)</td>
+                <td></td>
+                <td class='w3-hover-opacity' onclick='displayModal("project-modal");' style='cursor:pointer;'>(change)</td>
+            </tr>
+        </table>        
+    </div> 
     
     <div class="w3-container">
         <table class="w3-table w3-text-gray">          
@@ -339,7 +368,10 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                 for (var ii = 0; ii < json.children.length; ++ii) {                
                     var newCard = origChildCard.cloneNode(true);                
                     newCard.querySelector('.child-name').innerText = json.children[ii].name;
-                    newCard.querySelector('.child-visit-row').setAttribute('data-location', JSON.stringify(json.children[ii]));
+                    var jsonData = JSON.stringify(json.children[ii]);
+                    newCard.querySelector('.visit-row').setAttribute('data-location', jsonData);
+                    newCard.querySelector('.delete-button').setAttribute('data-location', jsonData);
+                    newCard.querySelector('.edit-button').setAttribute('data-location', jsonData);
                     displayField(newCard.querySelector('.child-dob'), timeParser(json.children[ii].date_of_birth, 'yyyy-MM-dd', 'dd/MM/yyyy'));                    
                     displayField(newCard.querySelector('.child-gender'), json.children[ii].gender);
                     displayField(newCard.querySelector('.child-ethnicity'), json.children[ii].ethnicity);
@@ -356,7 +388,10 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                 for (var ii = 0; ii < json.carers.length; ++ii) {                
                     var newCard = origCarerCard.cloneNode(true);                
                     newCard.querySelector('.carer-name').innerText = json.carers[ii].name;
-                    newCard.setAttribute('data-location', JSON.stringify(json.carers[ii]));
+                    var jsonData = JSON.stringify(json.children[ii]);
+                    newCard.querySelector('.visit-row').setAttribute('data-location', jsonData);
+                    newCard.querySelector('.delete-button').setAttribute('data-location', jsonData);
+                    newCard.querySelector('.edit-button').setAttribute('data-location', jsonData);
                     displayField(newCard.querySelector('.carer-dob'), timeParser(json.carers[ii].date_of_birth, 'yyyy-MM-dd', 'dd/MM/yyyy'));                    
                     displayField(newCard.querySelector('.carer-gender'), json.carers[ii].gender);
                     displayField(newCard.querySelector('.carer-ethnicity'), json.carers[ii].ethnicity);                
@@ -392,9 +427,11 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 			console.log("Could not update child", err)
 		});
             
-    function displayModal(modal) {
+    function displayModal(modal, from) {
         var modalElem = document.getElementById(modal);
+        updateModal(modal, modalElem, from);
         modalElem.style.display = "block";
+
     }
     window.onclick = function(event) {
         closeModals(event);
@@ -404,9 +441,71 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
         var modals = document.getElementsByClassName('w3-modal');
         for(var ii = 0; ii < modals.length; ++ii){
             if (event.target == modals[ii]) {
-                modals[ii].style.display = "none";
+                modals[ii].style.display = "none";                
             }
         }
+    }
+
+    function updateModal(type, modalElem, from) {
+        
+        switch (type) {
+            case 'child-modal':
+                if (from) {
+                    populateChild(modalElem, from);                    
+                } else {
+                    emptyChild(modalElem);
+                }
+
+
+            break;
+            case 'carer-modal':
+                if (from) {
+                    //populateCarer(modalElem, from);
+                } else {
+                    //emptyCarer(modalElem);
+                }
+            break;
+        }
+    }
+
+    function populateChild(modalElem, from) {
+        var cdStr = from.getAttribute('data-location');
+        if (!cdStr) {
+            return
+        }
+        var cd = JSON.parse(cdStr);
+        if (!cd) {
+            return
+        }
+        modalElem.querySelector("#reg-header").innerText = 'Edit Child';
+        modalElem.querySelector("#child-name").value = cd.name;
+        modalElem.querySelector("#child-dob").value = cd.date_of_birth;
+        modalElem.querySelector("#child-ethnicity").value = cd.ethnicity;
+        modalElem.querySelector("#child-gender").value = cd.gender;
+        var cf = modalElem.querySelector("#child-form");
+        cf.setAttribute('child_id', cd.child_id);
+        cf.removeAttribute('onsubmit');
+        cf.onsubmit = function(event){
+            submitChild(event, function(json) {
+                location.reload();
+            });
+        };
+        
+    }
+
+    function emptyChild(modalElem) {
+        modalElem.querySelector("#reg-header").innerText = 'Register Your Child';
+        modalElem.querySelector("#child-name").value = '';
+        modalElem.querySelector("#child-dob").value = '';
+        modalElem.querySelector("#child-ethnicity").value = '';
+        modalElem.querySelector("#child-gender").value = '';
+        var cf = modalElem.querySelector("#child-form");
+        cf.removeAttribute('child_id');
+        cf.removeAttribute('onsubmit');
+        
+        cf.onsubmit = function(event){
+            submitChild(event);
+        };
     }
 
     function displayField(elem, val) {

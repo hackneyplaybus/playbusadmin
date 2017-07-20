@@ -64,9 +64,9 @@ func ReadFamily(ctx context.Context, familyId string) (*wire.Family, error) {
 }
 
 func CreateCarer(ctx context.Context, carer *wire.Carer) error {
-
-	carer.CarerId = newKey("carer-", DefaultKeyLen)
-
+	if carer.CarerId == "" {
+		carer.CarerId = newKey("carer-", DefaultKeyLen)
+	}
 	if carer.FamilyId == "" {
 		carer.FamilyId = newKey("family-", DefaultKeyLen)
 	}
@@ -259,7 +259,9 @@ func ReadCarer(ctx context.Context, carerId string) (*wire.Carer, *datastore.Key
 }
 
 func CreateChild(ctx context.Context, child *wire.Child) error {
-	child.ChildId = newKey("child-", DefaultKeyLen)
+	if child.ChildId == "" {
+		child.ChildId = newKey("child-", DefaultKeyLen)
+	}
 	if child.FamilyId == "" {
 		child.FamilyId = newKey("family-", DefaultKeyLen)
 	}

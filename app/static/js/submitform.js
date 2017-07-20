@@ -125,6 +125,8 @@
     if (familyId) {
         child.family_id = familyId;
     }
+
+    child.child_id = formEl.getAttribute('child_id');
     
     var url = '/child/create';
     var fetchOptions = {
