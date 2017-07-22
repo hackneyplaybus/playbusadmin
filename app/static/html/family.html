@@ -96,8 +96,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     <div class="w3-modal-content">
         <div class="w3-container w3-card-4 w3-center w3-text-teal w3-padding-16">
             <h3>Are you sure you want to delete?</h3>
-            <input class="w3-button w3-right w3-border" type="submit" value="No" onclick="consent(false);">
-            <input class="w3-button w3-left w3-border" type="submit" value="Yes" onclick="consent(true);">
+            <input class="w3-button w3-right w3-border" type="submit" value="No" onclick="document.getElementById('delete-modal').style.display = 'none';">
+            <input id='delete-btn' class="w3-button w3-left w3-border" type="submit" value="Yes">
         </div>
     </div>
 </div>
@@ -192,7 +192,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     </div>
 </div>
 
-<div id='carer-card' class="w3-card-4" style='display:none;' onclick='addVisit(event, this);'>
+<div id='carer-card' class="w3-card-4" style='display:none;'>
     <header class="w3-container w3-text-teal w3-theme-l2">   
         <i class="w3-xlarge fa fa-times w3-right w3-text-teal w3-button delete-button" onclick='displayModal("delete-modal", this);' style="padding:16px 12px;"></i>
         <i class="w3-xlarge fa fa-edit w3-right w3-text-teal w3-button edit-button" onclick='displayModal("carer-modal", this);' style="padding:16px 12px;"></i>             
@@ -259,8 +259,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
             <td class='carer-email'></td>
             </tr>
             <tr>
-            <td>Benifits:</td>
-            <td class='carer-benifits'></td>
+            <td>Benefits:</td>
+            <td class='carer-benefits'></td>
             </tr>
             <tr>
             <td>Lone Carer?:</td>
@@ -279,6 +279,12 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
         <div class='w3-text-grey'>
             By <i class='note-author'></i> at <i class='note-timestamp'></i><br/><br/>
         </div>
+    </div>
+</div>
+
+<div id='referral-card' class="w3-border-top" style='display:none;'>
+    <div class="w3-container w3-text-dark-grey" style='padding-top:16px;'>
+        <div class='referral-service'></div>
     </div>
 </div>
 
@@ -328,6 +334,26 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                 setLastLocationText();
                 var modal = document.getElementById('project-modal');
                 modal.style.display = "none";
+            }
+            return false
+        };           
+    });
+
+    $("#referral-placeholder").load("static/html/servicelist.html", function(){
+        var locelm = document.getElementById('service-list');        
+        locelm.onclick = function(e) {
+            e=e||event; // IE sucks
+            var target = e.target||e.srcElement; // and sucks again
+            if (target && target.getAttribute('id') =='service-elm') {
+
+                var elems = document.getElementsByClassName('service-element');                
+                var locstr = target.getAttribute('data-location');
+                var loc = JSON.parse(locstr);                          
+                
+                submitReferral({
+                    family_id: familyId,
+                    service_id: loc.service_id
+                }, function(){location.reload();});
             }
             return false
         };           
@@ -388,7 +414,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                 for (var ii = 0; ii < json.carers.length; ++ii) {                
                     var newCard = origCarerCard.cloneNode(true);                
                     newCard.querySelector('.carer-name').innerText = json.carers[ii].name;
-                    var jsonData = JSON.stringify(json.children[ii]);
+                    var jsonData = JSON.stringify(json.carers[ii]);
                     newCard.querySelector('.visit-row').setAttribute('data-location', jsonData);
                     newCard.querySelector('.delete-button').setAttribute('data-location', jsonData);
                     newCard.querySelector('.edit-button').setAttribute('data-location', jsonData);
@@ -401,7 +427,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                     displayField(newCard.querySelector('.carer-city'), json.carers[ii].city);
                     displayField(newCard.querySelector('.carer-phone'), json.carers[ii].phone);
                     displayField(newCard.querySelector('.carer-email'), json.carers[ii].email);
-                    displayField(newCard.querySelector('.carer-benifits'),json.carers[ii].benifits);
+                    displayField(newCard.querySelector('.carer-benefits'),json.carers[ii].benefits);
                     displayField(newCard.querySelector('.carer-lonecarer'), json.carers[ii].lone_carer);
                     displayField(newCard.querySelector('.carer-photoconsent'), json.carers[ii].photo_consent);
 
@@ -419,6 +445,16 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                     displayField(newCard.querySelector('.note-timestamp'), timeParser(json.notes[ii].timestamp));
                     newCard.style = '';
                     noteAnchor.appendChild(newCard);                
+                }
+            }
+            if (json.referrals) {
+                var origRefCard = document.getElementById('referral-card');
+                var refAnchor = document.getElementById('referral-card-placeholder');                                
+                for (var ii = 0; ii < json.referrals.length; ++ii) {                
+                    var newCard = origRefCard.cloneNode(true);                
+                    newCard.querySelector('.referral-service').innerText = json.referrals[ii].service.name;
+                    newCard.style = '';
+                    refAnchor.appendChild(newCard);                
                 }
             }
         });        
@@ -455,15 +491,38 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                 } else {
                     emptyChild(modalElem);
                 }
-
-
             break;
             case 'carer-modal':
                 if (from) {
-                    //populateCarer(modalElem, from);
+                    populateCarer(modalElem, from);
                 } else {
-                    //emptyCarer(modalElem);
+                    emptyCarer(modalElem);
                 }
+            break;
+            case 'delete-modal':
+                var cf = modalElem.querySelector("#delete-btn");
+                cf.removeAttribute('onclick');
+                var cdStr = from.getAttribute('data-location');
+                if (!cdStr) {
+                    return
+                }
+                var cd = JSON.parse(cdStr);
+                if (!cd) {
+                    return
+                }
+
+                var entity = '';
+                var entityId = '';
+                if (cd.child_id) {
+                    entity = 'child';
+                    entityId = cd.child_id;
+                } else if (cd.carer_id) {
+                    entity = 'carer';
+                    entityId = cd.carer_id;
+                }                
+                cf.onclick = function(event){
+                    deleteEntity(entity, entityId);
+                };
             break;
         }
     }
@@ -505,6 +564,60 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
         
         cf.onsubmit = function(event){
             submitChild(event);
+        };
+    }
+
+    function populateCarer(modalElem, from) {
+        var cdStr = from.getAttribute('data-location');
+        if (!cdStr) {
+            return
+        }
+        var cd = JSON.parse(cdStr);
+        if (!cd) {
+            return
+        }
+        modalElem.querySelector("#reg-carer-header").innerText = 'Edit Carer';
+        modalElem.querySelector("#carer-name").value = cd.name;
+        modalElem.querySelector('#carer-dob').value = cd.date_of_birth;                    
+        modalElem.querySelector('#carer-gender').value = cd.gender;
+        modalElem.querySelector('#carer-ethnicity').value = cd.ethnicity;                       
+        modalElem.querySelector('#carer-address').value = cd.address;
+        modalElem.querySelector('#carer-postalcode').value = cd.postal_code;
+        modalElem.querySelector('#carer-city').value = cd.city;
+        modalElem.querySelector('#carer-phone').value = cd.phone;
+        modalElem.querySelector('#carer-email').value = cd.email;
+        modalElem.querySelector('#carer-benefits').value = cd.benefits;
+        modalElem.querySelector('#carer-lonecarer').checked = cd.lone_carer;        
+    
+        var cf = modalElem.querySelector("#carer-form");
+        cf.setAttribute('carer_id', cd.carer_id);
+        cf.removeAttribute('onsubmit');
+        cf.onsubmit = function(event){
+            submitCarer(event, function(json) {
+                location.reload();
+            });
+        };
+    }
+
+    function emptyCarer(modalElem) {
+        modalElem.querySelector("#reg-carer-header").innerText = 'Register A Carer';
+        modalElem.querySelector("#carer-name").value = '';
+        modalElem.querySelector('#carer-dob').value = '';
+        modalElem.querySelector('#carer-gender').value = '';
+        modalElem.querySelector('#carer-ethnicity').value = '';        
+        modalElem.querySelector('#carer-address').value = '';
+        modalElem.querySelector('#carer-postalcode').value = '';
+        modalElem.querySelector('#carer-city').value = '';
+        modalElem.querySelector('#carer-phone').value = '';
+        modalElem.querySelector('#carer-email').value = '';
+        modalElem.querySelector('#carer-benefits').value = '';
+        modalElem.querySelector('#carer-lonecarer').checked = false;        
+        var cf = modalElem.querySelector("#carer-form");
+        cf.removeAttribute('carer_id');
+        cf.removeAttribute('onsubmit');
+        
+        cf.onsubmit = function(event){
+            submitCarer(event);
         };
     }
 
@@ -554,43 +667,47 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 
         // TODO Probably use this for overlapping markers
         // https://github.com/jawj/OverlappingMarkerSpiderfier
-        for (var ii = 0; ii < family.carers.length; ++ii) {
-            if (family.carers[ii].latitude && family.carers[ii].longitude) {
-                var familyMark = new google.maps.Marker({
-                    position: {lat: family.carers[ii].latitude, lng: family.carers[ii].longitude},
-                    map: map
-                });
-                var familyInfo = new google.maps.InfoWindow({
-                    content: "<div>" +
-                        "<h1>Carer Home</h1>" +                        
-                    "</div>"
-                });
+        if (family.carers) {
+            for (var ii = 0; ii < family.carers.length; ++ii) {
+                if (family.carers[ii].latitude && family.carers[ii].longitude) {
+                    var familyMark = new google.maps.Marker({
+                        position: {lat: family.carers[ii].latitude, lng: family.carers[ii].longitude},
+                        map: map
+                    });
+                    var familyInfo = new google.maps.InfoWindow({
+                        content: "<div>" +
+                            "<h1>Carer Home</h1>" +                        
+                        "</div>"
+                    });
 
-                familyMark.addListener('click', function(info, marker) {
-                   return function(){info.open(map, marker);};
-                }(familyInfo, familyMark));
+                    familyMark.addListener('click', function(info, marker) {
+                    return function(){info.open(map, marker);};
+                    }(familyInfo, familyMark));
 
-                map.setCenter(familyMark.getPosition());
+                    map.setCenter(familyMark.getPosition());
+                }
             }
         }
-        for (var ii = 0; ii < family.visits.length; ++ii) {
-            if (family.visits[ii].location.latitude && family.visits[ii].location.longitude) {
-                var visitMark = new google.maps.Marker({
-                    position: {lat: family.visits[ii].location.latitude, lng: family.visits[ii].location.longitude},
-                    map: map
-                });
+        if (family.visits) {
+            for (var ii = 0; ii < family.visits.length; ++ii) {
+                if (family.visits[ii].location.latitude && family.visits[ii].location.longitude) {
+                    var visitMark = new google.maps.Marker({
+                        position: {lat: family.visits[ii].location.latitude, lng: family.visits[ii].location.longitude},
+                        map: map
+                    });
 
-                var visitInfo = new google.maps.InfoWindow({
-                    content: "<div>" +
-                        "<h1>Visit</h1>" +                        
-                    "</div>"
-                });
+                    var visitInfo = new google.maps.InfoWindow({
+                        content: "<div>" +
+                            "<h1>Visit</h1>" +                        
+                        "</div>"
+                    });
 
-                visitMark.addListener('click', function(info, marker) {
-                    return function(){info.open(map, marker);};
-                }(visitInfo, visitMark));
+                    visitMark.addListener('click', function(info, marker) {
+                        return function(){info.open(map, marker);};
+                    }(visitInfo, visitMark));
 
-                map.setCenter(visitMark.getPosition());
+                    map.setCenter(visitMark.getPosition());
+                }
             }
         }
     }

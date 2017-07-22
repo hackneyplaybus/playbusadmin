@@ -34,6 +34,10 @@ handlers:
   static_files: static/html/projects.html
   upload: static/html/projects\.html
   login: required
+- url: /services
+  static_files: static/html/services.html
+  upload: static/html/services\.html
+  login: required
 - url: /static
   static_dir: static
   login: required

@@ -5,6 +5,12 @@ function getEthnicityList() {
 			credentials: "same-origin"			
 		})
 }
+function getBenefitList() {
+    return fetch('/benifitlist', {
+			method: 'get',
+			credentials: "same-origin"			
+		})
+}
 
 function getFamily(familyId) {
     return fetch('/family/all?familyId='+familyId, {
@@ -20,8 +26,11 @@ function getAutocomplete(term, type) {
 		})
 }
 
-function updatePhotoConsent(childId, carerId, val) {
-	var consent = {'photo_consent': val};
+function updateConsent(childId, carerId, infoConsent, photoConsent) {
+	var consent = {
+		'photo_consent': photoConsent,
+		'info_consent': infoConsent
+	};
 	var url = '';
 	if (childId) {
 		consent.child_id = childId
@@ -48,6 +57,13 @@ function readLocations() {
 
 function readProjects() {
 	return fetch('/project/all', {
+			method: 'get',
+			credentials: "same-origin"			
+		})
+}
+
+function readServices() {
+	return fetch('/service/all', {
 			method: 'get',
 			credentials: "same-origin"			
 		})

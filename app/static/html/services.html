@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<title>Hackney Playbus Admin</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="static/css/w3.css">
+<link rel="stylesheet" href="static/css/animate.min.css">
+<link rel="stylesheet" href="static/css/w3-theme-yellow.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="apple-touch-icon" sizes="57x57" href="static/img/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="static/img/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="static/img/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="static/img/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="static/img/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="static/img/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="static/img/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="static/img/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="static/img/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="static/img/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="static/img/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="static/img/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="static/img/favicon-16x16.png">
+<link rel="manifest" href="static/js/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="static/img/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="static/js/masked.min.js"></script>
+<script src="static/js/requests.js"></script>
+<script src="static/js/submitform.js"></script>
+
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+</style>
+<body>
+
+<!-- Navbar -->
+<div id="nav-placeholder"></div>
+
+<!-- Sidebar -->
+<div id="sidebar-placeholder"></div>
+
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+<div class="w3-main" style="margin-left:150px">
+
+  <div class="w3-padding-64">
+    <div class="w3-container">
+      <div class="w3-row">
+          <div class="w3-twothird">
+            
+                <form onsubmit="submitService(event);" id='service-form' class="w3-container w3-card-4 w3-text-yellow w3-margin" style="padding-bottom: 10px;">        
+                    <i id='service-header-exit' onclick='clearedit();' class="w3-button w3-large fa fa-times w3-right w3-text-teal" style='display: none; margin-top:18px;'> Stop Editing</i>
+                    <h2 id='service-header' class="w3-text-teal">Add Service</h2>          
+                    <div class="w3-row w3-section">
+                        <div class="w3-col w3-center" style="width:50px"><i class="w3-xxlarge fa fa-map-signs"></i></div>
+                            <div class="w3-rest">
+                                <input class="w3-input w3-border w3-round-medium" name="service-name" id="service-name" type="text" placeholder="Name" required>
+                            </div>
+                        </div>                                        
+
+                    <input class="w3-button w3-right w3-text-teal w3-border" type="submit" value="Submit">
+                </form>
+              
+          </div>
+          <div class="w3-third">
+              <div id='service-list-placeholder'></div>
+          </div>
+      </div>
+
+      
+    </div>
+  </div>
+
+<!-- END MAIN -->
+</div>
+
+<script>
+    var map;
+    var marker;
+  // Add in the sidebar and navigation bar. These will be common to all pages.
+  $(function(){
+    $("#sidebar-placeholder").load("static/html/sidebar.html");
+    $("#nav-placeholder").load("static/html/navbar.html");
+    $("#service-list-placeholder").load("static/html/servicelist.html", function(){
+        var locelm = document.getElementById('service-list');        
+        locelm.onclick = function(e) {
+            e=e||event; // IE sucks
+            var target = e.target||e.srcElement; // and sucks again
+            if (target && target.getAttribute('id') =='service-elm') {
+
+                var elems = document.getElementsByClassName('service-element');
+                for (var ii = 0; ii < elems.length; ++ii) {
+                    $(elems[ii]).removeClass('is_active');
+                }
+
+                var loc = JSON.parse(target.getAttribute('data-location'));                          
+                var name = document.getElementById("service-name");
+                name.value = loc.name;            
+                name.setAttribute('data-id', loc.service_id);                
+                
+                document.getElementById('service-header').innerText = 'Edit Service';
+                $(target).addClass('is_active');
+                document.getElementById('service-header-exit').style.display = 'block';
+            }
+            return false
+        };           
+    });
+  });  
+
+  function clearedit(){
+      document.getElementById('service-header-exit').style.display = 'none';
+      document.getElementById('service-header').innerText = 'Add Service';
+      var elems = document.getElementsByClassName('service-element');
+      for (var ii = 0; ii < elems.length; ++ii) {
+        $(elems[ii]).removeClass('is_active');
+      }
+      document.getElementById("service-name").removeAttribute('data-id');
+  }    
+</script>
+
+</body>
+</html>

@@ -47,11 +47,19 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     <div class="w3-container w3-threequarter">
       <h1 class="w3-text-teal">Disclaimer</h1>
       <p>Hackney Playbus collects this information for monitoring, analysis and data collection purposes.  Your information may be disclosed to other government agencies responsible for legislation relating to children and may be shared with your local children’s centre. Your contact information may be used to keep you informed of Hackney Playbus services. Personal information collected in this form will only be used for the purposes stated here. By completing this registration form it is deemed that you understand and consent to the purposes which the information may be used for. </p>
- 
+      <div class='w3-right'>
+        <input id='info-consent' type="checkbox"></input>
+        <label for="info-consent">I consent</label>
+      </div>
+
       <h1 class="w3-text-teal">Photography Consent</h1>
       <p>I, the carer completing this form, give my consent for the children named in this form to be photographed during Playbus sessions by Hackney Playbus staff, volunteers and partner organisations. I consent to photographs of my children being displayed on the Hackney Playbus website, Facebook and Twitter and also in any advertising material for the Hackney Playbus, their funders or partner organisations.</p>
-      <input class="w3-button w3-right w3-border" type="submit" value="No" onclick="consent(false);">
-      <input class="w3-button w3-left w3-border" type="submit" value="Yes" onclick="consent(true);">
+      <div class='w3-right'>
+        <input id='photo-consent' type="checkbox"></input>
+        <label for="photo-consent">I consent</label>
+      </div>
+      <br/>
+      <input class="w3-button w3-right w3-border w3-margin" type="submit" value="Submit" onclick="consent();">
      </div>
     </div>
   </div>
@@ -66,7 +74,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
   function consent(val) {
     var childId = getParameterByName('childId');    
     var carerId = getParameterByName('carerId');
-    updatePhotoConsent(childId, carerId, val).then(function(response) {
+    updateConsent(childId, carerId, document.getElementById("info-consent").checked, document.getElementById("photo-consent").checked).then(function(response) {
       if (response.status >= 200 && response.status <= 299) {
           response.json().then(function(json) {
             window.location.href = "/family?familyId="+json.family_id;

@@ -23,24 +23,6 @@
       // Check the range of the day
       return day > 0 && day <= monthLength[month - 1];
   }
-  
-  ethnicityDropdown();
-  function ethnicityDropdown() { 
-    getEthnicityList().then((resp) => resp.json()).then(function(response) {
-      var lists = document.getElementsByClassName('ethnicity-dropdown');
-      for (var ii = 0; ii < lists.length; ++ii) {
-        var list = lists[ii];
-        response.forEach(function(item){
-          var option = document.createElement('option');
-          option.value = item;
-          option.innerText = item;
-          list.appendChild(option);
-        });
-      }
-	}).catch(function(err) {
-		console.log("Could not get ethnicity list", err)
-	});
-  }
 
   maxDateOfToday();
   function maxDateOfToday(){
@@ -100,8 +82,6 @@
     var headers = new Headers();
     // Tell the server we want JSON back
     headers.set('Accept', 'application/json');
-    
-    
     
     var child = {};
     for (var i = 0; i < formEl.length; ++i) {
@@ -191,6 +171,12 @@
         case "carer-email":
           carer.email = formEl[i].value;        
           break;
+        case "carer-lonecarer":
+          carer.lone_carer = formEl[i].checked;        
+          break;
+        case 'carer-benefit':
+          carer.benefits = formEl[i].value;
+          break;
       }
     }
     
@@ -198,6 +184,8 @@
     if (familyId) {
         carer.family_id = familyId;
     }
+
+    carer.carer_id = formEl.getAttribute('carer_id');
     
     var url = '/carer/create';
     var fetchOptions = {
@@ -380,6 +368,51 @@
     return false
   }
 
+  function submitService(evt, redirectFunc) {
+    evt.preventDefault();
+    var formEl = document.getElementById('service-form');
+    var headers = new Headers();
+    // Tell the server we want JSON back
+    headers.set('Accept', 'application/json');
+    var loc = {};
+    for (var i = 0; i < formEl.length; ++i) {
+      switch (formEl[i].name) {
+        case "service-name":
+          loc.name = formEl[i].value;
+          var id = formEl[i].getAttribute('data-id');
+          if (id) {
+            loc.service = id;
+          }
+          break;
+      }
+    }
+            
+    var url = '/service/create';
+    var fetchOptions = {
+      method: 'POST',
+      headers,
+      credentials: "same-origin",
+      body: JSON.stringify(loc)
+    };
+
+    if (!redirectFunc) {
+        redirectFunc = function(json) {
+          location.reload();
+        }
+    }
+
+    fetch(url, fetchOptions).then(function(response) {
+      if (response.status >= 200 && response.status <= 299) {
+        response.json().then(redirectFunc);
+      }
+		}).catch(function(err) {
+			console.log("Could not update service", err)
+		});
+    
+
+    return false
+  }
+
   function submitVisit(visit, redirectFunc) {
     var headers = new Headers();
     // Tell the server we want JSON back
@@ -406,5 +439,62 @@
       }
 		}).catch(function(err) {
 			console.log("Could not update visit", err);
+		});
+  }
+
+  function submitReferral(referral, redirectFunc) {
+    var headers = new Headers();
+    // Tell the server we want JSON back
+    headers.set('Accept', 'application/json');
+    var url = '/referral/create';
+    var fetchOptions = {
+      method: 'POST',
+      headers,
+      credentials: "same-origin",
+      body: JSON.stringify(referral)
+    };
+
+    if (!redirectFunc) {
+        redirectFunc = function(json) {
+          location.reload();
+        }
+    }
+
+    fetch(url, fetchOptions).then(function(response) {
+      if (response.status >= 200 && response.status <= 299) {
+        response.json().then(redirectFunc);
+      } else {
+        console.log("Could not update referral", response);
+      }
+		}).catch(function(err) {
+			console.log("Could not update referral", err);
+		});
+  }
+
+  function deleteEntity(entity, entityId, redirectFunc) {
+    var headers = new Headers();
+    // Tell the server we want JSON back
+    headers.set('Accept', 'application/json');
+    var url = '/'+entity+'?id='+entityId;
+    var fetchOptions = {
+      method: 'DELETE',
+      headers,
+      credentials: "same-origin"
+    };
+
+    if (!redirectFunc) {
+        redirectFunc = function(json) {
+          location.reload();
+        }
+    }
+
+    fetch(url, fetchOptions).then(function(response) {
+      if (response.status >= 200 && response.status <= 299) {
+        redirectFunc();
+      } else {
+        console.log("Could not delete", response);
+      }
+		}).catch(function(err) {
+			console.log("Could not delete", err);
 		});
   }

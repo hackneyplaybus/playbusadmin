@@ -10,7 +10,7 @@ import (
 	"google.golang.org/appengine"
 )
 
-func WriteVisitHandler(w http.ResponseWriter, r *http.Request) {
+func WriteServiceHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := appengine.NewContext(r)
 	if r.Method == "POST" {
 		bb, err := ioutil.ReadAll(r.Body)
@@ -20,18 +20,38 @@ func WriteVisitHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		visit := &wire.Visit{}
-		if err = json.Unmarshal(bb, visit); err != nil {
+		service := &wire.Service{}
+		if err = json.Unmarshal(bb, service); err != nil {
 			writeError(ctx, w, r, err, http.StatusBadRequest, "Bad message format")
 			return
 		}
 
-		err = dao.CreateVisit(ctx, visit)
+		err = dao.CreateService(ctx, service)
 		if err != nil {
 			writeError(ctx, w, r, err, http.StatusInternalServerError, "Unable to write to datastore")
 			return
 		}
-		bb, err = json.Marshal(visit)
+		bb, err = json.Marshal(service)
+		if err != nil {
+			writeError(ctx, w, r, err, http.StatusInternalServerError, "Unable to write to datastore")
+			return
+		}
+		w.Write(bb)
+		return
+
+	}
+}
+
+func ReadServicesHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := appengine.NewContext(r)
+	if r.Method == "GET" {
+
+		services, err := dao.ReadServices(ctx)
+		if err != nil {
+			writeError(ctx, w, r, err, http.StatusInternalServerError, "Unable to write to datastore")
+			return
+		}
+		bb, err := json.Marshal(services)
 		if err != nil {
 			writeError(ctx, w, r, err, http.StatusInternalServerError, "Unable to write to datastore")
 			return

@@ -41,7 +41,7 @@ func AutocompleteChildHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func ChildPhotoConsentHandler(w http.ResponseWriter, r *http.Request) {
+func ChildConsentHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := appengine.NewContext(r)
 	if r.Method == "POST" {
 		bb, err := ioutil.ReadAll(r.Body)
@@ -51,13 +51,13 @@ func ChildPhotoConsentHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		pcr := &wire.ChildPhotoConsentRequest{}
+		pcr := &wire.ChildConsentRequest{}
 		if err = json.Unmarshal(bb, pcr); err != nil {
 			writeError(ctx, w, r, err, http.StatusBadRequest, "Bad message format")
 			return
 		}
 
-		child, err := dao.UpdateChildPhotoConsent(ctx, pcr.ChildId, pcr.PhotoConsent)
+		child, err := dao.UpdateChildConsent(ctx, pcr.ChildId, pcr.InfoConsent, pcr.PhotoConsent)
 		if err != nil {
 			writeError(ctx, w, r, err, http.StatusInternalServerError, "Error updating consent")
 			return
@@ -129,6 +129,25 @@ func WriteChildHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
+	}
+}
+
+func DeleteChild(w http.ResponseWriter, r *http.Request) {
+	ctx := appengine.NewContext(r)
+	if r.Method == "DELETE" {
+
+		id := r.URL.Query().Get("id")
+		if id == "" {
+			writeError(ctx, w, r, fmt.Errorf("No id given"), http.StatusBadRequest, "No Id Given")
+			return
+		}
+
+		err := dao.DeleteChild(ctx, id)
+		if err != nil {
+			writeError(ctx, w, r, err, http.StatusInternalServerError, "Unable to write to datastore")
+			return
+		}
+		return
 	}
 }
 

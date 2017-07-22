@@ -8,9 +8,10 @@ import (
 	"github.com/hackneyplaybus/playbusadmin/packages/dao"
 	"github.com/hackneyplaybus/playbusadmin/packages/wire"
 	"google.golang.org/appengine"
+	"google.golang.org/appengine/user"
 )
 
-func WriteVisitHandler(w http.ResponseWriter, r *http.Request) {
+func WriteReferralHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := appengine.NewContext(r)
 	if r.Method == "POST" {
 		bb, err := ioutil.ReadAll(r.Body)
@@ -20,18 +21,23 @@ func WriteVisitHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		visit := &wire.Visit{}
-		if err = json.Unmarshal(bb, visit); err != nil {
+		referral := &wire.Referral{}
+		if err = json.Unmarshal(bb, referral); err != nil {
 			writeError(ctx, w, r, err, http.StatusBadRequest, "Bad message format")
 			return
 		}
 
-		err = dao.CreateVisit(ctx, visit)
+		u := user.Current(ctx)
+		if u != nil {
+			referral.ReferredBy = u.Email
+		}
+
+		err = dao.CreateReferral(ctx, referral)
 		if err != nil {
 			writeError(ctx, w, r, err, http.StatusInternalServerError, "Unable to write to datastore")
 			return
 		}
-		bb, err = json.Marshal(visit)
+		bb, err = json.Marshal(referral)
 		if err != nil {
 			writeError(ctx, w, r, err, http.StatusInternalServerError, "Unable to write to datastore")
 			return

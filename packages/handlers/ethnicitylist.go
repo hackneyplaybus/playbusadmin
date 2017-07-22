@@ -30,5 +30,20 @@ func EthnicityList(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Write(bb)
+}
 
+func BenifitList(w http.ResponseWriter, r *http.Request) {
+	list := make([]string, 0, len(wire.ValidBenefits))
+	for eth, _ := range wire.ValidBenefits {
+		list = append(list, eth)
+	}
+
+	sort.Sort(byAlphabet(list))
+
+	bb, err := json.Marshal(list)
+	if err != nil {
+		writeError(appengine.NewContext(r), w, r, err, http.StatusInternalServerError, "Unable to get list")
+	}
+
+	w.Write(bb)
 }

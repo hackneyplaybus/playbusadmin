@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -40,7 +41,7 @@ func AutocompleteCarerHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func CarerPhotoConsentHandler(w http.ResponseWriter, r *http.Request) {
+func CarerConsentHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := appengine.NewContext(r)
 	if r.Method == "POST" {
 		bb, err := ioutil.ReadAll(r.Body)
@@ -50,13 +51,13 @@ func CarerPhotoConsentHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		pcr := &wire.CarerPhotoConsentRequest{}
+		pcr := &wire.CarerConsentRequest{}
 		if err = json.Unmarshal(bb, pcr); err != nil {
 			writeError(ctx, w, r, err, http.StatusBadRequest, "Bad message format")
 			return
 		}
 
-		child, err := dao.UpdateCarerPhotoConsent(ctx, pcr.CarerId, pcr.PhotoConsent)
+		child, err := dao.UpdateCarerConsent(ctx, pcr.CarerId, pcr.InfoConsent, pcr.PhotoConsent)
 		if err != nil {
 			writeError(ctx, w, r, err, http.StatusInternalServerError, "Error updating consent")
 			return
@@ -108,5 +109,23 @@ func WriteCarerHandler(w http.ResponseWriter, r *http.Request) {
 		w.Write(bb)
 		return
 
+	}
+}
+
+func DeleteCarer(w http.ResponseWriter, r *http.Request) {
+	ctx := appengine.NewContext(r)
+	if r.Method == "DELETE" {
+		id := r.URL.Query().Get("id")
+		if id == "" {
+			writeError(ctx, w, r, fmt.Errorf("No id given"), http.StatusBadRequest, "No Id Given")
+			return
+		}
+
+		err := dao.DeleteCarer(ctx, id)
+		if err != nil {
+			writeError(ctx, w, r, err, http.StatusInternalServerError, "Unable to write to datastore")
+			return
+		}
+		return
 	}
 }

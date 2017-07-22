@@ -3,11 +3,12 @@ package wire
 import "time"
 
 type Family struct {
-	FamilyId string   `json:"family_id,omitempty"`
-	Children []*Child `json:"children,omitempty"`
-	Carers   []*Carer `json:"carers,omitempty"`
-	Notes    []*Note  `json:"notes,omitempty"`
-	Visits   []*Visit `json:"visits,omitempty"`
+	FamilyId  string      `json:"family_id,omitempty"`
+	Children  []*Child    `json:"children,omitempty"`
+	Carers    []*Carer    `json:"carers,omitempty"`
+	Notes     []*Note     `json:"notes,omitempty"`
+	Visits    []*Visit    `json:"visits,omitempty"`
+	Referrals []*Referral `json:"referrals,omitempty"`
 }
 
 type Child struct {
@@ -21,6 +22,7 @@ type Child struct {
 	Gender       string    `json:"gender,omitempty"`
 	FirstSeen    time.Time `json:"first_seen,omitempty"`
 	PhotoConsent bool      `json:"photo_consent"`
+	InfoConsent  bool      `json:"info_consent"`
 
 	Visits []*Visit `datastore:"-" json:"visits,omitempty"`
 
@@ -28,13 +30,15 @@ type Child struct {
 	LoweredNameSet []string `json:"-"`
 }
 
-type ChildPhotoConsentRequest struct {
+type ChildConsentRequest struct {
 	ChildId      string `json:"child_id,omitempty"`
 	PhotoConsent bool   `json:"photo_consent"`
+	InfoConsent  bool   `json:"info_consent"`
 }
-type CarerPhotoConsentRequest struct {
+type CarerConsentRequest struct {
 	CarerId      string `json:"carer_id,omitempty"`
 	PhotoConsent bool   `json:"photo_consent"`
+	InfoConsent  bool   `json:"info_consent"`
 }
 
 type Note struct {
@@ -48,11 +52,12 @@ type Note struct {
 type Referral struct {
 	ReferralId   string    `json:"referral_id,omitempty"`
 	FamilyId     string    `json:"family_id,omitempty"`
-	CarerId      string    `json:"carer_id,omitempty"`
 	ReferredBy   string    `json:"referred_by,omitempty"`
-	Service      string    `json:"service,omitempty"`
+	ServiceId    string    `json:"service_id,omitempty"`
 	DateReferred time.Time `json:"date_referred,omitempty"`
 	DateRecorded time.Time `json:"date_recorded,omitempty"`
+
+	Service *Service `datastore:"-" json:"service,omitempty"`
 }
 
 type Carer struct {
@@ -76,6 +81,7 @@ type Carer struct {
 	LoneCarer     bool      `json:"lone_carer"`
 	FirstSeen     time.Time `json:"first_seen,omitempty"`
 	PhotoConsent  bool      `json:"photo_consent"`
+	InfoConsent   bool      `json:"info_consent"`
 
 	Visits    []*Visit    `datastore:"-" json:"visits,omitempty"`
 	Referrals []*Referral `datastore:"-" json:"referrals,omitempty"`
@@ -104,15 +110,15 @@ var (
 	// without the need for code change
 
 	ValidBenefits = map[string]struct{}{
-		"IncomeSupport":    struct{}{},
-		"JSA":              struct{}{},
-		"WorkingTaxCredit": struct{}{},
-		"ChildTaxCredit":   struct{}{},
-		"HousingBenefit":   struct{}{},
-		"DLAForAdults":     struct{}{},
-		"DLAForChildren":   struct{}{},
-		"ESA":              struct{}{},
-		"other":            struct{}{},
+		"Income Support":     struct{}{},
+		"JSA":                struct{}{},
+		"Working Tax Credit": struct{}{},
+		"Child Tax Credit":   struct{}{},
+		"Housing Benefit":    struct{}{},
+		"DLA For Adults":     struct{}{},
+		"DLA For Children":   struct{}{},
+		"ESA":                struct{}{},
+		"other":              struct{}{},
 	}
 	ValidGenders = map[string]struct{}{
 		"Male":   struct{}{},

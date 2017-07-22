@@ -1,7 +1,7 @@
 <script src="static/js/submitform.js"></script>
 <div class="w3-row">
     <form onsubmit="submitCarer(event);" id='carer-form' class="w3-container w3-card-4 w3-text-yellow w3-twothird" style="padding-bottom: 10px;">
-        <h2 class="w3-center w3-text-teal">Register A Carer</h2>          
+        <h2 id='reg-carer-header' class="w3-center w3-text-teal">Register A Carer</h2>          
         <div class="w3-row w3-section">
             <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-user"></i></div>
                 <div class="w3-rest">
@@ -43,29 +43,42 @@
                 <div class="w3-rest">
                     <input class="w3-input w3-border w3-round-medium" name="carer-email" id="carer-email" type="text" placeholder="Email" required>
                 </div>
-            </div>        
+            </div>             
         <div class="w3-row w3-section">
             <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-users"></i></div>
                 <div class="w3-rest">
-                    <select class="w3-input w3-border w3-round-medium ethnicity-dropdown" id='carer-ethnicity' name="carer-ethnicity" type="text" placeholder="Ethnicity">
+                    <select class="w3-input w3-border w3-round-medium carer-ethnicity-dropdown" id='carer-ethnicity' name="carer-ethnicity" type="text" placeholder="Ethnicity">
                         <option value="" disabled selected hidden>Ethnicity</option>
                     </select>                  
                 </div>
-            </div>        
+            </div> 
+        <div class="w3-row w3-section">
+            <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-users"></i></div>
+                <div class="w3-rest">
+                    <select class="w3-input w3-border w3-round-medium carer-benefit-dropdown" id='carer-benefits' name="carer-benefit" type="text" placeholder="benefits">
+                        <option value="" disabled selected hidden>Benefits</option>
+                    </select>                  
+                </div>
+            </div>           
 
         <div class="w3-row w3-section">
         <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-transgender-alt"></i></div>
             <div class="w3-rest">
-            <select class="w3-input w3-border w3-round-medium" id='carer-gender' name="carer-gender" type="text" placeholder="Gender">
-                <option value="" disabled selected hidden>Gender</option>
-                <option value="female">Female</option>
-                <option value="male">Male</option>
-                <option value="other">Other</option>                  
-            </select>
-            
-            </select>                  
+                <select class="w3-input w3-border w3-round-medium" id='carer-gender' name="carer-gender" type="text" placeholder="Gender">
+                    <option value="" disabled selected hidden>Gender</option>
+                    <option value="female">Female</option>
+                    <option value="male">Male</option>
+                    <option value="other">Other</option>                  
+                </select>
             </div>
         </div>
+        <div class="w3-row w3-section">
+            <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-user-o"></i></div>
+                <div class="w3-rest" style='padding-top:7px;'>
+                    <input class='w3-padding-right' name="carer-lonecarer" id="carer-lonecarer" type="checkbox"></input>
+                    <span class='w3-text-black' for="carer-lonecarer">Single Carer?</span>
+                </div>
+            </div>
         <input class="w3-button w3-right w3-text-teal w3-border" type="submit" value="Submit">
     </form>
     <div id="carer-before" class="w3-container w3-third w3-card-4" style="padding: 5px;">
@@ -76,3 +89,41 @@
         </table>
     </div>
 </div>
+<script>
+populateDropdowns();
+function populateDropdowns() { 
+    getEthnicityList().then((resp) => resp.json()).then(function(response) {
+      var lists = document.getElementsByClassName('carer-ethnicity-dropdown');
+      for (var ii = 0; ii < lists.length; ++ii) {
+        var list = lists[ii];
+        response.forEach(function(item){
+          var option = document.createElement('option');
+          option.value = item;
+          option.innerText = item;
+          list.appendChild(option);
+        });
+      }
+	}).catch(function(err) {
+		console.log("Could not get ethnicity list", err)
+  });
+  getBenefitList().then((resp) => resp.json()).then(function(response) {
+      var lists = document.getElementsByClassName('carer-benefit-dropdown');
+      for (var ii = 0; ii < lists.length; ++ii) {
+        var list = lists[ii];
+        var option = document.createElement('option');
+        option.value = "";
+        option.innerText = "None";
+        list.appendChild(option);
+        response.forEach(function(item){
+          var option = document.createElement('option');
+          option.value = item;
+          option.innerText = item;
+          list.appendChild(option);
+        });
+      }
+	}).catch(function(err) {
+		console.log("Could not get ethnicity list", err)
+  });
+  
+}
+</script>

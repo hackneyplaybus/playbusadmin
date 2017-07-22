@@ -13,11 +13,13 @@ func init() {
 
 	http.HandleFunc("/child/autocomplete", handlers.CatchPanic(handlers.AutocompleteChildHandler))
 	http.HandleFunc("/child/create", handlers.CatchPanic(handlers.WriteChildHandler))
-	http.HandleFunc("/child/photoconsent", handlers.CatchPanic(handlers.ChildPhotoConsentHandler))
+	http.HandleFunc("/child/photoconsent", handlers.CatchPanic(handlers.ChildConsentHandler))
+	http.HandleFunc("/child", handlers.CatchPanic(handlers.DeleteChild))
 
-	http.HandleFunc("/carer/photoconsent", handlers.CatchPanic(handlers.CarerPhotoConsentHandler))
+	http.HandleFunc("/carer/photoconsent", handlers.CatchPanic(handlers.CarerConsentHandler))
 	http.HandleFunc("/carer/create", handlers.CatchPanic(handlers.WriteCarerHandler))
 	http.HandleFunc("/carer/autocomplete", handlers.CatchPanic(handlers.AutocompleteCarerHandler))
+	http.HandleFunc("/carer", handlers.CatchPanic(handlers.DeleteCarer))
 
 	http.HandleFunc("/note/create", handlers.CatchPanic(handlers.WriteNoteHandler))
 
@@ -27,10 +29,16 @@ func init() {
 	http.HandleFunc("/project/create", handlers.CatchPanic(handlers.WriteProjectHandler))
 	http.HandleFunc("/project/all", handlers.CatchPanic(handlers.ReadProjectsHandler))
 
+	http.HandleFunc("/service/create", handlers.CatchPanic(handlers.WriteServiceHandler))
+	http.HandleFunc("/service/all", handlers.CatchPanic(handlers.ReadServicesHandler))
+
 	http.HandleFunc("/visit/create", handlers.CatchPanic(handlers.WriteVisitHandler))
+
+	http.HandleFunc("/referral/create", handlers.CatchPanic(handlers.WriteReferralHandler))
 
 	http.HandleFunc("/mapskey", handlers.CatchPanic(handlers.MapKeyHandler))
 	http.HandleFunc("/ethnicitylist", handlers.CatchPanic(handlers.EthnicityList))
+	http.HandleFunc("/benifitlist", handlers.CatchPanic(handlers.BenifitList))
 
 	http.HandleFunc("/search/all", handlers.CatchPanic(handlers.SearchHandler))
 
