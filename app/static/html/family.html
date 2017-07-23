@@ -173,9 +173,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     <div class='w3-text-teal w3-large w3-border w3-margin'>                        
         <table style='margin-left:auto;margin-right:auto;'>
             <tr id='visit-row' class='w3-hover-opacity visit-row' onclick='addVisit(event, this);' style='cursor:pointer;'>
-                <td><b class="fa fa-plus"></b></td>
+                <td><b class="w3-large fa fa-plus"></b></td>
                 <td><span class="visit-location">set location</span></td>
-                <td><span> - </span></td>
+                <td><i class="w3-large fa fa-arrows-h"></i></td>
                 <td><span class="visit-project">  set project</span></td>                             
             </tr>
             <tr class='w3-small' align="center" >
@@ -450,8 +450,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
             }
             if (json.carers) {
                 var origCarerCard = document.getElementById('carer-card');
-                var carerAnchor = document.getElementById('carer-card-placeholder');                
-                loadScript()                
+                var carerAnchor = document.getElementById('carer-card-placeholder');                                              
                 for (var ii = 0; ii < json.carers.length; ++ii) {                
                     var newCard = origCarerCard.cloneNode(true);                
                     newCard.querySelector('.carer-name').innerText = json.carers[ii].name;
@@ -508,6 +507,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                     refAnchor.appendChild(newCard);                
                 }
             }
+            loadScript();
         });        
       }
 		}).catch(function(err) {
@@ -761,11 +761,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     function initmap() {        
         var map = new google.maps.Map(document.getElementById('map'),{
             zoom: 13,        
-            scrollwheel: false,         
+            scrollwheel: true,
+            center: new google.maps.LatLng(51.552744, -0.061378)
         });
-
-        // TODO Probably use this for overlapping markers
-        // https://github.com/jawj/OverlappingMarkerSpiderfier
 
         var oms = new OverlappingMarkerSpiderfier(map, { 
             markersWontMove: true, 
@@ -773,30 +771,34 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
             basicFormatEvents: true
         });
 
+        var info = new google.maps.InfoWindow();
+        var latlngbounds = new google.maps.LatLngBounds();
         if (family.carers) {
             for (var ii = 0; ii < family.carers.length; ++ii) {
-                if (family.carers[ii].latitude && family.carers[ii].longitude) {
+                if (family.carers[ii].latitude && family.carers[ii].longitude && family.carers[ii].latitude != 0 && family.carers[ii].longitude != 0) {
                     var familyMark = new google.maps.Marker({
                         position: {lat: family.carers[ii].latitude, lng: family.carers[ii].longitude},
                         map: map
                     });
-                    var familyInfo = new google.maps.InfoWindow({
-                        content: "<div>" +
-                            "<h4>Carer Home</h4>" +
-                            "Name: " + family.carers[ii].name +
-                        "</div>"
-                    });
                     
+                    familyMark.setIcon("http://maps.google.com/mapfiles/ms/icons/blue-dot.png");
                     google.maps.event.addListener(map, 'click', function(info) {
                         return function() {info.close();};
-                    }(familyInfo));
-                    google.maps.event.addListener(familyMark, 'spider_click', function(info, marker) {
-                        return function(){info.open(map, marker);};
-                    }(familyInfo, familyMark));
+                    }(info));
+                    google.maps.event.addListener(familyMark, 'spider_click', function(info, marker, name) {
+                        return function(){
+                            info.setContent("<div>" +
+                            "<h4>Carer Home</h4>" +
+                            "Name: " + name +
+                        "</div>");
+                            info.open(map, marker);
+                        };
+                    }(info, familyMark, family.carers[ii].name));
                     oms.addMarker(familyMark);
-                    map.setCenter(familyMark.getPosition());
+                    latlngbounds.extend( familyMark.getPosition() );                    
                 }
             }
+            map.fitBounds( latlngbounds );
         }
         if (family.visits) {
             for (var ii = 0; ii < family.visits.length; ++ii) {
@@ -823,24 +825,27 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                             }
                         }
                     }
-                    var visitInfo = new google.maps.InfoWindow({
-                        content: "<div>" +
-                            "<h4>"+header+"</h4>" +   
-                            "Name: " + name +
-                        "</div>"
-                    });
+                    
                     google.maps.event.addListener(map, 'click', function(info) {
                         return function() {info.close();};
-                    }(visitInfo));
-                    google.maps.event.addListener(visitMark, 'spider_click', function(info, marker) {
-                        return function(){info.open(map, marker);};
-                    }(visitInfo, visitMark));
+                    }(info));
+                    google.maps.event.addListener(visitMark, 'spider_click', function(info, marker,header,name) {
+                        return function(){
+                            info.setContent("<div>" +
+                                "<h4>"+header+"</h4>" +   
+                                "Name: " + name +
+                            "</div>");
+                            info.open(map, marker);
+                        };
+                    }(info, visitMark, header,name));
                     oms.addMarker(visitMark);
 
-                    map.setCenter(visitMark.getPosition());
+                    latlngbounds.extend( visitMark.getPosition() );
                 }
             }
+            map.fitBounds( latlngbounds );
         }
+        
     }
 
     function addVisit(e, elm) {

@@ -29,9 +29,11 @@ func init() {
 
 	http.HandleFunc("/project/create", handlers.CatchPanic(handlers.WriteProjectHandler))
 	http.HandleFunc("/project/all", handlers.CatchPanic(handlers.ReadProjectsHandler))
+	http.HandleFunc("/project", handlers.CatchPanic(handlers.DeleteProject))
 
 	http.HandleFunc("/service/create", handlers.CatchPanic(handlers.WriteServiceHandler))
 	http.HandleFunc("/service/all", handlers.CatchPanic(handlers.ReadServicesHandler))
+	http.HandleFunc("/service", handlers.CatchPanic(handlers.DeleteService))
 
 	http.HandleFunc("/visit/create", handlers.CatchPanic(handlers.WriteVisitHandler))
 	http.HandleFunc("/visit", handlers.CatchPanic(handlers.DeleteVisit))

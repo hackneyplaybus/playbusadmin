@@ -169,6 +169,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                 $(target).addClass('is_active');
                 document.getElementById('location-header-exit').style.display = 'block';
                 document.getElementById('location-delete').style.display = 'block';
+                map.setCenter(marker.getPosition());
             }
             return false
         };           
@@ -207,8 +208,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
         var myLatlng = new google.maps.LatLng(51.552744, -0.061378);
         var myOptions = {
             zoom: 12,
-            center: myLatlng,   
-            clickableIcons: false         
+            center: myLatlng,
+            scrollwheel: false,
+            clickableIcons: false
         }
         map = new google.maps.Map(document.getElementById("markerMap"), myOptions);
 

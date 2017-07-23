@@ -48,8 +48,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     <div class="w3-container">
       <h1 class="w3-text-teal">Welcome to the Hackney Playbus</h1>
       <div class="w3-bar w3-theme-l1">
-        <button class="w3-bar-item w3-button carerButton" onclick="openForm('Carer')">Carer</button>
-        <button class="w3-bar-item w3-button childButton" onclick="openForm('Child')">Child</button>                
+        <button class="w3-bar-item w3-button w3-border-top w3-border-left w3-border-right carerButton tabButton" onclick="openForm('Carer', this)">Carer</button>
+        <button class="w3-bar-item w3-button childButton tabButton" onclick="openForm('Child', this)">Child</button>                
       </div>
       <div id="Carer" class="w3-container registrationForm" >
         <div id="carer-placeholder" style='margin-top: 16px;'></div>
@@ -76,13 +76,25 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
   
 
 
-  function openForm(formName) {
+  function openForm(formName, btn) {
       var i;
       var x = document.getElementsByClassName("registrationForm");
       for (i = 0; i < x.length; i++) {
         x[i].style.display = "none";  
       }
-      document.getElementById(formName).style.display = "block";  
+      document.getElementById(formName).style.display = "block";
+      
+      var btns = document.getElementsByClassName('tabButton');
+      for (ii = 0; ii < btns.length; ii++) {
+        btns[ii].classList.remove('w3-border-top');
+        btns[ii].classList.remove('w3-border-left');
+        btns[ii].classList.remove('w3-border-right');
+      }
+
+      btn.classList.add('w3-border-top');
+      btn.classList.add('w3-border-left');
+      btn.classList.add('w3-border-right');
+
   }
 </script>
 

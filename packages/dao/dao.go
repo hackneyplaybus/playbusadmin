@@ -85,12 +85,20 @@ func ReadFamily(ctx context.Context, familyId string) (*wire.Family, error) {
 func CreateCarer(ctx context.Context, carer *wire.Carer) error {
 	if carer.CarerId == "" {
 		carer.CarerId = newKey("carer-", DefaultKeyLen)
+		carer.FirstSeen = time.Now().Round(time.Second)
+	} else {
+		oldCarer, _, err := ReadCarer(ctx, carer.CarerId)
+		if err != nil {
+			return err
+		}
+
+		carer.FirstSeen = oldCarer.FirstSeen
+		carer.PhotoConsent = oldCarer.PhotoConsent
+		carer.InfoConsent = oldCarer.InfoConsent
 	}
 	if carer.FamilyId == "" {
 		carer.FamilyId = newKey("family-", DefaultKeyLen)
 	}
-
-	carer.FirstSeen = time.Now().Round(time.Second)
 
 	carer.FirstName, carer.LastName, carer.LoweredNameSet = augmentName(carer.Name, carer.FirstName, carer.LastName)
 	carer.LoweredNameAndEmailSet = []string{carer.Email}
@@ -174,6 +182,24 @@ func DeleteReferral(ctx context.Context, referralId string) error {
 	return datastore.Delete(ctx, key)
 }
 
+func ReadServiceReferrals(ctx context.Context, serviceId string) ([]*wire.Referral, []*datastore.Key, error) {
+	refs := []*wire.Referral{}
+	query := datastore.NewQuery(KindReferral).Filter("ServiceId =", serviceId)
+	keys, err := query.GetAll(ctx, &refs)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	for _, ref := range refs {
+		ref.Service, err = ReadService(ctx, ref.ServiceId)
+		if err != nil {
+			return nil, nil, err
+		}
+	}
+
+	return refs, keys, nil
+}
+
 func ReadFamilyReferrals(ctx context.Context, familyId string) ([]*wire.Referral, error) {
 	refs := []*wire.Referral{}
 	query := datastore.NewQuery(KindReferral).Filter("FamilyId =", familyId)
@@ -242,6 +268,11 @@ func CreateProject(ctx context.Context, project *wire.Project) error {
 	return nil
 }
 
+func DeleteProject(ctx context.Context, projectId string) error {
+	key := datastore.NewKey(ctx, KindProject, projectId, 0, nil)
+	return datastore.Delete(ctx, key)
+}
+
 func ReadProjects(ctx context.Context) ([]*wire.Project, error) {
 	locs := []*wire.Project{}
 	_, err := datastore.NewQuery(KindProject).GetAll(ctx, &locs)
@@ -270,6 +301,16 @@ func CreateService(ctx context.Context, service *wire.Service) error {
 		return err
 	}
 	return nil
+}
+
+func DeleteService(ctx context.Context, serviceId string) error {
+	key := datastore.NewKey(ctx, KindService, serviceId, 0, nil)
+	_, keys, err := ReadServiceReferrals(ctx, serviceId)
+	if err != nil {
+		return err
+	}
+	keys = append(keys, key)
+	return datastore.DeleteMulti(ctx, keys)
 }
 
 func ReadServices(ctx context.Context) ([]*wire.Service, error) {
@@ -443,12 +484,21 @@ func ReadCarerVisits(ctx context.Context, carerId string) ([]*wire.Visit, []*dat
 func CreateChild(ctx context.Context, child *wire.Child) error {
 	if child.ChildId == "" {
 		child.ChildId = newKey("child-", DefaultKeyLen)
+		child.FirstSeen = time.Now().Round(time.Second)
+	} else {
+		oldChild, _, err := ReadChild(ctx, child.ChildId)
+		if err != nil {
+			return err
+		}
+
+		child.FirstSeen = oldChild.FirstSeen
+		child.PhotoConsent = oldChild.PhotoConsent
+		child.InfoConsent = oldChild.InfoConsent
 	}
 	if child.FamilyId == "" {
 		child.FamilyId = newKey("family-", DefaultKeyLen)
 	}
 
-	child.FirstSeen = time.Now().Round(time.Second)
 	child.FirstName, child.LastName, child.LoweredNameSet = augmentName(child.Name, child.FirstName, child.LastName)
 	_, err := datastore.Put(ctx, datastore.NewKey(ctx, KindChild, child.ChildId, 0, nil), child)
 	if err != nil {
