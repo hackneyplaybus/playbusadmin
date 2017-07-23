@@ -12,17 +12,18 @@ type Family struct {
 }
 
 type Child struct {
-	FamilyId     string    `json:"family_id,omitempty"`
-	ChildId      string    `json:"child_id,omitempty"`
-	Name         string    `json:"name,omitempty"`
-	FirstName    string    `json:"first_name,omitempty"`
-	LastName     string    `json:"last_name,omitempty"`
-	DateOfBirth  string    `json:"date_of_birth,omitempty"`
-	Ethnicity    string    `json:"ethnicity,omitempty"`
-	Gender       string    `json:"gender,omitempty"`
-	FirstSeen    time.Time `json:"first_seen,omitempty"`
-	PhotoConsent bool      `json:"photo_consent"`
-	InfoConsent  bool      `json:"info_consent"`
+	FamilyId       string    `json:"family_id,omitempty"`
+	ChildId        string    `json:"child_id,omitempty"`
+	Name           string    `json:"name,omitempty"`
+	FirstName      string    `json:"first_name,omitempty"`
+	LastName       string    `json:"last_name,omitempty"`
+	DateOfBirth    string    `json:"date_of_birth,omitempty"`
+	Ethnicity      string    `json:"ethnicity,omitempty"`
+	Gender         string    `json:"gender,omitempty"`
+	FirstSeen      time.Time `json:"first_seen,omitempty"`
+	PhotoConsent   bool      `json:"photo_consent"`
+	InfoConsent    bool      `json:"info_consent"`
+	NumberOfVisits int       `datastore:"-" json:"number_of_visits"`
 
 	Visits []*Visit `datastore:"-" json:"visits,omitempty"`
 
@@ -61,27 +62,28 @@ type Referral struct {
 }
 
 type Carer struct {
-	FamilyId      string    `json:"family_id,omitempty"`
-	CarerId       string    `json:"carer_id,omitempty"`
-	Name          string    `json:"name,omitempty"`
-	FirstName     string    `json:"first_name,omitempty"`
-	LastName      string    `json:"last_name,omitempty"`
-	DateOfBirth   string    `json:"date_of_birth,omitempty"`
-	Ethnicity     string    `json:"ethnicity,omitempty"`
-	Gender        string    `json:"gender,omitempty"`
-	Address       string    `json:"address,omitempty"`
-	PostalCode    string    `json:"postal_code,omitempty"`
-	City          string    `json:"city,omitempty"`
-	Latitude      float64   `json:"latitude,omitempty"`
-	Longitude     float64   `json:"longitude,omitempty"`
-	Phone         string    `json:"phone,omitempty"`
-	Email         string    `json:"email,omitempty"`
-	Benefits      string    `json:"benefits,omitempty"`
-	BenefitsOther string    `json:"benefits_other,omitempty"`
-	LoneCarer     bool      `json:"lone_carer"`
-	FirstSeen     time.Time `json:"first_seen,omitempty"`
-	PhotoConsent  bool      `json:"photo_consent"`
-	InfoConsent   bool      `json:"info_consent"`
+	FamilyId       string    `json:"family_id,omitempty"`
+	CarerId        string    `json:"carer_id,omitempty"`
+	Name           string    `json:"name,omitempty"`
+	FirstName      string    `json:"first_name,omitempty"`
+	LastName       string    `json:"last_name,omitempty"`
+	DateOfBirth    string    `json:"date_of_birth,omitempty"`
+	Ethnicity      string    `json:"ethnicity,omitempty"`
+	Gender         string    `json:"gender,omitempty"`
+	Address        string    `json:"address,omitempty"`
+	PostalCode     string    `json:"postal_code,omitempty"`
+	City           string    `json:"city,omitempty"`
+	Latitude       float64   `json:"latitude,omitempty"`
+	Longitude      float64   `json:"longitude,omitempty"`
+	Phone          string    `json:"phone,omitempty"`
+	Email          string    `json:"email,omitempty"`
+	Benefits       string    `json:"benefits,omitempty"`
+	BenefitsOther  string    `json:"benefits_other,omitempty"`
+	LoneCarer      bool      `json:"lone_carer"`
+	FirstSeen      time.Time `json:"first_seen,omitempty"`
+	PhotoConsent   bool      `json:"photo_consent"`
+	InfoConsent    bool      `json:"info_consent"`
+	NumberOfVisits int       `datastore:"-" json:"number_of_visits"`
 
 	Visits    []*Visit    `datastore:"-" json:"visits,omitempty"`
 	Referrals []*Referral `datastore:"-" json:"referrals,omitempty"`

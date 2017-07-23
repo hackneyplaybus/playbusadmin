@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -71,5 +72,24 @@ func ReadLocationsHandler(w http.ResponseWriter, r *http.Request) {
 		w.Write(bb)
 		return
 
+	}
+}
+
+func DeleteLocation(w http.ResponseWriter, r *http.Request) {
+	ctx := appengine.NewContext(r)
+	if r.Method == "DELETE" {
+
+		id := r.URL.Query().Get("id")
+		if id == "" {
+			writeError(ctx, w, r, fmt.Errorf("No id given"), http.StatusBadRequest, "No Id Given")
+			return
+		}
+
+		err := dao.DeleteLocation(ctx, id)
+		if err != nil {
+			writeError(ctx, w, r, err, http.StatusInternalServerError, "Unable to write to datastore")
+			return
+		}
+		return
 	}
 }

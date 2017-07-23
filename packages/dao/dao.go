@@ -55,6 +55,19 @@ func ReadFamily(ctx context.Context, familyId string) (*wire.Family, error) {
 		return nil, err
 	}
 
+	for _, visit := range family.Visits {
+		for ii, child := range family.Children {
+			if child.ChildId == visit.ChildId {
+				family.Children[ii].NumberOfVisits++
+			}
+		}
+		for ii, carer := range family.Carers {
+			if carer.CarerId == visit.CarerId {
+				family.Carers[ii].NumberOfVisits++
+			}
+		}
+	}
+
 	query = datastore.NewQuery(KindNotes).Filter("FamilyId =", familyId).Order("-Timestamp")
 	_, err = query.GetAll(ctx, &family.Notes)
 	if err != nil {
@@ -132,6 +145,11 @@ func ReadFamilyVisits(ctx context.Context, familyId string) ([]*wire.Visit, erro
 	return visits, nil
 }
 
+func DeleteVisit(ctx context.Context, visitId string) error {
+	key := datastore.NewKey(ctx, KindVisit, visitId, 0, nil)
+	return datastore.Delete(ctx, key)
+}
+
 func CreateNote(ctx context.Context, note *wire.Note) error {
 	note.Timestamp = time.Now().Round(time.Second)
 	note.NoteId = newKey("note-", DefaultKeyLen)
@@ -149,6 +167,11 @@ func CreateReferral(ctx context.Context, referral *wire.Referral) error {
 		return err
 	}
 	return nil
+}
+
+func DeleteReferral(ctx context.Context, referralId string) error {
+	key := datastore.NewKey(ctx, KindReferral, referralId, 0, nil)
+	return datastore.Delete(ctx, key)
 }
 
 func ReadFamilyReferrals(ctx context.Context, familyId string) ([]*wire.Referral, error) {
@@ -178,6 +201,16 @@ func CreateLocation(ctx context.Context, location *wire.Location) error {
 		return err
 	}
 	return nil
+}
+
+func DeleteLocation(ctx context.Context, locationId string) error {
+	key := datastore.NewKey(ctx, KindLocation, locationId, 0, nil)
+	_, keys, err := ReadLocationVisits(ctx, locationId)
+	if err != nil {
+		return err
+	}
+	keys = append(keys, key)
+	return datastore.DeleteMulti(ctx, keys)
 }
 
 func ReadLocations(ctx context.Context) ([]*wire.Location, error) {
@@ -327,6 +360,30 @@ func DeleteChild(ctx context.Context, childId string) error {
 
 func ReadChildVisits(ctx context.Context, childId string) ([]*wire.Visit, []*datastore.Key, error) {
 	query := datastore.NewQuery(KindVisit).Filter("ChildId =", childId)
+	visits := []*wire.Visit{}
+	keys, err := query.GetAll(ctx, &visits)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	for _, visit := range visits {
+		visit.Location, err = ReadLocation(ctx, visit.LocationId)
+		if err != nil {
+			return nil, nil, err
+		}
+
+		visit.Project, err = ReadProject(ctx, visit.ProjectId)
+		if err != nil {
+			return nil, nil, err
+		}
+
+	}
+
+	return visits, keys, nil
+}
+
+func ReadLocationVisits(ctx context.Context, locationId string) ([]*wire.Visit, []*datastore.Key, error) {
+	query := datastore.NewQuery(KindVisit).Filter("LocationId =", locationId)
 	visits := []*wire.Visit{}
 	keys, err := query.GetAll(ctx, &visits)
 	if err != nil {

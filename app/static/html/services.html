@@ -59,8 +59,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                                 <input class="w3-input w3-border w3-round-medium" name="service-name" id="service-name" type="text" placeholder="Name" required>
                             </div>
                         </div>                                        
-
-                    <input class="w3-button w3-right w3-text-teal w3-border" type="submit" value="Submit">
+                    <input id='service-delete' onclick='displayModal("delete-modal", this);' type='button' class="w3-button w3-right w3-text-teal w3-border w3-margin" value="Delete" style='display: none'></input>
+                    <input class="w3-button w3-right w3-text-teal w3-border w3-margin" type="submit" value="Submit">
                 </form>
               
           </div>
@@ -69,7 +69,15 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
           </div>
       </div>
 
-      
+      <div id="delete-modal" class="w3-modal">
+    <div class="w3-modal-content">
+        <div class="w3-container w3-card-4 w3-center w3-text-teal w3-padding-16">
+            <h3>Are you sure you want to delete?</h3>
+            <input class="w3-button w3-right w3-border" type="submit" value="No" onclick="document.getElementById('delete-modal').style.display = 'none';">
+            <input id='delete-btn' class="w3-button w3-left w3-border" type="submit" value="Yes" onclick='deleteService();'>
+        </div>
+    </div>
+    
     </div>
   </div>
 
@@ -103,6 +111,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                 document.getElementById('service-header').innerText = 'Edit Service';
                 $(target).addClass('is_active');
                 document.getElementById('service-header-exit').style.display = 'block';
+                document.getElementById('service-delete').style.display = 'block';
             }
             return false
         };           
@@ -111,13 +120,45 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 
   function clearedit(){
       document.getElementById('service-header-exit').style.display = 'none';
+      document.getElementById('service-delete').style.display = 'none';
       document.getElementById('service-header').innerText = 'Add Service';
       var elems = document.getElementsByClassName('service-element');
       for (var ii = 0; ii < elems.length; ++ii) {
         $(elems[ii]).removeClass('is_active');
       }
       document.getElementById("service-name").removeAttribute('data-id');
-  }    
+  }   
+    
+  function displayModal(modal, from) {
+        var modalElem = document.getElementById(modal);        
+        modalElem.style.display = "block";
+
+    }
+    window.onclick = function(event) {
+        closeModals(event);
+    }
+
+    function closeModals(event) {
+        var modals = document.getElementsByClassName('w3-modal');
+        for(var ii = 0; ii < modals.length; ++ii){
+            if (event.target == modals[ii]) {
+                modals[ii].style.display = "none";                
+            }
+        }
+    }
+    
+    function deleteService() {
+        var formEl = document.getElementById('service-form');
+        var id = '';
+        for (var i = 0; i < formEl.length; ++i) {
+            if (formEl[i].name == "service-name") {
+                id = formEl[i].getAttribute('data-id');                
+                break;
+            }
+        }
+
+        deleteEntity('service', id);                
+    }
 </script>
 
 </body>

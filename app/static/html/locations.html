@@ -102,8 +102,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                             <div id="markerMap" style='width:99%; height:300px;'></div>
                         </div>
                     </div>
-
-                    <input class="w3-button w3-right w3-text-teal w3-border" type="submit" value="Submit">
+                    <input id='location-delete' onclick='displayModal("delete-modal", this);' type='button' class="w3-button w3-right w3-text-teal w3-border w3-margin" value="Delete" style='display: none'></input>
+                    <input class="w3-button w3-right w3-text-teal w3-border w3-margin" type="submit" value="Submit">                    
                 </form>
               
           </div>
@@ -117,6 +117,15 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
   </div>
 
 <!-- END MAIN -->
+<div id="delete-modal" class="w3-modal">
+    <div class="w3-modal-content">
+        <div class="w3-container w3-card-4 w3-center w3-text-teal w3-padding-16">
+            <h3>Are you sure you want to delete?</h3>
+            <input class="w3-button w3-right w3-border" type="submit" value="No" onclick="document.getElementById('delete-modal').style.display = 'none';">
+            <input id='delete-btn' class="w3-button w3-left w3-border" type="submit" value="Yes" onclick='deleteLocation();'>
+        </div>
+    </div>
+</div>
 </div>
 
 <script>
@@ -159,6 +168,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                 document.getElementById('location-header').innerText = 'Edit Location';
                 $(target).addClass('is_active');
                 document.getElementById('location-header-exit').style.display = 'block';
+                document.getElementById('location-delete').style.display = 'block';
             }
             return false
         };           
@@ -167,6 +177,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 
   function clearedit(){
       document.getElementById('location-header-exit').style.display = 'none';
+      document.getElementById('location-delete').style.display = 'none';
       document.getElementById('location-header').innerText = 'Add Location';
       var elems = document.getElementsByClassName('location-element');
       for (var ii = 0; ii < elems.length; ++ii) {
@@ -243,6 +254,37 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
             window.alert('Geocoder failed due to: ' + status);
           }
         });
+    }
+
+    function displayModal(modal, from) {
+        var modalElem = document.getElementById(modal);        
+        modalElem.style.display = "block";
+
+    }
+    window.onclick = function(event) {
+        closeModals(event);
+    }
+
+    function closeModals(event) {
+        var modals = document.getElementsByClassName('w3-modal');
+        for(var ii = 0; ii < modals.length; ++ii){
+            if (event.target == modals[ii]) {
+                modals[ii].style.display = "none";                
+            }
+        }
+    }
+    
+    function deleteLocation() {
+        var formEl = document.getElementById('location-form');
+        var id = '';
+        for (var i = 0; i < formEl.length; ++i) {
+            if (formEl[i].name == "location-name") {
+                id = formEl[i].getAttribute('data-id');                
+                break;
+            }
+        }
+
+        deleteEntity('location', id);                
     }
 </script>
 

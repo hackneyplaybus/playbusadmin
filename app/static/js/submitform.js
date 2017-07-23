@@ -381,7 +381,7 @@
           loc.name = formEl[i].value;
           var id = formEl[i].getAttribute('data-id');
           if (id) {
-            loc.service = id;
+            loc.service_id = id;
           }
           break;
       }
