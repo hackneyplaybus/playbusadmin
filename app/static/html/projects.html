@@ -97,9 +97,14 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
         locelm.onclick = function(e) {
             e=e||event; // IE sucks
             var target = e.target||e.srcElement; // and sucks again
-            if (target && target.getAttribute('id') =='project-elm') {
 
-                var elems = document.getElementsByClassName('project-element');
+            if (target && target.getAttribute('id') =='project-elm') {
+                target = target.parentNode;
+            }
+
+            if (target && target.getAttribute('id') =='project-instance') {
+
+                var elems = document.getElementsByClassName('active-element');
                 for (var ii = 0; ii < elems.length; ++ii) {
                     $(elems[ii]).removeClass('is_active');
                 }
@@ -110,7 +115,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                 name.setAttribute('data-id', loc.project_id);                
                 
                 document.getElementById('project-header').innerText = 'Edit Project';
-                $(target).addClass('is_active');
+                target.classList.add('is_active');
                 document.getElementById('project-header-exit').style.display = 'block';
                 document.getElementById('project-delete').style.display = 'block';
             }
@@ -123,7 +128,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
       document.getElementById('project-header-exit').style.display = 'none';
       document.getElementById('project-delete').style.display = 'none';
       document.getElementById('project-header').innerText = 'Add Project';
-      var elems = document.getElementsByClassName('project-element');
+      var elems = document.getElementsByClassName('active-element');
       for (var ii = 0; ii < elems.length; ++ii) {
         $(elems[ii]).removeClass('is_active');
       }

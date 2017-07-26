@@ -2,9 +2,9 @@
     <h3 id='locationselector-title' class="w3-text-teal">Locations</h3>    
     <div id='location-list'></div>
 </div>
-<div id='location-instance' style='display:none;'>
-    <i id='location-elm' class='location-element w3-button'></i>
-    <br/>
+<div id='location-instance' class='active-element jono-button' style='display:none;'>
+    <i id='location-elm' class='location-element'></i>
+    
 </div>
 
 <script>
@@ -14,10 +14,9 @@
             var list = document.getElementById('location-list');
             var origloc =document.getElementById('location-instance');            
             for(var ii = 0; ii < json.length; ++ii) {
-                var loc = origloc.cloneNode(true);   
-                
-                var nameElm = loc.querySelector('.location-element');
-                nameElm.setAttribute('data-location', JSON.stringify(json[ii]));
+                var loc = origloc.cloneNode(true);
+                loc.setAttribute('data-location', JSON.stringify(json[ii]));
+                var nameElm = loc.querySelector('.location-element');                
                 nameElm.innerText = json[ii].name;
                 loc.style.display = "block";
                 list.appendChild(loc);

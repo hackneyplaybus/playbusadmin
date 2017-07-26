@@ -47,21 +47,22 @@
   function nameAutocomplete(elem, type){
     getAutocomplete(elem.value, type).then((resp) => resp.json()).then(function(rsp) {
       var table = document.getElementById('autocomplete-table-'+type);
-      while(table.rows.length > 0) {
-        table.deleteRow(0);
+      while(table.rows.length > 1) {
+        table.deleteRow(1);
       }
       rsp.forEach(function(item){
         var tr = document.createElement('TR');
         tr.classList.add('w3-cell-row');
-        tr.classList.add('w3-button');
+        tr.classList.add('jono-button');
         tr.addEventListener("click",function() {           
           window.location.href = '/family?familyId='+item.family_id;
         });
         var td1 = document.createElement('TD');
         var td2 = document.createElement('TD');
         td2.classList.add('w3-right-align');
-        td1.appendChild(document.createTextNode(item.name));        
-        td2.appendChild(document.createTextNode(item.date_of_birth));
+        td1.appendChild(document.createTextNode(item.name));     
+        var dob = Date.parseExact(item.date_of_birth, 'yyyy-MM-dd');   
+        td2.appendChild(document.createTextNode(dob.toString('dd/MM')));
         tr.appendChild(td1);
         tr.appendChild(td2);
         

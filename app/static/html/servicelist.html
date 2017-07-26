@@ -2,8 +2,8 @@
     <h3 id='serviceselector-title' class="w3-text-teal">Services</h3>    
     <div id='service-list'></div>
 </div>
-<div id='service-instance' style='display:none;'>
-    <i id='service-elm' class='service-element w3-button'></i>
+<div id='service-instance' class='active-element jono-button' style='display:none;'>
+    <i id='service-elm' class='service-element'></i>
     <br/>
 </div>
 
@@ -14,10 +14,9 @@
             var list = document.getElementById('service-list');
             var origloc =document.getElementById('service-instance');            
             for(var ii = 0; ii < json.length; ++ii) {
-                var loc = origloc.cloneNode(true);   
-                
-                var nameElm = loc.querySelector('.service-element');
-                nameElm.setAttribute('data-location', JSON.stringify(json[ii]));
+                var loc = origloc.cloneNode(true);                   
+                loc.setAttribute('data-location', JSON.stringify(json[ii]));
+                var nameElm = loc.querySelector('.service-element');                
                 nameElm.innerText = json[ii].name;
                 loc.style.display = "block";
                 list.appendChild(loc);

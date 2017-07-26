@@ -2,8 +2,8 @@
     <h3 id='projecetselector-title' class="w3-text-teal">Projects</h3>    
     <div id='project-list'></div>
 </div>
-<div id='project-instance' style='display:none;'>
-    <i id='project-elm' class='project-element w3-button'></i>
+<div id='project-instance' class='active-element jono-button' style='display:none;'>
+    <i id='project-elm' class='project-element'></i>
     <br/>
 </div>
 
@@ -17,7 +17,7 @@
                 var loc = origloc.cloneNode(true);   
                 
                 var nameElm = loc.querySelector('.project-element');
-                nameElm.setAttribute('data-location', JSON.stringify(json[ii]));
+                loc.setAttribute('data-location', JSON.stringify(json[ii]));
                 nameElm.innerText = json[ii].name;
                 loc.style.display = "block";
                 list.appendChild(loc);

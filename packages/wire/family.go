@@ -102,6 +102,7 @@ type Visit struct {
 	DateRecorded time.Time `json:"date_recorded,omitempty"`
 	ProjectId    string    `json:"project_id,omitempty"`
 	LocationId   string    `json:"location_id,omitempty"`
+	SessionType  string    `json:"session_type,omitempty"`
 
 	Project  *Project  `datastore:"-" json:"project,omitempty"`
 	Location *Location `datastore:"-" json:"location,omitempty"`

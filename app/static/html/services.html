@@ -95,9 +95,14 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
         locelm.onclick = function(e) {
             e=e||event; // IE sucks
             var target = e.target||e.srcElement; // and sucks again
+            
             if (target && target.getAttribute('id') =='service-elm') {
+                target = target.parentNode;
+            }
 
-                var elems = document.getElementsByClassName('service-element');
+            if (target && target.getAttribute('id') =='service-instance') {
+
+                var elems = document.getElementsByClassName('active-element');
                 for (var ii = 0; ii < elems.length; ++ii) {
                     $(elems[ii]).removeClass('is_active');
                 }
@@ -108,7 +113,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                 name.setAttribute('data-id', loc.service_id);                
                 
                 document.getElementById('service-header').innerText = 'Edit Service';
-                $(target).addClass('is_active');
+                target.classList.add('is_active');
                 document.getElementById('service-header-exit').style.display = 'block';
                 document.getElementById('service-delete').style.display = 'block';
             }
@@ -121,7 +126,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
       document.getElementById('service-header-exit').style.display = 'none';
       document.getElementById('service-delete').style.display = 'none';
       document.getElementById('service-header').innerText = 'Add Service';
-      var elems = document.getElementsByClassName('service-element');
+      var elems = document.getElementsByClassName('active-element');
       for (var ii = 0; ii < elems.length; ++ii) {
         $(elems[ii]).removeClass('is_active');
       }
