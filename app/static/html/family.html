@@ -147,6 +147,42 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     </div>
 </div>
 
+<div id='change-visit-modal' class="w3-modal">
+    <div class="w3-modal-content">
+        <div class="w3-container" style='padding-left:0px;padding-right:0px;'>
+            <div id='change-visit-form' class="w3-container w3-card-4 w3-text-yellow" style="padding-bottom: 10px;">
+                <h2 id='visit-reg-header' class="w3-center w3-text-teal">Set Default Visit</h2>          
+                <div class="w3-row w3-section">
+                    <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-map"></i></div>
+                        <div class="w3-rest">
+                            <select class="w3-input w3-border w3-round-medium location-dropdown" id='visit-location' name="visit-location" type="text" placeholder="Location">
+                                <option value="" disabled selected hidden>Location</option>
+                            </select>
+                        </div>
+                    </div>
+                <div class="w3-row w3-section">
+                <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-"></i></div>
+                    <div class="w3-rest">
+                        <select class="w3-input w3-border w3-round-medium project-dropdown" id='visit-project' name="visit-project" type="text" placeholder="Project">
+                            <option value="" disabled selected hidden>Project</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="w3-row w3-section">
+                <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-calendar"></i></div>
+                    <div class="w3-rest">
+                        <input class="w3-input w3-border w3-round-medium date-input" id='visit-date'  name="visit-date" type="date" placeholder="Visit Date" min="1900-01-01" max="2099-04-30">
+                        <i class="w3-right w3-text-teal w3-small" style='margin-right:3px;'>optional</i>
+                    </div>
+                </div>
+                <div id='visit-error' class='w3-left w3-text-red'></div>
+                <input onclick='setDefaultVisit();' class="w3-button w3-right w3-text-teal w3-border" type="submit" value="Set Default Visit" style='margin-left:10px;'>
+                <input id='visit-submit' onclick='addAndSetVisit(event, this);' class="w3-button w3-right w3-text-teal w3-border" type="submit" value="Add Visit">
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id='project-modal' class="w3-modal">
     <div class="w3-modal-content">
         <div class="w3-container" style='padding-left:0px;padding-right:0px;'>
@@ -168,23 +204,21 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     <header class="w3-container w3-text-teal w3-theme-l2">        
         <i class="w3-xlarge fa fa-times w3-right w3-text-teal w3-button delete-button" onclick='displayModal("delete-modal", this);' style="padding:16px 12px;"></i>
         <i class="w3-xlarge fa fa-edit w3-right w3-text-teal w3-button edit-button" onclick='displayModal("child-modal", this);' style="padding:16px 12px;"></i>        
-        <h3 class='child-name'></h3>
+        <h4 class='child-name'></h4>
     </header>
-    <div class='w3-text-teal w3-large w3-border w3-margin'>                        
-        <table style='margin-left:auto;margin-right:auto;'>
-            <tr id='visit-row' class='w3-hover-opacity visit-row' onclick='addVisit(event, this);' style='cursor:pointer;'>
-                <td><b class="w3-large fa fa-plus"></b></td>
-                <td><span class="visit-location">set location</span></td>
-                <td><i class="w3-large fa fa-arrows-h"></i></td>
-                <td><span class="visit-project">  set project</span></td>                             
-            </tr>
-            <tr class='w3-small' align="center" >
-                <td></td>
-                <td class='w3-hover-opacity' onclick='displayModal("location-modal");' style='cursor:pointer;'>(change location)</td>
-                <td></td>
-                <td class='w3-hover-opacity' onclick='displayModal("project-modal");' style='cursor:pointer;'>(change project)</td>
+    <div class='w3-text-teal w3-margin'>
+        <table style='margin-left:auto;margin-right:auto;text-decoration:none;'>
+            <tr>
+                <td>
+                    <input type="submit" id='visit-row' onclick='addVisit(event, this);' class='w3-button w3-center w3-border w3-small visit-row' value='Add Visit'>
+                </td>
+                <td>
+                    <div class="visit-location w3-small">set location</div>
+                    <div class="visit-project w3-small">  set project</div>
+                </td>
             </tr>
         </table>
+        <div id='change-visit' class='change-visit w3-hover-opacity w3-center w3-small jono-button' onclick='displayModal("change-visit-modal", this);'>Set Default Visit</div>
     </div>    
     <div class="w3-container">
         <table class="w3-table w3-text-gray">          
@@ -221,24 +255,22 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     <header class="w3-container w3-text-teal w3-theme-l2">   
         <i class="w3-xlarge fa fa-times w3-right w3-text-teal w3-button delete-button" onclick='displayModal("delete-modal", this);' style="padding:16px 12px;"></i>
         <i class="w3-xlarge fa fa-edit w3-right w3-text-teal w3-button edit-button" onclick='displayModal("carer-modal", this);' style="padding:16px 12px;"></i>             
-        <h3 class='carer-name'></h3>
+        <h4 class='carer-name'></h4>
     </header>
 
-    <div class='w3-text-teal w3-large w3-border w3-margin'>             
-        <table style='margin-left:auto;margin-right:auto;'>
-            <tr id='visit-row' class='w3-hover-opacity visit-row' onclick='addVisit(event, this);' style='cursor:pointer;'>
-                <td><b class="fa fa-plus"></b></td>
-                <td><span class="visit-location">set location</span></td>
-                <td><span> - </span></td>
-                <td><span class="visit-project">  set project</span></td>                             
+    <div class='w3-text-teal w3-margin'>
+        <table style='margin-left:auto;margin-right:auto;text-decoration:none;'>
+            <tr>
+                <td>
+                    <input type="submit" id='visit-row' onclick='addVisit(event, this);' class='w3-button w3-center w3-border w3-small visit-row' value='Add Visit'>
+                </td>
+                <td>
+                    <div class="visit-location w3-small">set location</div>
+                    <div class="visit-project w3-small">  set project</div>
+                </td>
             </tr>
-            <tr class='w3-small' align="center" >
-                <td></td>
-                <td class='w3-hover-opacity' onclick='displayModal("location-modal");' style='cursor:pointer;'>(change)</td>
-                <td></td>
-                <td class='w3-hover-opacity' onclick='displayModal("project-modal");' style='cursor:pointer;'>(change)</td>
-            </tr>
-        </table>        
+        </table>
+        <div id='change-visit' class='change-visit w3-hover-opacity w3-center w3-small jono-button' onclick='displayModal("change-visit-modal", this);'>Set Default Visit</div>
     </div> 
     
     <div class="w3-container">
@@ -329,20 +361,23 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     $("#carer-placeholder").load("static/html/addcarer.html", function(){
         document.getElementById('carer-before').style.display = 'none';
         document.getElementById('carer-form').classList.remove('w3-twothird');
-    });  
+    });      
     $("#note-placeholder").load("static/html/addnote.html");
     $("#location-list-placeholder").load("static/html/locationlist.html", function(){
         var locelm = document.getElementById('location-list');        
         locelm.onclick = function(e) {
             e=e||event; // IE sucks
             var target = e.target||e.srcElement; // and sucks again
+
             if (target && target.getAttribute('id') =='location-elm') {
+                target = target.parentNode;
+            }
+
+            if (target && target.getAttribute('id') =='location-instance') {
 
                 var elems = document.getElementsByClassName('location-element');                
                 var locstr = target.getAttribute('data-location');
-                var loc = JSON.parse(locstr);                          
-                setCookie('last_location', locstr);                
-                setLastLocationText();
+                
                 var modal = document.getElementById('location-modal');
                 modal.style.display = "none";
             }
@@ -354,7 +389,12 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
         locelm.onclick = function(e) {
             e=e||event; // IE sucks
             var target = e.target||e.srcElement; // and sucks again
+
             if (target && target.getAttribute('id') =='project-elm') {
+                target = target.parentNode;
+            }
+
+            if (target && target.getAttribute('id') =='project-instance') {
 
                 var elems = document.getElementsByClassName('project-element');                
                 var locstr = target.getAttribute('data-location');
@@ -394,14 +434,14 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     var lastlocstr = getCookie('last_location');
     var lastprojstr = getCookie('last_project');
     
-    if (lastlocstr) {
+    if (lastlocstr && lastlocstr != "null") {
         var loc = JSON.parse(lastlocstr);
         var visitbuttons = document.getElementsByClassName('visit-location');
         for (var ii = 0; ii < visitbuttons.length; ++ii) {
             visitbuttons[ii].innerText = "  "+loc.name;
         }
     }
-    if (lastprojstr) {
+    if (lastprojstr && lastprojstr != "null") {
         proj = JSON.parse(lastprojstr);
         var visitbuttons = document.getElementsByClassName('visit-project');
         for (var ii = 0; ii < visitbuttons.length; ++ii) {
@@ -425,6 +465,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                     newCard.querySelector('.child-name').innerText = json.children[ii].name;
                     var jsonData = JSON.stringify(json.children[ii]);
                     newCard.querySelector('.visit-row').setAttribute('data-location', jsonData);
+                    newCard.querySelector('.change-visit').setAttribute('data-location', jsonData);
                     newCard.querySelector('.delete-button').setAttribute('data-location', jsonData);
                     newCard.querySelector('.edit-button').setAttribute('data-location', jsonData);
                     displayField(newCard.querySelector('.child-dob'), timeParser(json.children[ii].date_of_birth, 'yyyy-MM-dd', 'dd/MM/yyyy'));                    
@@ -456,6 +497,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                     newCard.querySelector('.carer-name').innerText = json.carers[ii].name;
                     var jsonData = JSON.stringify(json.carers[ii]);
                     newCard.querySelector('.visit-row').setAttribute('data-location', jsonData);
+                    newCard.querySelector('.change-visit').setAttribute('data-location', jsonData);
                     newCard.querySelector('.delete-button').setAttribute('data-location', jsonData);
                     newCard.querySelector('.edit-button').setAttribute('data-location', jsonData);
                     displayField(newCard.querySelector('.carer-dob'), timeParser(json.carers[ii].date_of_birth, 'yyyy-MM-dd', 'dd/MM/yyyy'));                    
@@ -536,6 +578,15 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     function updateModal(type, modalElem, from) {
         
         switch (type) {
+            case 'change-visit-modal':
+                var sub = document.getElementById('visit-submit');
+                var cdStr = from.getAttribute('data-location');
+                if (!cdStr) {
+                    return
+                }
+                
+                sub.setAttribute('data-location', cdStr);
+            break;
             case 'child-modal':
                 if (from) {
                     populateChild(modalElem, from);                    
@@ -848,10 +899,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
         
     }
 
-    function addVisit(e, elm) {
-
-            e=e||event; // IE sucks
-            var target = e.target||e.srcElement;
+    function addVisit(e, elm, date) {
             var visit = {}
             var cdstr = elm.getAttribute('data-location');
             var lastlocstr = getCookie('last_location');
@@ -874,8 +922,76 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
             if (cd.family_id) {
                 visit.family_id = cd.family_id;
             }
-            
+            if (date) {
+                visit.date_attended = date + 'T00:00:00Z'
+            }            
+
             submitVisit(visit);
+    }
+
+    readLocations().then(function(response) {
+      if (response.status >= 200 && response.status <= 299) {
+        response.json().then(function(json){
+            var lists = document.getElementsByClassName('location-dropdown');
+            for (var ii = 0; ii < lists.length; ++ii) {
+                var list = lists[ii];
+                json.forEach(function(item){
+                    var option = document.createElement('option');
+                    option.value = JSON.stringify(item);
+                    option.innerText = item.name;
+                    list.appendChild(option);
+                });
+            }
+        });
+      }
+    }).catch(function(err) {
+        console.log("Could not read location", err)
+    });
+
+    readProjects().then(function(response) {
+      if (response.status >= 200 && response.status <= 299) {
+        response.json().then(function(json){
+            var lists = document.getElementsByClassName('project-dropdown');
+            for (var ii = 0; ii < lists.length; ++ii) {
+                var list = lists[ii];
+                json.forEach(function(item){
+                    var option = document.createElement('option');
+                    option.value = JSON.stringify(item);
+                    option.innerText = item.name;
+                    list.appendChild(option);
+                });
+            }
+        });
+      }
+    }).catch(function(err) {
+        console.log("Could not read project", err)
+    });
+
+    function addAndSetVisit(event, elm) {
+        if (!setDefaultVisit()) {
+            return
+        }
+
+        var vd = document.getElementById("visit-date");        
+        addVisit(event, elm, vd.value);
+    }
+
+    function setDefaultVisit() {
+        var locstr = document.getElementById('visit-location').value;
+        if (!locstr) {
+            document.getElementById('visit-error').innerText = "Must supply a location";
+            return false
+        }
+        var projstr = document.getElementById('visit-project').value;
+        if (!projstr) {
+            document.getElementById('visit-error').innerText = "Must supply a project";
+            return false
+        }
+        setCookie('last_location', locstr);
+        setCookie('last_project', projstr);
+        setLastLocationText();
+        document.getElementById("change-visit-modal").style.display = "none";
+        return true
     }
 </script>
 

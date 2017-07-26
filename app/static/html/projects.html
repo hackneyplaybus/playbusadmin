@@ -54,9 +54,15 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                     <i id='project-header-exit' onclick='clearedit();' class="w3-button w3-large fa fa-times w3-right w3-text-teal" style='display: none; margin-top:18px;'> Stop Editing</i>
                     <h2 id='project-header' class="w3-text-teal">Add Project</h2>          
                     <div class="w3-row w3-section">
-                        <div class="w3-col w3-center" style="width:50px"><i class="w3-xxlarge fa fa-map-signs"></i></div>
+                        <div class="w3-col w3-center" style="width:50px"><i class="w3-xxlarge fa fa-info-circle"></i></div>
                             <div class="w3-rest">
                                 <input class="w3-input w3-border w3-round-medium" name="project-name" id="project-name" type="text" placeholder="Name" required>
+                            </div>
+                        </div>
+                    <div class="w3-row w3-section">
+                        <div class="w3-col w3-center" style="width:50px"><i class="w3-xxlarge fa fa-money"></i></div>
+                            <div class="w3-rest">
+                                <input class="w3-input w3-border w3-round-medium" name="project-funder" id="project-funder" type="text" placeholder="Funder" required>
                             </div>
                         </div>                                        
                     <input id='project-delete' onclick='displayModal("delete-modal", this);' type='button' class="w3-button w3-right w3-text-teal w3-border w3-margin" value="Delete" style='display: none'></input>
@@ -112,8 +118,15 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                 var loc = JSON.parse(target.getAttribute('data-location'));                          
                 var name = document.getElementById("project-name");
                 name.value = loc.name;            
-                name.setAttribute('data-id', loc.project_id);                
-                
+                name.setAttribute('data-id', loc.project_id);
+
+                var funder = document.getElementById("project-funder");
+                if (loc.funder) {                    
+                    funder.value = loc.funder;
+                } else {
+                    funder.value = '';
+                }
+
                 document.getElementById('project-header').innerText = 'Edit Project';
                 target.classList.add('is_active');
                 document.getElementById('project-header-exit').style.display = 'block';

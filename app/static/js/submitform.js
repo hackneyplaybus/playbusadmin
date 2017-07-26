@@ -340,6 +340,9 @@
             loc.project_id = id;
           }
           break;
+        case "project-funder":
+          loc.funder = formEl[i].value;
+          break;
       }
     }
             

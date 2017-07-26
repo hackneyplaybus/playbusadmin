@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"time"
 
 	"github.com/hackneyplaybus/playbusadmin/packages/dao"
 	"github.com/hackneyplaybus/playbusadmin/packages/wire"
@@ -25,6 +26,10 @@ func WriteVisitHandler(w http.ResponseWriter, r *http.Request) {
 		if err = json.Unmarshal(bb, visit); err != nil {
 			writeError(ctx, w, r, err, http.StatusBadRequest, "Bad message format")
 			return
+		}
+
+		if visit.DateAttended.IsZero() {
+			visit.DateAttended = time.Now()
 		}
 
 		err = dao.CreateVisit(ctx, visit)
