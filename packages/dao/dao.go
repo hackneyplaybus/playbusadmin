@@ -101,7 +101,7 @@ func CreateCarer(ctx context.Context, carer *wire.Carer) error {
 	}
 
 	carer.FirstName, carer.LastName, carer.LoweredNameSet = augmentName(carer.Name, carer.FirstName, carer.LastName)
-	carer.LoweredNameAndEmailSet = []string{carer.Email}
+	carer.LoweredNameAndEmailSet = []string{strings.ToLower(carer.Email)}
 	carer.LoweredNameAndEmailSet = append(carer.LoweredNameAndEmailSet, carer.LoweredNameSet...)
 	_, err := datastore.Put(ctx, datastore.NewKey(ctx, KindCarer, carer.CarerId, 0, nil), carer)
 	if err != nil {
