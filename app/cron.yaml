@@ -1,6 +1,6 @@
 cron:
 - description: Datastore backup
-  url: /_ah/datastore_admin/backup.create?name=BackupToCloud&kind=family&kind=child&kind=carer&kind=notes&kind=referral&kind=visit&kind=location&kind=project&filesystem=gs&gs_bucket_name=playtest
+  url: /_ah/datastore_admin/backup.create?name=BackupToCloud&kind=family&kind=child&kind=carer&kind=notes&kind=referral&kind=visit&kind=location&kind=project&filesystem=gs&gs_bucket_name=playbus-backups
   schedule: every day 00:00
   timezone: Europe/London
   target: ah-builtin-python-bundle

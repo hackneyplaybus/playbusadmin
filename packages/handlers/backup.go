@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	bucketStr = "playtest"
+	bucketStr = "playbus-backups"
 )
 
 func Backup(w http.ResponseWriter, r *http.Request) {
