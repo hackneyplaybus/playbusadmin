@@ -31,7 +31,9 @@ func AutocompleteCarerHandler(w http.ResponseWriter, r *http.Request) {
 		writeError(ctx, w, r, err, http.StatusInternalServerError, "Error decoding payload")
 		return
 	}
-	bb, err := json.Marshal(carer)
+	bb, err := json.Marshal(wire.SearchResponse{
+		Carers: carer,
+	})
 	if err != nil {
 		writeError(ctx, w, r, err, http.StatusInternalServerError, "Error decoding payload")
 		return

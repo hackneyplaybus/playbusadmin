@@ -1,0 +1,40 @@
+
+<div id="Child" class="w3-container registrationForm">
+    <form onsubmit="submitChild(event);" id='child-form' class="w3-container w3-card-4 w3-text-yellow" style="padding-bottom: 10px;">        
+        <h2 id='reg-header' class="w3-center w3-text-teal">Register Your Child</h2>          
+        <div class="w3-row w3-section">
+            <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-user"></i></div>
+                <div class="w3-rest">
+                    <input #childNameBox (change)='child.name = childNameBox.value;' (keyup)='child.name = childNameBox.value;completeChild(childNameBox.value);' class="w3-input w3-border w3-round-medium" name="child-name" id="child-name" type="text" placeholder="Name" required>
+                </div>
+            </div>
+        <div class="w3-row w3-section">
+        <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-birthday-cake"></i></div>
+            <div class="w3-rest">
+                <input #childDobBox (change)='child.date_of_birth = (childDobBox.value);' class="w3-input w3-border w3-round-medium date-input" id='child-dob'  name="child-dob" type="date" placeholder="Birthday" min="1900-01-01" max="2020-04-30" required>
+            </div>
+        </div>
+        <div class="w3-row w3-section">
+        <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-users"></i></div>
+            <div class="w3-rest">
+            <select #childEthnicityBox (change)='child.ethnicity = (childEthnicityBox.value);' class="w3-input w3-border w3-round-medium child-ethnicity-dropdown" id='child-ethnicity' name="child-ethnicity" type="text" placeholder="Ethnicity">
+                <option value="" disabled selected hidden>Ethnicity</option>
+                <option *ngFor="let ethnicity of ethnicityList" value="{{ethnicity}}">{{ethnicity}}</option>
+            </select>                  
+            </div>
+        </div>
+
+        <div class="w3-row w3-section">
+        <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-transgender-alt"></i></div>
+            <div class="w3-rest">
+                <select #childGenderBox (change)='child.gender = (childGenderBox.value);' class="w3-input w3-border w3-round-medium" id='child-gender' name="child-gender" type="text" placeholder="Gender">
+                    <option value="" disabled selected hidden>Gender</option>
+                    <option value="female">Female</option>
+                    <option value="male">Male</option>
+                    <option value="other">Other</option>                  
+                </select>              
+            </div>
+        </div>
+        <input (click)='submitChild();$event.preventDefault();' class="w3-button w3-right w3-text-teal w3-border" type="submit" value="Submit">
+    </form>
+</div>

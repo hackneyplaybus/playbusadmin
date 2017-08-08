@@ -1,0 +1,78 @@
+<header class="w3-container w3-text-teal w3-theme-l2">   
+    <i class="w3-xlarge fa fa-times w3-right w3-text-teal w3-button delete-button" onclick='displayModal("delete-modal", this);' style="padding:16px 12px;"></i>
+    <i class="w3-xlarge fa fa-edit w3-right w3-text-teal w3-button edit-button" onclick='displayModal("carer-modal", this);' style="padding:16px 12px;"></i>             
+    <h4 class='carer-name'>{{carer.name}}</h4>
+</header>
+
+<div class='w3-text-teal w3-margin'>
+    <table style='margin-left:auto;margin-right:auto;text-decoration:none;'>
+        <tr>
+            <td>
+                <input type="submit" id='visit-row' onclick='addVisit(event, this);' class='w3-button w3-center w3-border w3-small visit-row' value='Add Visit'>
+            </td>
+            <td>
+                <div class="visit-location w3-small">set location</div>
+                <div class="visit-project w3-small">  set project</div>
+            </td>
+        </tr>
+    </table>
+    <div id='change-visit' class='change-visit w3-hover-opacity w3-center w3-small jono-button' onclick='displayModal("change-visit-modal", this);'>Set Default Visit</div>
+</div> 
+
+<div class="w3-container">
+    <table class="w3-table w3-text-gray">          
+        <tr>
+        <td>Date of Birth:</td>
+        <td class='carer-dob'>{{carer.date_of_birth}}</td>                             
+        </tr>
+        <tr>
+        <td>Gender:</td>
+        <td class='carer-gender'>{{carer.gender}}</td>                
+        </tr>
+        <tr>
+        <td>Ethnicity:</td>
+        <td class='carer-ethnicity'>{{carer.ethnicity}}</td>
+        </tr>                          
+        <tr>
+        <td>First Seen:</td>
+        <td class='carer-firstseen'>{{carer.first_seen}}</td>
+        </tr>
+        <tr>
+        <td>Photo Consent?:</td>
+        <td class='carer-photoconsent'>{{carer.photo_consent}}</td>
+        </tr>
+        <tr>
+        <td>Address:</td>
+        <td class='carer-address'>{{carer.address}}</td>
+        </tr>
+        <tr>
+        <td>Postal Code:</td>
+        <td class='carer-postalcode'>{{carer.postal_code}}</td>
+        </tr>
+        <tr>
+        <td>City:</td>
+        <td class='carer-city'>{{carer.city}}</td>
+        </tr>
+        <tr>                
+        <td>Phone:</td>
+        <td class='carer-phone'>{{carer.phone}}</td>
+        </tr>
+        <tr>
+        <td>Email:</td>
+        <td class='carer-email'>{{carer.email}}</td>
+        </tr>
+        <tr>
+        <td>Benefits:</td>
+        <td class='carer-benefits'>{{carer.benefits}}</td>
+        </tr>
+        <tr>
+        <td>Lone Carer?:</td>
+        <td class='carer-lonecarer'>{{carer.lone_carer}}</td>
+        </tr>
+        <tr>
+        <td>Number of Visits:</td>
+        <td class='carer-numvisits'>{{carer.number_of_visits}}</td>
+        </tr>
+    </table>        
+    <hr>  
+</div>

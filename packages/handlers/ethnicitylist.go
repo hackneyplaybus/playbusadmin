@@ -32,7 +32,7 @@ func EthnicityList(w http.ResponseWriter, r *http.Request) {
 	w.Write(bb)
 }
 
-func BenifitList(w http.ResponseWriter, r *http.Request) {
+func BenefitList(w http.ResponseWriter, r *http.Request) {
 	list := make([]string, 0, len(wire.ValidBenefits))
 	for eth, _ := range wire.ValidBenefits {
 		list = append(list, eth)

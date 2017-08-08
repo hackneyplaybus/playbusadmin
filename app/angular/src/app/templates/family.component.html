@@ -1,0 +1,60 @@
+    <div class="w3-row w3-padding-64">
+        <div  class="w3-half w3-container" style="margin-top:16px">
+            <div class="w3-card-4" style="margin-left:8px">
+                <i class="w3-xlarge fa fa-user-plus w3-right w3-text-teal w3-button" onclick='displayModal("child-modal");' style="padding:6px 12px;"></i>
+                <h3 class="w3-center w3-text-teal">Children</h3>
+                <div *ngFor="let child of family.children" id='child-card-placeholder'>
+                    <display-child [child]="child"></display-child>
+                </div>
+            </div>
+        </div>
+        <div class="w3-half w3-container" style="margin-top:16px">
+            <div class="w3-card-4" style="margin-left:8px">
+                <i class="w3-xlarge fa fa-user-plus w3-right w3-text-teal w3-button"  onclick='displayModal("carer-modal");' style="padding:6px 12px;"></i>
+                <h3 class="w3-center w3-text-teal">Carers</h3>
+                <div *ngFor="let carer of family.carers" id='carer-card-placeholder'>
+                    <display-carer [carer]="carer"></display-carer>
+                </div>
+            </div>
+        </div>
+  </div>
+  <div class="w3-row w3-padding-8">
+      <div class="w3-half w3-container">
+        <div id="map" style="width:100%; height:400px;"></div>
+      </div>
+      <div class="w3-half w3-container">
+        <div class="w3-card-4" style="margin-left:8px">
+            <i class="w3-xlarge fa fa-plus-square w3-right w3-text-teal w3-button"  onclick='displayModal("note-modal");' style="padding:6px 12px;"></i>
+            <h3 class="w3-center w3-text-teal">Notes</h3>
+            <div *ngFor="let note of family.notes" id='note-card-placeholder'>
+                <div id='note-card' class="w3-border-top">
+                    <div class="w3-container w3-text-dark-grey" style='padding-top:16px;'>
+                        <div class='note-text'>{{note.note}}</div>
+                        <hr> 
+                        <div class='w3-text-grey'>
+                            By <i class='note-author'>{{note.note_taker}}</i> at <i class='note-timestamp'>{{note.timestamp}}</i><br/><br/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+  </div>
+  <div class="w3-row w3-padding-8">      
+      <div class="w3-container">
+        <div class="w3-card-4" style="margin-left:8px">
+            <i class="w3-xlarge fa fa-plus-square w3-right w3-text-teal w3-button"  onclick='displayModal("referral-modal");' style="padding:6px 12px;"></i>
+            <h3 class="w3-center w3-text-teal">Referrals</h3>
+            <div *ngFor="let referral of family.referrals" id='referral-card-placeholder'>
+                <div id='referral-card' class="w3-border-top">
+                    <div class="w3-container w3-text-dark-grey" style='padding-top:16px;'>        
+                        <i class='referral-service'>{{referral.name}}</i>
+                        <i class="w3-large fa fa-times w3-text-teal w3-button referral-delete-button" onclick='displayModal("delete-modal", this);'  style="padding:16px 12px;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+  </div>
+<br/>
+<br/>

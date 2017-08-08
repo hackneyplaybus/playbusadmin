@@ -1,0 +1,20 @@
+<div class="w3-padding-64">
+    <div class="w3-container">
+      <h1 class="w3-text-teal">Welcome to the Hackney Playbus</h1>
+      <div class="w3-bar w3-theme-l1">
+        <button (click)='tab="carer";term=null;' [class.is_active]="tab == 'carer'" class="w3-bar-item w3-button carerButton tabButton">Carer</button>
+        <button (click)='tab="child";term=null;' [class.is_active]="tab == 'child'" class="w3-bar-item w3-button childButton tabButton">Child</button>                
+      </div>
+      <div style='margin-top: 16px'>
+        <div *ngIf="tab == 'carer'" id="Carer" class="w3-container registrationForm" >
+          <carer-edit (onTerm)="onTerm($event)" class='w3-twothird'></carer-edit>
+          <complete-name [term]='term' class='w3-third'></complete-name>
+        </div>
+
+        <div *ngIf="tab == 'child'" id="Child" class="w3-container registrationForm">
+          <child-edit (onTerm)="onTerm($event)" class='w3-twothird'></child-edit>
+          <complete-name [term]='term' class='w3-third'></complete-name>
+        </div>      
+      </div>
+    </div>
+</div>

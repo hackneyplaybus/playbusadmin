@@ -1,0 +1,25 @@
+<div class="w3-top">
+  <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
+    <div *ngIf="!showSidebar()" style="margin-top:15px;" class="w3-bar-item w3-button w3-right w3-vertical-middle w3-hover-white w3-large w3-theme-l1" (click)="toggle()"><i class="fa fa-bars"></i></div>
+    <input (keyup)="onSearch(event, this);" style="margin-top:11px;margin-right:10px;" class="w3-search w3-bar-item w3-theme-l5 w3-right" type="search" name="search" placeholder="Search..." id="search-bar">
+    <img routerLink="/" src="app/img/playbuslogo.png" height="75" width="75" class="w3-bar-item w3-button w3-theme">
+  </div>
+</div>
+<nav *ngIf="show || showSidebar()" class="jono-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5 w3-animate-left" style="z-index:3;width:150px;margin-top:70px;" id="mySidebar">
+  <div *ngIf="show" (click)="toggle()" class="w3-right w3-xlarge w3-padding-large w3-hover-black" title="Close Menu">
+    <i class="fa fa-remove"></i>
+  </div>
+  <h4 class="w3-bar-item"><b>Hackney Playbus</b></h4>
+  <a class="w3-bar-item w3-button w3-hover-black" routerLink="/">People</a>
+  <a class="w3-bar-item w3-button w3-hover-black" routerLink="/locations">Locations</a>
+  <a class="w3-bar-item w3-button w3-hover-black" routerLink="/projects">Projects</a>
+  <a class="w3-bar-item w3-button w3-hover-black" routerLink="/services">Services</a>
+  <a class="w3-bar-item w3-button w3-hover-black" routerLink="/search">Search</a>  
+</nav>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div *ngIf="show" class="w3-overlay" (click)="toggle()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<div [style.margin-left]="leftMargin">
+    <router-outlet></router-outlet>  
+</div>

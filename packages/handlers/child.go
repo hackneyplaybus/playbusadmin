@@ -31,7 +31,10 @@ func AutocompleteChildHandler(w http.ResponseWriter, r *http.Request) {
 		writeError(ctx, w, r, err, http.StatusInternalServerError, "Error decoding payload")
 		return
 	}
-	bb, err := json.Marshal(children)
+
+	bb, err := json.Marshal(wire.SearchResponse{
+		Children: children,
+	})
 	if err != nil {
 		writeError(ctx, w, r, err, http.StatusInternalServerError, "Error decoding payload")
 		return

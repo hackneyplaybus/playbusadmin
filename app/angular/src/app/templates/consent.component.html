@@ -1,0 +1,19 @@
+<div class="w3-row w3-padding-64">
+    <div class="w3-container w3-margin">
+        <h1 class="w3-text-teal">Disclaimer</h1>
+        <p>Hackney Playbus collects this information for monitoring, analysis and data collection purposes.  Your information may be disclosed to other government agencies responsible for legislation relating to children and may be shared with your local children’s centre. Your contact information may be used to keep you informed of Hackney Playbus services. Personal information collected in this form will only be used for the purposes stated here. By completing this registration form it is deemed that you understand and consent to the purposes which the information may be used for. </p>
+        <div class='w3-right'>
+            <input #consentInfoBox (change)='consent.info_consent = consentInfoBox.checked;' id='info-consent' type="checkbox">
+            <label for="info-consent">I consent</label>
+        </div>
+
+        <h1 class="w3-text-teal">Photography Consent</h1>
+        <p>I, the carer completing this form, give my consent for the children named in this form to be photographed during Playbus sessions by Hackney Playbus staff, volunteers and partner organisations. I consent to photographs of my children being displayed on the Hackney Playbus website, Facebook and Twitter and also in any advertising material for the Hackney Playbus, their funders or partner organisations.</p>
+        <div class='w3-right'>
+            <input #consentPhotoBox (change)='consent.photo_consent = consentPhotoBox.checked;' id='photo-consent' type="checkbox">
+            <label for="photo-consent">I consent</label>
+        </div>
+        <br/>
+        <input (click)='submitConsent();$event.preventDefault();' class="w3-button w3-right w3-border w3-margin" type="submit" value="Submit">
+    </div>
+</div>
