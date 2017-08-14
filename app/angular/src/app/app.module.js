@@ -8,12 +8,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var http_1 = require("@angular/http");
+var forms_1 = require("@angular/forms");
 var app_component_1 = require("./app.component");
 var child_component_1 = require("./child.component");
 var carer_component_1 = require("./carer.component");
 var people_component_1 = require("./people.component");
 var complete_name_service_1 = require("./complete-name.service");
 var ethnicity_service_1 = require("./ethnicity.service");
+var location_service_1 = require("./location.service");
+var project_service_1 = require("./project.service");
 var benefit_service_1 = require("./benefit.service");
 var carer_service_1 = require("./carer.service");
 var child_service_1 = require("./child.service");
@@ -23,8 +26,17 @@ var consent_component_1 = require("./consent.component");
 var family_component_1 = require("./family.component");
 var display_carer_component_1 = require("./display-carer.component");
 var display_child_component_1 = require("./display-child.component");
+var delete_component_1 = require("./delete.component");
 var consent_service_1 = require("./consent.service");
 var family_service_1 = require("./family.service");
+var delete_service_1 = require("./delete.service");
+var edit_note_service_1 = require("./edit-note.service");
+var edit_note_component_1 = require("./edit-note.component");
+var visit_component_1 = require("./visit.component");
+var visit_service_1 = require("./visit.service");
+var location_component_1 = require("./location.component");
+var location_edit_component_1 = require("./location-edit.component");
+var list_component_1 = require("./list.component");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -35,7 +47,8 @@ AppModule = __decorate([
         imports: [
             platform_browser_1.BrowserModule,
             http_1.HttpModule,
-            app_routing_module_1.AppRoutingModule
+            app_routing_module_1.AppRoutingModule,
+            forms_1.FormsModule
         ],
         declarations: [
             app_component_1.AppComponent,
@@ -46,16 +59,27 @@ AppModule = __decorate([
             consent_component_1.ConsentComponent,
             family_component_1.FamilyComponent,
             display_carer_component_1.DisplayCarerComponent,
-            display_child_component_1.DisplayChildComponent
+            display_child_component_1.DisplayChildComponent,
+            delete_component_1.DeleteComponent,
+            edit_note_component_1.EditNoteComponent,
+            visit_component_1.VisitComponent,
+            location_component_1.LocationComponent,
+            location_edit_component_1.LocationEditComponent,
+            list_component_1.ListComponent
         ],
         providers: [
             complete_name_service_1.CompleteNameService,
             ethnicity_service_1.EthnicityService,
+            location_service_1.LocationService,
+            project_service_1.ProjectService,
             benefit_service_1.BenefitService,
             carer_service_1.CarerService,
             child_service_1.ChildService,
             consent_service_1.ConsentService,
-            family_service_1.FamilyService
+            family_service_1.FamilyService,
+            delete_service_1.DeleteService,
+            edit_note_service_1.EditNoteService,
+            visit_service_1.VisitService
         ],
         bootstrap: [app_component_1.AppComponent]
     })

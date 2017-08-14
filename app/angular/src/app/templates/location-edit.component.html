@@ -1,0 +1,55 @@
+<form onsubmit="submitLocation(event);" id='location-form' class="w3-container w3-card-4 w3-text-yellow w3-margin" style="padding-bottom: 10px;">        
+    <i *ngIf='isEditing' id='location-header-exit' (click)='stopEditing();' class="w3-button w3-large fa fa-times w3-right w3-text-teal" style='margin-top:18px;'> Stop Editing</i>
+    <h2 id='location-header' class="w3-text-teal">{{title || 'Add Location'}}</h2>          
+    <div class="w3-row w3-section">
+        <div class="w3-col w3-center" style="width:50px"><i class="w3-xxlarge fa fa-map-signs"></i></div>
+            <div class="w3-rest">
+                <input [(ngModel)]='_location.name' class="w3-input w3-border w3-round-medium" name="location-name" id="location-name" type="text" placeholder="Name" required>
+            </div>
+        </div>
+    <div class="w3-row w3-section">
+    <div class="w3-col w3-center" style="width:50px"><i class="w3-xxlarge fa fa-file-text"></i></div>
+        <div class="w3-rest">
+        <textarea [(ngModel)]='_location.description' class="w3-input w3-border w3-round-medium" id='location-description' name="location-description" placeholder="Description"></textarea>                 
+        </div>
+    </div>
+    <div class="w3-row w3-section">
+    <div class="w3-col w3-center" style="width:50px"><i class="w3-xxlarge fa fa-map-marker"></i></div>
+        <div class="w3-rest">
+            <input [(ngModel)]='_location.address' class="w3-input w3-border w3-round-medium" id='location-address'  name="location-address" type="text" placeholder="Address">
+        </div>
+    </div>                    
+    <div class="w3-row w3-section">
+    <div class="w3-col w3-center" style="width:50px"><i class="w3-xxlarge fa fa-map-marker"></i></div>
+        <div class="w3-rest">
+            <input [(ngModel)]='_location.postal_code' class="w3-input w3-border w3-round-medium" id='location-postalcode'  name="location-postalcode" type="text" placeholder="Postal Code">
+        </div>
+    </div>
+    <div class="w3-row w3-section">
+    <div class="w3-col w3-center" style="width:50px"><i class="w3-xxlarge fa fa-building"></i></div>
+        <div class="w3-rest">
+            <input [(ngModel)]='_location.city' class="w3-input w3-border w3-round-medium" id='location-city'  name="location-city" type="text" placeholder="City">
+        </div>
+    </div>
+    <div class="w3-row w3-section">
+    <div class="w3-col w3-center" style="width:50px"><i class="w3-xxlarge fa fa-crosshairs"></i></div>
+        <div class="w3-rest">
+            <input [(ngModel)]='_location.latitude' class="w3-input w3-border w3-round-medium" id='location-latitude'  name="location-latitude" type="number" placeholder="Latitude">
+        </div>
+    </div>
+    <div class="w3-row w3-section">
+    <div class="w3-col w3-center" style="width:50px"><i class="w3-xxlarge fa fa-crosshairs"></i></div>
+        <div class="w3-rest">
+            <input [(ngModel)]='_location.longitude' class="w3-input w3-border w3-round-medium" id='location-longitude'  name="location-longitude" type="number" placeholder="Longitude">
+        </div>
+    </div>
+
+    <div class="w3-row w3-section">
+    <div class="w3-col w3-center" style="width:50px"><i class="w3-xxlarge fa fa-map"></i></div>
+        <div class="w3-rest">
+            <div id="markerMap" style='width:99%; height:300px;'></div>
+        </div>
+    </div>
+    <input *ngIf='isEditing' id='location-delete' onclick='displayModal("delete-modal", this);' type='button' class="w3-button w3-right w3-text-teal w3-border w3-margin" value="Delete">
+    <input (click)='addLocation();' class="w3-button w3-right w3-text-teal w3-border w3-margin" type="submit" value="Submit">                    
+</form>

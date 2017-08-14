@@ -1,0 +1,51 @@
+<div class='w3-text-teal w3-margin'>
+    <table style='margin-left:auto;margin-right:auto;text-decoration:none;'>
+        <tr>
+            <td>
+                <input type="submit" id='visit-row' (click)='addVisit();' class='w3-button w3-center w3-border w3-small visit-row' value='Add Visit'>
+            </td>
+            <td>
+                <div class="visit-location w3-small">{{visit?.location?.name || 'Set Location'}}</div>
+                <div class="visit-project w3-small">  {{visit?.project?.name || 'Set Project'}}</div>
+            </td>
+        </tr>
+    </table>
+    <div id='change-visit' class='change-visit w3-hover-opacity w3-center w3-small jono-button' (click)='visitModal = true;'>Set Default Visit</div>
+</div>
+<div  *ngIf="visitModal" (click)='closeVisitModal($event);' id='change-visit-modal' class="w3-modal">
+    <div class="w3-modal-content">
+        <div class="w3-container" style='padding-left:0px;padding-right:0px;'>
+            <div id='change-visit-form' class="w3-container w3-card-4 w3-text-yellow" style="padding-bottom: 10px;">
+                <h2 id='visit-reg-header' class="w3-center w3-text-teal">Set Default Visit</h2>          
+                <div class="w3-row w3-section">
+                    <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-map"></i></div>
+                        <div class="w3-rest">
+                            <select class="w3-input w3-border w3-round-medium location-dropdown" id='visit-location' name="visit-location" type="text" placeholder="Location">
+                                <option value="" disabled selected hidden>Location</option>
+                                <option *ngFor="let location of locationList" value="{{location.location_id}}">{{location.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                <div class="w3-row w3-section">
+                <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-"></i></div>
+                    <div class="w3-rest">
+                        <select class="w3-input w3-border w3-round-medium project-dropdown" id='visit-project' name="visit-project" type="text" placeholder="Project">
+                            <option value="" disabled selected hidden>Project</option>
+                            <option *ngFor="let project of projectList" value="{{project.project_id}}">{{project.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="w3-row w3-section">
+                <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-calendar"></i></div>
+                    <div class="w3-rest">
+                        <input class="w3-input w3-border w3-round-medium date-input" id='visit-date'  name="visit-date" type="date" placeholder="Visit Date" min="1900-01-01" max="2099-04-30">
+                        <i class="w3-right w3-text-teal w3-small" style='margin-right:3px;'>optional</i>
+                    </div>
+                </div>
+                <div id='visit-error' class='w3-left w3-text-red'></div>
+                <input (click)='defaultVisit();' class="w3-button w3-right w3-text-teal w3-border" type="submit" value="Set Default Visit" style='margin-left:10px;'>
+                <input id='visit-submit' (click)='addAndSetVisit();' class="w3-button w3-right w3-text-teal w3-border" type="submit" value="Add Visit">
+            </div>
+        </div>
+    </div>
+</div>

@@ -7,12 +7,12 @@
       </div>
       <div style='margin-top: 16px'>
         <div *ngIf="tab == 'carer'" id="Carer" class="w3-container registrationForm" >
-          <carer-edit (onTerm)="onTerm($event)" class='w3-twothird'></carer-edit>
+          <carer-edit (onTerm)="onTerm($event)" (onSubmit)="onCarerSubmit($event)" class='w3-twothird'></carer-edit>
           <complete-name [term]='term' class='w3-third'></complete-name>
         </div>
 
         <div *ngIf="tab == 'child'" id="Child" class="w3-container registrationForm">
-          <child-edit (onTerm)="onTerm($event)" class='w3-twothird'></child-edit>
+          <child-edit [title]='childTitle' (onTerm)="onTerm($event)" (onSubmit)="onChildSubmit($event)" class='w3-twothird'></child-edit>
           <complete-name [term]='term' class='w3-third'></complete-name>
         </div>      
       </div>

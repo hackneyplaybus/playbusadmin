@@ -1,4 +1,4 @@
-import { Component, OnInit ,EventEmitter, Output } from '@angular/core';
+import { Component, OnInit ,EventEmitter, Output, Input } from '@angular/core';
 import { Router }  from '@angular/router';
 import { Carer } from './carer';
 import { Term } from './complete-name.component';
@@ -11,6 +11,8 @@ import { CarerService } from './carer.service';
   templateUrl: `./templates/carer.component.html`,
 })
 export class CarerComponent implements OnInit{
+    @Input() familyId: string;
+    @Input() title = 'Register A Carer';
     @Output() onTerm = new EventEmitter<Term>();
     completeCarer(term: string): void {
         let termVal = new Term();
@@ -20,17 +22,18 @@ export class CarerComponent implements OnInit{
 
         this.onTerm.emit(termVal);
     }  
-
+    @Output() onSubmit = new EventEmitter<Carer>();
     ethnicityList: string[];
     benefitList: string[];
 
-    private carer = new Carer();
+    @Input() carer = new Carer();
 
     submitCarer(): void {
+      if (this.familyId) {
+        this.carer.family_id = this.familyId;
+      }
       this.carerService.submitCarer(this.carer).then(carer => {        
-          this.router.navigate(['/consent', {carer_id: carer.carer_id, family_id: carer.family_id}]);
-          window.scrollTo(0, 0);
-
+          this.onSubmit.next(carer);
         });
     }
 

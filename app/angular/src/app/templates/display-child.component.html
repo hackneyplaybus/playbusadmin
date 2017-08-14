@@ -1,27 +1,14 @@
 <header class="w3-container w3-text-teal w3-theme-l2">        
-    <i class="w3-xlarge fa fa-times w3-right w3-text-teal w3-button delete-button" onclick='displayModal("delete-modal", this);' style="padding:16px 12px;"></i>
-    <i class="w3-xlarge fa fa-edit w3-right w3-text-teal w3-button edit-button" onclick='displayModal("child-modal", this);' style="padding:16px 12px;"></i>        
+    <i class="w3-xlarge fa fa-times w3-right w3-text-teal w3-button delete-button" (click)='deleteModal=true;' style="padding:16px 12px;"></i>
+    <i class="w3-xlarge fa fa-edit w3-right w3-text-teal w3-button edit-button" (click)='editModal=true;' style="padding:16px 12px;"></i>        
     <h4 class='child-name'>{{child.name}}</h4>
-</header>
-<div class='w3-text-teal w3-margin'>
-    <table style='margin-left:auto;margin-right:auto;text-decoration:none;'>
-        <tr>
-            <td>
-                <input type="submit" id='visit-row' onclick='addVisit(event, this);' class='w3-button w3-center w3-border w3-small visit-row' value='Add Visit'>
-            </td>
-            <td>
-                <div class="visit-location w3-small">set location</div>
-                <div class="visit-project w3-small">  set project</div>
-            </td>
-        </tr>
-    </table>
-    <div id='change-visit' class='change-visit w3-hover-opacity w3-center w3-small jono-button' onclick='displayModal("change-visit-modal", this);'>Set Default Visit</div>
-</div>    
+</header>   
+<add-visit [childId]='child.child_id' [familyId]='child.family_id'></add-visit>
 <div class="w3-container">
     <table class="w3-table w3-text-gray">          
         <tr>
         <td>Date of Birth:</td>
-        <td class='child-dob'>{{child.date_of_birth}}</td>                             
+        <td class='child-dob'>{{child.date_of_birth | date:'dd/MM/yyyy'}}</td>                             
         </tr>
         <tr>
         <td>Gender:</td>
@@ -33,7 +20,7 @@
         </tr>                          
         <tr>
         <td>First Seen:</td>
-        <td class='child-firstseen'>{{child.first_seen}}</td>
+        <td class='child-firstseen'>{{child.first_seen | date:'medium'}}</td>
         </tr>
         <tr>
         <td>Photo Consent:</td>
@@ -45,4 +32,13 @@
         </tr>
     </table>
     <hr>  
+</div>
+
+<delete-confirm [deleteModal]='deleteModal' (deleteModalEmitter)='closeDeleteModal($event)' [entity]='entity' [entityId]='child.child_id'></delete-confirm>
+<div *ngIf="editModal" (click)='closeEditModal($event);' id="edit-child-modal" class="w3-modal">
+    <div class="w3-modal-content">
+        <div class="w3-container" style='padding-left:0px;padding-right:0px;'>
+            <child-edit [child]='child' [title]='editTitle' (onSubmit)='onEdit($event)'></child-edit>
+        </div>
+    </div>
 </div>

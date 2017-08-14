@@ -21,7 +21,9 @@ var CarerComponent = (function () {
         this.carerService = carerService;
         this.ethnicityService = ethnicityService;
         this.benefitService = benefitService;
+        this.title = 'Register A Carer';
         this.onTerm = new core_1.EventEmitter();
+        this.onSubmit = new core_1.EventEmitter();
         this.carer = new carer_1.Carer();
         ethnicityService.init();
         benefitService.init();
@@ -34,9 +36,11 @@ var CarerComponent = (function () {
     };
     CarerComponent.prototype.submitCarer = function () {
         var _this = this;
+        if (this.familyId) {
+            this.carer.family_id = this.familyId;
+        }
         this.carerService.submitCarer(this.carer).then(function (carer) {
-            _this.router.navigate(['/consent', { carer_id: carer.carer_id, family_id: carer.family_id }]);
-            window.scrollTo(0, 0);
+            _this.onSubmit.next(carer);
         });
     };
     CarerComponent.prototype.ngOnInit = function () {
@@ -53,9 +57,25 @@ var CarerComponent = (function () {
     return CarerComponent;
 }());
 __decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], CarerComponent.prototype, "familyId", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], CarerComponent.prototype, "title", void 0);
+__decorate([
     core_1.Output(),
     __metadata("design:type", Object)
 ], CarerComponent.prototype, "onTerm", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", Object)
+], CarerComponent.prototype, "onSubmit", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], CarerComponent.prototype, "carer", void 0);
 CarerComponent = __decorate([
     core_1.Component({
         selector: 'carer-edit',

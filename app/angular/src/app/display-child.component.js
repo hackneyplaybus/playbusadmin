@@ -12,7 +12,22 @@ var core_1 = require("@angular/core");
 var child_1 = require("./child");
 var DisplayChildComponent = (function () {
     function DisplayChildComponent() {
+        this.entity = 'child';
+        this.deleteModal = false;
+        this.editModal = false;
+        this.editTitle = 'Edit Child';
     }
+    DisplayChildComponent.prototype.closeDeleteModal = function (event) {
+        this.deleteModal = event;
+    };
+    DisplayChildComponent.prototype.closeEditModal = function (event) {
+        if (event.srcElement.classList.contains('w3-modal')) {
+            this.editModal = false;
+        }
+    };
+    DisplayChildComponent.prototype.onEdit = function (child) {
+        this.editModal = false;
+    };
     return DisplayChildComponent;
 }());
 __decorate([

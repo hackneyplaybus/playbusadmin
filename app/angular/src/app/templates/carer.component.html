@@ -1,82 +1,83 @@
 <div id="Carer" class="w3-container registrationForm">
 <form onsubmit="submitCarer(event);" id='carer-form' class="w3-container w3-card-4 w3-text-yellow" style="padding-bottom: 10px;">
-        <h2 id='reg-carer-header' class="w3-center w3-text-teal">Register A Carer</h2>          
+        <h2 id='reg-carer-header' class="w3-center w3-text-teal">{{title}}</h2>          
         <div class="w3-row w3-section">
             <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-user"></i></div>
                 <div class="w3-rest">
-                <input #carerNameBox (keyup)='carer.name = carerNameBox.value;completeCarer(carerNameBox.value);' class="w3-input w3-border w3-round-medium" name="carer-name" id="carer-name" type="text" placeholder="Name" required>
+                <input #carerNameBox [(ngModel)]='carer.name' (keyup)='completeCarer(carerNameBox.value);' class="w3-input w3-border w3-round-medium" name="carer-name" id="carer-name" type="text" placeholder="Name" required>
                 </div>
             </div>     
         <div class="w3-row w3-section">
             <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-birthday-cake"></i></div>
                 <div class="w3-rest">
-                <input #carerDobBox (change)='carer.date_of_birth = carerDobBox.value;' class="w3-input w3-border w3-round-medium date-input" id='carer-dob'  name="carer-dob" type="date" placeholder="Birthday" min="1900-01-01" max="2020-04-30" required>
+                <input #carerDobBox [(ngModel)]='carer.date_of_birth' class="w3-input w3-border w3-round-medium date-input" id='carer-dob'  name="carer-dob" type="date" placeholder="Birthday" min="1900-01-01" max="2020-04-30" required>
                 </div>
             </div>                         
         <div class="w3-row w3-section">
             <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-home"></i></div>
                 <div class="w3-rest">
-                    <input #carerAddressBox (change)='carer.address = carerAddressBox.value;' class="w3-input w3-border w3-round-medium" name="carer-address" id="carer-address" type="text" placeholder="Address" required>
+                    <input #carerAddressBox [(ngModel)]='carer.address' class="w3-input w3-border w3-round-medium" name="carer-address" id="carer-address" type="text" placeholder="Address" required>
                 </div>
             </div>
         <div class="w3-row w3-section">
             <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-home"></i></div>
                 <div class="w3-rest">
-                    <input #carerPostalCodeBox (change)='carer.postal_code = carerPostalCodeBox.value;' class="w3-input w3-border w3-round-medium" name="carer-postalcode" id="carer-postalcode" type="text" placeholder="Postal Code" required>
+                    <input #carerPostalCodeBox [(ngModel)]='carer.postal_code' class="w3-input w3-border w3-round-medium" name="carer-postalcode" id="carer-postalcode" type="text" placeholder="Postal Code" required>
                 </div>
             </div>
         <div class="w3-row w3-section">
             <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-building"></i></div>
                 <div class="w3-rest">
-                    <input #carerCityBox (change)='carer.city = carerCityBox.value;' class="w3-input w3-border w3-round-medium" name="carer-city" id="carer-city" type="text" placeholder="City" required>
+                    <input #carerCityBox [(ngModel)]='carer.city' class="w3-input w3-border w3-round-medium" name="carer-city" id="carer-city" type="text" placeholder="City" required>
                 </div>
             </div>        
         <div class="w3-row w3-section">
             <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-phone"></i></div>
                 <div class="w3-rest">
-                    <input #carerPhoneBox (change)='carer.phone = carerPhoneBox.value;' class="w3-input w3-border w3-round-medium" name="carer-phone" id="carer-phone" type="tel" placeholder="Phone" required>
+                    <input #carerPhoneBox [(ngModel)]='carer.phone' class="w3-input w3-border w3-round-medium" name="carer-phone" id="carer-phone" type="tel" placeholder="Phone" required>
                 </div>
             </div>        
         <div class="w3-row w3-section">
             <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-envelope"></i></div>
                 <div class="w3-rest">
-                    <input #carerEmailBox (change)='carer.email = carerEmailBox.value;' class="w3-input w3-border w3-round-medium" name="carer-email" id="carer-email" type="email" placeholder="Email" required>
+                    <input #carerEmailBox [(ngModel)]='carer.email' class="w3-input w3-border w3-round-medium" name="carer-email" id="carer-email" type="email" placeholder="Email" required>
                 </div>
             </div>             
         <div class="w3-row w3-section">
             <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-users"></i></div>
                 <div class="w3-rest">
-                    <select #carerEthnicityBox (change)='carer.ethnicity = carerEthnicityBox.value;' class="w3-input w3-border w3-round-medium carer-ethnicity-dropdown" id='carer-ethnicity' name="carer-ethnicity" type="text" placeholder="Ethnicity">
+                    <select #carerEthnicityBox [(ngModel)]='carer.ethnicity' class="w3-input w3-border w3-round-medium carer-ethnicity-dropdown" id='carer-ethnicity' name="carer-ethnicity" type="text" placeholder="Ethnicity">
                         <option value="" disabled selected hidden>Ethnicity</option>
                         <option *ngFor="let ethnicity of ethnicityList" value="{{ethnicity}}">{{ethnicity}}</option>
-                    </select>                  
+                    </select>
+                    <label class='w3-text-black' for="carer-ethnicity">ethnicity</label>
                 </div>
             </div> 
         <div class="w3-row w3-section">
             <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-users"></i></div>
                 <div class="w3-rest">
-                    <select #carerBenefitBox (change)='carer.benefits = carerBenefitBox.value;' class="w3-input w3-border w3-round-medium carer-benefit-dropdown" id='carer-benefits' name="carer-benefit" type="text" placeholder="benefits">
-                        <option value="" disabled selected hidden>Benefits</option>
+                    <select #carerBenefitBox [(ngModel)]='carer.benefits' class="w3-input w3-border w3-round-medium carer-benefit-dropdown" id='carer-benefits' name="carer-benefit" type="text" placeholder="benefits">                        
                         <option *ngFor="let benefit of benefitList" value="{{benefit}}">{{benefit}}</option>
-                    </select>                  
+                    </select> 
+                    <label class='w3-text-black' for="carer-benefit">benefits</label>                 
                 </div>
             </div>           
 
         <div class="w3-row w3-section">
         <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-transgender-alt"></i></div>
             <div class="w3-rest">
-                <select #carerGenderBox (change)='carer.gender = carerGenderBox.value;' class="w3-input w3-border w3-round-medium" id='carer-gender' name="carer-gender" type="text" placeholder="Gender">
-                    <option value="" disabled selected hidden>Gender</option>
+                <select #carerGenderBox [(ngModel)]='carer.gender' class="w3-input w3-border w3-round-medium" id='carer-gender' name="carer-gender" type="text" placeholder="Gender">
                     <option value="female">Female</option>
                     <option value="male">Male</option>
                     <option value="other">Other</option>                  
                 </select>
+                <label class='w3-text-black' for="carer-gender">gender</label>
             </div>
         </div>
         <div class="w3-row w3-section">
             <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-user-o"></i></div>
             <div class="w3-rest" style='padding-top:7px;'>
-                <input #carerLoneCarerBox (change)='carer.lone_carer = carerLoneCarerBox.checked;' class='w3-padding-right' name="carer-lonecarer" id="carer-lonecarer" type="checkbox">
+                <input #carerLoneCarerBox [(ngModel)]='carer.lone_carer' class='w3-padding-right' name="carer-lonecarer" id="carer-lonecarer" type="checkbox">
                 <span class='w3-text-black' for="carer-lonecarer">Single Carer?</span>
             </div>
         </div>

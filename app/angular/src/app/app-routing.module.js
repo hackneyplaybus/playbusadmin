@@ -10,10 +10,12 @@ var router_1 = require("@angular/router");
 var people_component_1 = require("./people.component");
 var consent_component_1 = require("./consent.component");
 var family_component_1 = require("./family.component");
+var location_component_1 = require("./location.component");
 var routes = [
     { path: '', component: people_component_1.PeopleComponent },
     { path: 'consent', component: consent_component_1.ConsentComponent },
-    { path: 'family/:familyId', component: family_component_1.FamilyComponent }
+    { path: 'family/:familyId', component: family_component_1.FamilyComponent },
+    { path: 'locations', component: location_component_1.LocationComponent }
 ];
 var AppRoutingModule = (function () {
     function AppRoutingModule() {

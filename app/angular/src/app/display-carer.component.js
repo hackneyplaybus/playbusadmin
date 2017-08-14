@@ -12,7 +12,22 @@ var core_1 = require("@angular/core");
 var carer_1 = require("./carer");
 var DisplayCarerComponent = (function () {
     function DisplayCarerComponent() {
+        this.entity = 'carer';
+        this.deleteModal = false;
+        this.editModal = false;
+        this.editTitle = 'Edit Carer';
     }
+    DisplayCarerComponent.prototype.closeDeleteModal = function (event) {
+        this.deleteModal = event;
+    };
+    DisplayCarerComponent.prototype.closeEditModal = function (event) {
+        if (event.srcElement.classList.contains('w3-modal')) {
+            this.editModal = false;
+        }
+    };
+    DisplayCarerComponent.prototype.onEdit = function (carer) {
+        this.editModal = false;
+    };
     return DisplayCarerComponent;
 }());
 __decorate([

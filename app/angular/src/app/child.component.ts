@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Child } from './child';
 import { Term } from './complete-name.component';
 import { EthnicityService } from './ethnicity.service';
@@ -10,7 +10,8 @@ import { Router }  from '@angular/router';
   templateUrl: `./templates/child.component.html`,
 })
 export class ChildComponent implements OnInit {
-    
+    @Input() familyId: string;
+    @Input() title = 'Register A Child';
     @Output() onTerm = new EventEmitter<Term>();
     completeChild(term: string): void {
         let termVal = new Term();
@@ -20,14 +21,18 @@ export class ChildComponent implements OnInit {
 
         this.onTerm.emit(termVal);
     }  
+    @Output() onSubmit = new EventEmitter<Child>();
 
     ethnicityList: string[];
 
-    private child = new Child();
+    @Input() child = new Child();
 
     submitChild(): void {
+      if (this.familyId) {
+        this.child.family_id = this.familyId;
+      }
       this.childService.submitChild(this.child).then(child => {
-          this.router.navigate(['/consent', { child_id: child.child_id, family_id: child.family_id } ]);
+          this.onSubmit.next(child);
         });
     }
 
@@ -41,7 +46,6 @@ export class ChildComponent implements OnInit {
 
     constructor(
       private childService: ChildService,
-      private router: Router,
       private ethnicityService: EthnicityService) {
       ethnicityService.init();
     }
