@@ -1,0 +1,44 @@
+<div class="w3-padding-64">
+    
+        <div class="w3-container w3-padding-64">
+            <h1 class="w3-text-teal">Search</h1>
+            <div class="w3-rest">
+                <input #searchBox (keyup.enter)='search(searchBox.value);' style='width:400px;' class="w3-search w3-bar-item w3-theme-l5 w3-large" name="search" id="search" type="text" placeholder="Search...">
+            </div>            
+            <div class="w3-row">
+                <div class="w3-twothird">
+                    <div class="w3-card-4 w3-margin" >
+                      <h3 class="w3-center w3-text-teal">Carers</h3> 
+                      <table class="w3-table w3-hoverable w3-bordered" style='width:100%;table-layout:fixed;'>
+                        <tr class='w3-cell-row'>
+                          <th>Name</th>
+                          <th>Birthday</th>
+                          <th>Email</th>
+                        </tr>
+                        <tr *ngFor="let carer of carers" class='w3-cell-row jonobutton' (click)='goToFamily(carer.family_id);'>
+                          <td>{{carer.name}}</td>
+                          <td class='w3-right-align'>{{carer.date_of_birth | date: 'dd/MM/yyyy'}}</td>
+                          <td>{{carer.email}}</td>
+                        </tr>
+                      </table>
+                    </div>
+                </div>
+                <div class="w3-third">
+                    <div class="w3-card-4  w3-margin">
+                    <h3 class="w3-center w3-text-teal">Children</h3> 
+                    <table class="w3-table w3-hoverable w3-bordered">          
+                            <table class="w3-table w3-hoverable w3-bordered" style='width:100%;table-layout:fixed;'>
+                                <tr class='w3-cell-row'>
+                                    <th>Name</th>
+                                    <th class='w3-right-align'>Birthday</th>                                    
+                                </tr>
+                                <tr *ngFor="let child of children" class='w3-cell-row jonobutton' (click)='goToFamily(child.family_id);'>
+                                    <td>{{child.name}}</td>
+                                    <td class='w3-right-align'>{{child.date_of_birth | date: 'dd/MM/yyyy'}}</td>
+                                </tr>
+                            </table>
+                      </table>
+                    </div>
+                </div>
+            
+</div>

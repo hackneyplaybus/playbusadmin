@@ -1,0 +1,14 @@
+<form id='service-form' class="w3-container w3-card-4 w3-text-yellow w3-margin" style="padding-bottom: 10px;">        
+    <i *ngIf='isEditing' id='service-header-exit' (click)='stopEditing();' class="w3-button w3-large fa fa-times w3-right w3-text-teal" style='margin-top:18px;'> Stop Editing</i>
+    <h2 id='service-header' class="w3-text-teal">{{title || 'Add Service'}}</h2>
+    <div class="w3-row w3-section">
+        <div class="w3-col w3-center" style="width:50px"><i class="w3-xxlarge fa fa-info-circle"></i></div>
+            <div class="w3-rest">
+                <input  [(ngModel)]='_service.name' class="w3-input w3-border w3-round-medium" name="service-name" id="service-name" type="text" placeholder="Name" required>
+            </div>
+        </div>                                        
+    <input *ngIf='isEditing' id='service-delete' (click)='deleteModal = true;' type='button' class="w3-button w3-right w3-text-teal w3-border w3-margin" value="Delete">
+    <input (click)='addService();' class="w3-button w3-right w3-text-teal w3-border w3-margin" type="submit" value="Submit">
+</form>
+
+<delete-confirm [deleteModal]='deleteModal' (deleteModalEmitter)='closeDeleteModal($event)' [entity]='entity' [entityId]='service.service_id'></delete-confirm>

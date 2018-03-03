@@ -38,6 +38,9 @@ func WriteReferralHandler(w http.ResponseWriter, r *http.Request) {
 			writeError(ctx, w, r, err, http.StatusInternalServerError, "Unable to write to datastore")
 			return
 		}
+
+		referral.Service, err = dao.ReadService(ctx, referral.ServiceId)
+
 		bb, err = json.Marshal(referral)
 		if err != nil {
 			writeError(ctx, w, r, err, http.StatusInternalServerError, "Unable to write to datastore")

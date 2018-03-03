@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { CompleteNameService, ChildCarer} from './complete-name.service';
 import { Child } from './child';
 import { Carer } from './carer';
@@ -28,17 +29,22 @@ export class CompleteNameComponent {
  
   get term(): Term { return this._term; }  
 
+  private goToFamily(familyId: string): void {
+    this.router.navigateByUrl('/family/'+familyId);
+  }
+
   populate(type: string, term: string): void {
     this.completeNameService.getPerson(type, term).then(persons => this.updateChildCarer(persons));
   }    
-  
+
   private updateChildCarer(childCarer: ChildCarer): void {
     this.carers = childCarer.carers;
     this.children = childCarer.children;
   }
 
   constructor(
-    private completeNameService: CompleteNameService) { }
+    private completeNameService: CompleteNameService,
+    private router: Router) { }
 }
 
 export class Term {

@@ -10,6 +10,9 @@ export class ProjectService {
     private projectUrl(): string {
         return '/api/project/all';
     }
+    private addProjectUrl(): string {
+        return '/api/project/create';
+    }
     
     private projectList = new Subject<Project[]>();
     projectList$ = this.projectList.asObservable();
@@ -22,13 +25,24 @@ export class ProjectService {
             return
         }
         this.called = true;
-        this.http.get(this.projectUrl(), this.options)
-             .toPromise()
-             .then(response => response.json() as Project[])
-             .then(projects => {
+        this.getProjects().then(projects => {
                  this.projectList.next(projects);
                  this.staticProjectList = projects;
              })
+    }
+
+
+    getProjects(): Promise<Project[]> {
+         return this.http.get(this.projectUrl(), this.options)
+             .toPromise()
+             .then(response => response.json() as Project[])             
+             .catch(this.handleError);
+    }
+
+    addProject(project: Project): Promise<Project> {
+        return this.http.post(this.addProjectUrl(), project, this.options)
+             .toPromise()
+             .then(response => response.json() as Project)             
              .catch(this.handleError);
     }
 

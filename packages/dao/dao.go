@@ -59,11 +59,13 @@ func ReadFamily(ctx context.Context, familyId string) (*wire.Family, error) {
 		for ii, child := range family.Children {
 			if child.ChildId == visit.ChildId {
 				family.Children[ii].NumberOfVisits++
+				family.Children[ii].Visits = append(family.Children[ii].Visits, visit)
 			}
 		}
 		for ii, carer := range family.Carers {
 			if carer.CarerId == visit.CarerId {
 				family.Carers[ii].NumberOfVisits++
+				family.Carers[ii].Visits = append(family.Carers[ii].Visits, visit)
 			}
 		}
 	}
@@ -142,10 +144,11 @@ func ReadFamilyVisits(ctx context.Context, familyId string) ([]*wire.Visit, erro
 		if err != nil {
 			return nil, err
 		}
-
-		visit.Project, err = ReadProject(ctx, visit.ProjectId)
-		if err != nil {
-			return nil, err
+		if visit.ProjectId != "" {
+			visit.Project, err = ReadProject(ctx, visit.ProjectId)
+			if err != nil {
+				return nil, err
+			}
 		}
 
 	}

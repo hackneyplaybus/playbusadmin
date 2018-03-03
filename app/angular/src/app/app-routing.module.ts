@@ -5,12 +5,18 @@ import { PeopleComponent }   from './people.component';
 import { ConsentComponent }   from './consent.component';
 import { FamilyComponent }   from './family.component';
 import { LocationComponent }   from './location.component';
+import { ProjectComponent }   from './project.component';
+import { ServiceComponent } from './service.component';
+import { SearchComponent } from './search.component';
 
 const routes: Routes = [
   { path: '', component: PeopleComponent },
   { path: 'consent', component: ConsentComponent },
   { path: 'family/:familyId',  component: FamilyComponent },
-  { path: 'locations', component: LocationComponent }
+  { path: 'locations', component: LocationComponent },
+  { path: 'projects', component: ProjectComponent },
+  { path: 'services', component: ServiceComponent },
+  { path: 'search', component: SearchComponent }
 ];
 
 @NgModule({

@@ -11,17 +11,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var family_service_1 = require("./family.service");
+var service_service_1 = require("./service.service");
+var referral_service_1 = require("./referral.service");
 var family_1 = require("./family");
 var router_2 = require("@angular/router");
 require("rxjs/add/operator/switchMap");
 var FamilyComponent = (function () {
-    function FamilyComponent(familyService, route, router) {
+    function FamilyComponent(familyService, serviceService, route, router, referralService) {
         this.familyService = familyService;
+        this.serviceService = serviceService;
         this.route = route;
         this.router = router;
+        this.referralService = referralService;
         this.family = new family_1.Family();
         this.family_id = 'cruft';
         this.referralModal = false;
+        this.referralDelete = false;
         this.childModal = false;
         this.deleteModal = false;
         this.carerModal = false;
@@ -30,7 +35,13 @@ var FamilyComponent = (function () {
         this.visitModal = false;
         this.childVisitModal = false;
         this.projectModal = false;
+        this.services = [];
+        this.referralEntity = 'referral';
+        this.referralId = '';
     }
+    FamilyComponent.prototype.closeDeleteModal = function (event) {
+        this.referralDelete = false;
+    };
     FamilyComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.route.paramMap
@@ -39,6 +50,17 @@ var FamilyComponent = (function () {
             return _this.familyService.getFamily(_this.family_id);
         })
             .subscribe(function (family) { return _this.family = family; });
+        this.serviceService.getServices().then(function (services) { return _this.services = services; });
+    };
+    FamilyComponent.prototype.addService = function (serviceId) {
+        var _this = this;
+        this.referralService.addReferral(this.family_id, serviceId).then(function (referral) {
+            if (!_this.family.referrals) {
+                _this.family.referrals = [];
+            }
+            _this.family.referrals.push(referral);
+            _this.referralModal = false;
+        });
     };
     FamilyComponent.prototype.closeModal = function (event) {
         if (event.srcElement.classList.contains('w3-modal')) {
@@ -67,8 +89,10 @@ FamilyComponent = __decorate([
         templateUrl: "./templates/family.component.html",
     }),
     __metadata("design:paramtypes", [family_service_1.FamilyService,
+        service_service_1.ServiceService,
         router_1.ActivatedRoute,
-        router_2.Router])
+        router_2.Router,
+        referral_service_1.ReferralService])
 ], FamilyComponent);
 exports.FamilyComponent = FamilyComponent;
 //# sourceMappingURL=family.component.js.map

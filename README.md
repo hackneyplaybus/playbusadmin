@@ -2,6 +2,13 @@
 
 This project host the hackney playbus admin console
 
+Compile with 
+
+tsc -p src/ -w
+
+ng serve does not work. No idea why. Frontend dev is total shit.
+
+
 
 ## Datastore Structure
 ```

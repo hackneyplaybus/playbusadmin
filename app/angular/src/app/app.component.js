@@ -9,10 +9,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 var AppComponent = (function () {
     // Used to monitor the window size to display sidebar
-    function AppComponent(ngZone) {
+    function AppComponent(ngZone, router) {
         this.ngZone = ngZone;
+        this.router = router;
         this.show = false;
         this.width = window.innerWidth;
         //height: number = 0;
@@ -30,6 +32,9 @@ var AppComponent = (function () {
             });
         };
     };
+    AppComponent.prototype.onSearch = function (term) {
+        this.router.navigate(['/search'], { queryParams: { term: term } });
+    };
     AppComponent.prototype.showSidebar = function () {
         if (this.width > 933) {
             this.show = false;
@@ -46,7 +51,8 @@ AppComponent = __decorate([
         selector: 'playbus-app',
         templateUrl: "./templates/app.component.html",
     }),
-    __metadata("design:paramtypes", [core_1.NgZone])
+    __metadata("design:paramtypes", [core_1.NgZone,
+        router_1.Router])
 ], AppComponent);
 exports.AppComponent = AppComponent;
 //# sourceMappingURL=app.component.js.map

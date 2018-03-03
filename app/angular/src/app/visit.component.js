@@ -10,6 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var visit_1 = require("./visit");
+var project_1 = require("./project");
+var location_1 = require("./location");
 var visit_service_1 = require("./visit.service");
 var location_service_1 = require("./location.service");
 var project_service_1 = require("./project.service");
@@ -18,7 +20,7 @@ var VisitComponent = (function () {
         this.visitService = visitService;
         this.locationService = locationService;
         this.projectService = projectService;
-        this.visitCookieKey = 'visit';
+        this.visitCookieKey = 'playbus_visit';
         this.visitModal = false;
         locationService.init();
         projectService.init();
@@ -32,8 +34,24 @@ var VisitComponent = (function () {
         var defaultVisit = new visit_1.Visit();
         defaultVisit.location_id = this.visit.location_id;
         defaultVisit.project_id = this.visit.project_id;
+        defaultVisit.location = new location_1.Location();
+        for (var _i = 0, _a = this.locationList; _i < _a.length; _i++) {
+            var location_2 = _a[_i];
+            if (location_2.location_id == defaultVisit.location_id) {
+                defaultVisit.location.name = location_2.name;
+            }
+        }
+        defaultVisit.project = new project_1.Project();
+        for (var _b = 0, _c = this.projectList; _b < _c.length; _b++) {
+            var project = _c[_b];
+            if (project.project_id == defaultVisit.project_id) {
+                defaultVisit.project.name = project.name;
+            }
+        }
+        this.visit = defaultVisit;
         this.setCookie(this.visitCookieKey, JSON.stringify(defaultVisit));
         this.visitModal = false;
+        location.reload();
     };
     VisitComponent.prototype.addAndSetVisit = function () {
         this.defaultVisit();
@@ -71,23 +89,13 @@ var VisitComponent = (function () {
         });
     };
     VisitComponent.prototype.getCookie = function (name) {
-        var ca = document.cookie.split(';');
-        var caLen = ca.length;
-        var cookieName = name + "=";
-        var c;
-        for (var i = 0; i < caLen; i += 1) {
-            c = ca[i].replace(/^\s+/g, '');
-            if (c.indexOf(cookieName) == 0) {
-                return c.substring(cookieName.length, c.length);
-            }
-        }
-        return '';
+        return window.localStorage.getItem(name);
     };
     VisitComponent.prototype.deleteCookie = function (name) {
-        this.setCookie(name, '');
+        window.localStorage.removeItem(name);
     };
     VisitComponent.prototype.setCookie = function (name, value) {
-        document.cookie = name + '=' + value + ";";
+        window.localStorage.setItem(name, value);
     };
     return VisitComponent;
 }());

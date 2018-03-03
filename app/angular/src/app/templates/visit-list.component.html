@@ -1,0 +1,14 @@
+<div id='visit-placeholder'>
+    <div class='w3-container w3-card-4 w3-margin'>
+        <h3 id='visit-title' class="w3-text-teal">Visits</h3>    
+        <div id='visit-list'>
+            <div *ngFor='let visit of visits' id='visit-instance'>
+                <i id='visit-elm' class='visit-element'>{{visit.location.name}} on {{visit.date_attended | date:'dd/MM/yyyy'}}</i>
+                <i (click)='delete(visit.visit_id);' class="w3-text-teal w3-button visit-delete-button"  style="padding:16px 12px;">(delete)</i>
+                <br/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<delete-confirm [deleteModal]='deleteModal' (deleteModalEmitter)='closeDeleteModal($event)' [entity]='entity' [entityId]='visitId'></delete-confirm>

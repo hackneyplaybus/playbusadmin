@@ -15,13 +15,22 @@ export class LocationEditComponent implements OnInit{
     public set location(val: Location) {
       this._location = val;
       this.isEditing = this._location.location_id != undefined && this._location.location_id != ''
-    }    
+    }  
+    public get location(): Location {
+        return this._location;
+    }  
     
     @Output() onStopEditing = new EventEmitter<boolean>();
 
     _location = new Location();
     private title: string;
     isEditing = false;
+    private deleteModal = false;
+    entity = 'location';
+    
+    closeDeleteModal(event: boolean): void {
+      this.deleteModal = event;
+    }
 
     ngOnInit(): void {
 

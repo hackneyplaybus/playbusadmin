@@ -16,6 +16,7 @@ var DisplayCarerComponent = (function () {
         this.deleteModal = false;
         this.editModal = false;
         this.editTitle = 'Edit Carer';
+        this.visitModal = false;
     }
     DisplayCarerComponent.prototype.closeDeleteModal = function (event) {
         this.deleteModal = event;
@@ -23,6 +24,11 @@ var DisplayCarerComponent = (function () {
     DisplayCarerComponent.prototype.closeEditModal = function (event) {
         if (event.srcElement.classList.contains('w3-modal')) {
             this.editModal = false;
+        }
+    };
+    DisplayCarerComponent.prototype.closeVisitModal = function (event) {
+        if (event.srcElement.classList.contains('w3-modal')) {
+            this.visitModal = false;
         }
     };
     DisplayCarerComponent.prototype.onEdit = function (carer) {
@@ -38,7 +44,8 @@ DisplayCarerComponent = __decorate([
     core_1.Component({
         selector: 'display-carer',
         templateUrl: "./templates/display-carer.component.html"
-    })
+    }),
+    __metadata("design:paramtypes", [])
 ], DisplayCarerComponent);
 exports.DisplayCarerComponent = DisplayCarerComponent;
 //# sourceMappingURL=display-carer.component.js.map

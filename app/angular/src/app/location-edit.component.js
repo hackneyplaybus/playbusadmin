@@ -21,8 +21,13 @@ var LocationEditComponent = (function () {
         this.onStopEditing = new core_1.EventEmitter();
         this._location = new location_1.Location();
         this.isEditing = false;
+        this.deleteModal = false;
+        this.entity = 'location';
     }
     Object.defineProperty(LocationEditComponent.prototype, "location", {
+        get: function () {
+            return this._location;
+        },
         set: function (val) {
             this._location = val;
             this.isEditing = this._location.location_id != undefined && this._location.location_id != '';
@@ -30,6 +35,9 @@ var LocationEditComponent = (function () {
         enumerable: true,
         configurable: true
     });
+    LocationEditComponent.prototype.closeDeleteModal = function (event) {
+        this.deleteModal = event;
+    };
     LocationEditComponent.prototype.ngOnInit = function () {
     };
     LocationEditComponent.prototype.addLocation = function () {

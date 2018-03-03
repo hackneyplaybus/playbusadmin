@@ -1,0 +1,12 @@
+<div class="w3-padding-64">
+    <div class="w3-container">
+        <div class="w3-row">
+            <div class="w3-twothird">
+                <project-edit (onStopEditing)='onStopEditing($event);' [project]='project'></project-edit>
+            </div>
+            <div class='w3-third'>
+                <list-view (onItemSelect)='onItemSelect($event);' [items]='items' [title]='title'></list-view>
+            </div>
+        </div>
+    </div>
+</div>

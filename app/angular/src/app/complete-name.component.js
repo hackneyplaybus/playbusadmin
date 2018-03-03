@@ -9,10 +9,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 var complete_name_service_1 = require("./complete-name.service");
 var CompleteNameComponent = (function () {
-    function CompleteNameComponent(completeNameService) {
+    function CompleteNameComponent(completeNameService, router) {
         this.completeNameService = completeNameService;
+        this.router = router;
     }
     Object.defineProperty(CompleteNameComponent.prototype, "term", {
         get: function () { return this._term; },
@@ -29,6 +31,9 @@ var CompleteNameComponent = (function () {
         enumerable: true,
         configurable: true
     });
+    CompleteNameComponent.prototype.goToFamily = function (familyId) {
+        this.router.navigateByUrl('/family/' + familyId);
+    };
     CompleteNameComponent.prototype.populate = function (type, term) {
         var _this = this;
         this.completeNameService.getPerson(type, term).then(function (persons) { return _this.updateChildCarer(persons); });
@@ -49,7 +54,8 @@ CompleteNameComponent = __decorate([
         selector: 'complete-name',
         templateUrl: "./templates/complete-name.component.html",
     }),
-    __metadata("design:paramtypes", [complete_name_service_1.CompleteNameService])
+    __metadata("design:paramtypes", [complete_name_service_1.CompleteNameService,
+        router_1.Router])
 ], CompleteNameComponent);
 exports.CompleteNameComponent = CompleteNameComponent;
 var Term = (function () {

@@ -48,8 +48,8 @@
             <div *ngFor="let referral of family.referrals" id='referral-card-placeholder'>
                 <div id='referral-card' class="w3-border-top">
                     <div class="w3-container w3-text-dark-grey" style='padding-top:16px;'>        
-                        <i class='referral-service'>{{referral.name}}</i>
-                        <i class="w3-large fa fa-times w3-text-teal w3-button referral-delete-button" onclick='displayModal("delete-modal", this);'  style="padding:16px 12px;"></i>
+                        <i class='referral-service'>{{referral.service.name}}</i>
+                        <i class="w3-large fa fa-times w3-text-teal w3-button referral-delete-button" (click)='referralId = referral.referral_id;referralDelete = true;'  style="padding:16px 12px;"></i>
                     </div>
                 </div>
             </div>
@@ -156,7 +156,15 @@
 <div *ngIf="referralModal" (click)='closeModal($event);' id="referral-modal" class="w3-modal">
     <div class="w3-modal-content">
         <div class="w3-container" style='padding-left:0px;padding-right:0px;'>
-            <div id="referral-placeholder"></div>
+            <div class='w3-container w3-card-4 w3-margin'>
+                <h3 id='serviceselector-title' class="w3-text-teal">Services</h3>    
+                <div *ngFor='let service of services' id='service-instance' class='active-element jono-button'>
+                    <i (click)='addService(service.service_id); referralModal = false;' id='service-elm' class='service-element'>{{service.name}}</i>
+                    <br/>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<delete-confirm [deleteModal]='referralDelete' (deleteModalEmitter)='closeDeleteModal($event)' [entity]='referralEntity' [entityId]='referralId'></delete-confirm>

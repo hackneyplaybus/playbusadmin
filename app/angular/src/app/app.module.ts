@@ -31,7 +31,16 @@ import { VisitComponent } from './visit.component'
 import { VisitService } from './visit.service'
 import { LocationComponent } from './location.component'
 import { LocationEditComponent } from './location-edit.component'
+import { ProjectComponent } from './project.component'
+import { ProjectEditComponent } from './project-edit.component'
+import { ServiceService } from './service.service'
+import { ServiceComponent } from './service.component'
+import { SearchComponent } from './search.component'
+import { ServiceEditComponent } from './service-edit.component'
 import { ListComponent } from './list.component'
+import { VisitListComponent } from './visit-list.component'
+import { ReferralService } from './referral.service'
+import { SearchService } from './search.service'
 
 @NgModule({
   imports:      [ 
@@ -55,7 +64,13 @@ import { ListComponent } from './list.component'
     VisitComponent,
     LocationComponent,
     LocationEditComponent,
-    ListComponent
+    ListComponent,
+    ProjectComponent,
+    ProjectEditComponent,
+    SearchComponent,
+    ServiceComponent,
+    ServiceEditComponent,
+    VisitListComponent
   ],
   providers: [
     CompleteNameService,
@@ -69,7 +84,10 @@ import { ListComponent } from './list.component'
     FamilyService,
     DeleteService,
     EditNoteService,
-    VisitService
+    VisitService,
+    ServiceService,
+    ReferralService,
+    SearchService,
   ],
   bootstrap:    [ AppComponent ]
 })

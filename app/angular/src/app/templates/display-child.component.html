@@ -28,7 +28,7 @@
         </tr>
         <tr>
         <td>Number of Visits:</td>
-        <td class='child-numvisits'>{{child.number_of_visits}}</td>
+        <td (click)='visitModal = true;' class='child-numvisits'>{{child.number_of_visits}}</td>
         </tr>
     </table>
     <hr>  
@@ -39,6 +39,14 @@
     <div class="w3-modal-content">
         <div class="w3-container" style='padding-left:0px;padding-right:0px;'>
             <child-edit [child]='child' [title]='editTitle' (onSubmit)='onEdit($event)'></child-edit>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="visitModal" (click)='closeVisitModal($event);' id="visit-child-modal" class="w3-modal">
+    <div class="w3-modal-content">
+        <div class="w3-container" style='padding-left:0px;padding-right:0px;'>
+            <visit-list [visits]='child.visits'></visit-list>
         </div>
     </div>
 </div>

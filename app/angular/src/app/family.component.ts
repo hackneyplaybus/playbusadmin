@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { FamilyService } from './family.service';
+import { ServiceService } from './service.service';
+import { ReferralService } from './referral.service';
 import { Family } from './family';
 import { Router }  from '@angular/router';
 import { Child } from './child'
 import { Carer } from './carer'
+import { Service } from './service'
 
 import 'rxjs/add/operator/switchMap';
 
@@ -16,6 +19,7 @@ export class FamilyComponent implements OnInit{
     private family = new Family(); 
     family_id = 'cruft';
     private referralModal = false;
+    private referralDelete = false;
     private childModal = false;
     private deleteModal = false;
     private carerModal = false;
@@ -25,8 +29,17 @@ export class FamilyComponent implements OnInit{
     private childVisitModal = false;
     private projectModal = false;
 
+    private services: Service[] = [];
+
     entity:string;
     entityId:string;
+
+    referralEntity = 'referral';
+    referralId = '';
+
+    closeDeleteModal(event: boolean): void {        
+        this.referralDelete = false;
+    }
 
     ngOnInit(): void {
         this.route.paramMap
@@ -35,6 +48,17 @@ export class FamilyComponent implements OnInit{
                 return this.familyService.getFamily(this.family_id);
             })
             .subscribe(family => this.family = family);
+        this.serviceService.getServices().then(services => this.services = services);
+    }
+
+    addService(serviceId: string): void {
+        this.referralService.addReferral(this.family_id, serviceId).then(referral => {
+            if (!this.family.referrals) {
+                this.family.referrals = [];
+            }
+            this.family.referrals.push(referral);
+            this.referralModal = false;
+        });   
     }
 
     closeModal(event: Event): void{
@@ -60,7 +84,9 @@ export class FamilyComponent implements OnInit{
 
     constructor(
         private familyService: FamilyService, 
+        private serviceService: ServiceService, 
         private route: ActivatedRoute,
         private router: Router,
+        private referralService: ReferralService,
     ){}
 }

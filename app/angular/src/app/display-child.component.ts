@@ -11,6 +11,7 @@ export class DisplayChildComponent {
     deleteModal = false;
     editModal = false;
     editTitle = 'Edit Child';
+    visitModal = false;
 
     closeDeleteModal(event: boolean): void {
       this.deleteModal = event;
@@ -19,6 +20,12 @@ export class DisplayChildComponent {
     closeEditModal(event: Event): void{
         if (event.srcElement.classList.contains('w3-modal')) {
             this.editModal = false;
+        }
+    }
+
+    closeVisitModal(event: Event): void{
+        if (event.srcElement.classList.contains('w3-modal')) {
+            this.visitModal = false;
         }
     }
 

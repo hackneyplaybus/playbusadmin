@@ -1,6 +1,9 @@
 <div class='w3-container w3-card-4 w3-margin'>
     <h3 id='locationselector-title' class="w3-text-teal">{{title}}</h3>    
     <div id='location-list'>
-        <i *ngFor='let item of items' (click)='editItem(item);' id='location-elm' class='location-element active-element jono-button'>{{item.value}}</i>
+        <div *ngFor='let item of items'>
+            <i  (click)='editItem(item);' id='location-elm' class='location-element active-element jono-button'>{{item.value}}</i>
+            <br/>
+        </div>
     </div>
 </div>

@@ -13,7 +13,7 @@ import { ProjectService } from './project.service';
 export class VisitComponent implements OnInit{
 
   visit: Visit;
-  private visitCookieKey = 'visit';
+  private visitCookieKey = 'playbus_visit';
   visitModal = false;
   @Input() childId: string;
   @Input() carerId: string;
@@ -30,10 +30,25 @@ export class VisitComponent implements OnInit{
 
   defaultVisit(): void {
     let defaultVisit = new Visit();
-    defaultVisit.location_id = this.visit.location_id;
+    defaultVisit.location_id = this.visit.location_id;    
     defaultVisit.project_id = this.visit.project_id;
+    
+    defaultVisit.location = new Location();
+    for (let location of this.locationList) {
+        if (location.location_id == defaultVisit.location_id) {
+            defaultVisit.location.name = location.name;
+        }
+    }
+    defaultVisit.project = new Project();
+        for (let project of this.projectList) {
+        if (project.project_id == defaultVisit.project_id) {
+            defaultVisit.project.name = project.name;
+        }
+    }
+    this.visit = defaultVisit
     this.setCookie(this.visitCookieKey, JSON.stringify(defaultVisit));
     this.visitModal = false;
+    location.reload();
   }
 
   addAndSetVisit(): void {
@@ -80,28 +95,17 @@ export class VisitComponent implements OnInit{
   }
 
 
-  private getCookie(name: string): string{
-        let ca: Array<string> = document.cookie.split(';');
-        let caLen: number = ca.length;
-        let cookieName = `${name}=`;
-        let c: string;
+  private getCookie(name: string): string{ 
+      return window.localStorage.getItem(name);
+  }
 
-        for (let i: number = 0; i < caLen; i += 1) {
-            c = ca[i].replace(/^\s+/g, '');
-            if (c.indexOf(cookieName) == 0) {
-                return c.substring(cookieName.length, c.length);
-            }
-        }
-        return '';
-    }
+  private deleteCookie(name: string) {
+      window.localStorage.removeItem(name);
+  }
 
-    private deleteCookie(name: string) {
-        this.setCookie(name, '');
-    }
-
-    private setCookie(name: string, value: string) {
-        document.cookie = name+'='+value+`;`;
-    }
+  private setCookie(name: string, value: string) {
+      window.localStorage.setItem(name, value);
+  }
 
   constructor(private visitService: VisitService, 
     private locationService: LocationService,

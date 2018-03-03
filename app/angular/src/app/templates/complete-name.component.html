@@ -6,11 +6,11 @@
                 <th>Name</th>
                 <th class='w3-right-align'>Birthday<br> (dd/mm)</th>
             </tr>
-            <tr *ngFor="let carer of carers" class='w3-cell-row jonobutton'>
+            <tr *ngFor="let carer of carers" class='w3-cell-row jonobutton' (click)='goToFamily(carer.family_id);'>
                 <td>{{carer.name}}</td>
                 <td class='w3-right-align'>{{carer.date_of_birth | date: 'dd/MM'}}</td>
             </tr>
-            <tr *ngFor="let child of children" class='w3-cell-row jonobutton'>
+            <tr *ngFor="let child of children" (click)='goToFamily(child.family_id);' class='w3-cell-row jonobutton'>
                 <td>{{child.name}}</td>
                 <td class='w3-right-align'>{{child.date_of_birth | date: 'dd/MM'}}</td>
             </tr>

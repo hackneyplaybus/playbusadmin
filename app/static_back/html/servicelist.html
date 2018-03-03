@@ -1,11 +1,13 @@
 <div class='w3-container w3-card-4 w3-margin'>
     <h3 id='serviceselector-title' class="w3-text-teal">Services</h3>    
-    <div id='service-list'></div>
+    <div id='service-list'>
+        <div *ngFor='let service from services' id='service-instance' class='active-element jono-button'>
+            <i id='service-elm' class='service-element'>{{service.name}}</i>
+            <br/>
+        </div>
+    </div>
 </div>
-<div id='service-instance' class='active-element jono-button' style='display:none;'>
-    <i id='service-elm' class='service-element'></i>
-    <br/>
-</div>
+
 
 <script>
     readServices().then(function(response) {

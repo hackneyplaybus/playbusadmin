@@ -1,4 +1,5 @@
 import { Component, OnInit, NgZone } from '@angular/core';
+import { Router }  from '@angular/router';
 
 @Component({
   selector: 'playbus-app',
@@ -12,7 +13,10 @@ export class AppComponent implements OnInit  {
   leftMargin: string = '0px';
 
   // Used to monitor the window size to display sidebar
-  constructor(private ngZone: NgZone) {}
+  constructor(
+    private ngZone: NgZone,
+    private router: Router,
+  ) {}
 
   toggle(): void {
     this.show = !this.show;
@@ -26,6 +30,9 @@ export class AppComponent implements OnInit  {
         //this.height = window.innerHeight;
       });
     }; 
+  }
+  onSearch(term: string): void {
+    this.router.navigate(['/search'], { queryParams: { term: term } });
   }
 
   showSidebar(): boolean {

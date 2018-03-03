@@ -16,6 +16,7 @@ var DisplayChildComponent = (function () {
         this.deleteModal = false;
         this.editModal = false;
         this.editTitle = 'Edit Child';
+        this.visitModal = false;
     }
     DisplayChildComponent.prototype.closeDeleteModal = function (event) {
         this.deleteModal = event;
@@ -23,6 +24,11 @@ var DisplayChildComponent = (function () {
     DisplayChildComponent.prototype.closeEditModal = function (event) {
         if (event.srcElement.classList.contains('w3-modal')) {
             this.editModal = false;
+        }
+    };
+    DisplayChildComponent.prototype.closeVisitModal = function (event) {
+        if (event.srcElement.classList.contains('w3-modal')) {
+            this.visitModal = false;
         }
     };
     DisplayChildComponent.prototype.onEdit = function (child) {
@@ -38,7 +44,8 @@ DisplayChildComponent = __decorate([
     core_1.Component({
         selector: 'display-child',
         templateUrl: "./templates/display-child.component.html"
-    })
+    }),
+    __metadata("design:paramtypes", [])
 ], DisplayChildComponent);
 exports.DisplayChildComponent = DisplayChildComponent;
 //# sourceMappingURL=display-child.component.js.map

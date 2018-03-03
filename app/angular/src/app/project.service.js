@@ -24,19 +24,30 @@ var ProjectService = (function () {
     ProjectService.prototype.projectUrl = function () {
         return '/api/project/all';
     };
+    ProjectService.prototype.addProjectUrl = function () {
+        return '/api/project/create';
+    };
     ProjectService.prototype.init = function () {
         var _this = this;
         if (this.called) {
             return;
         }
         this.called = true;
-        this.http.get(this.projectUrl(), this.options)
-            .toPromise()
-            .then(function (response) { return response.json(); })
-            .then(function (projects) {
+        this.getProjects().then(function (projects) {
             _this.projectList.next(projects);
             _this.staticProjectList = projects;
-        })
+        });
+    };
+    ProjectService.prototype.getProjects = function () {
+        return this.http.get(this.projectUrl(), this.options)
+            .toPromise()
+            .then(function (response) { return response.json(); })
+            .catch(this.handleError);
+    };
+    ProjectService.prototype.addProject = function (project) {
+        return this.http.post(this.addProjectUrl(), project, this.options)
+            .toPromise()
+            .then(function (response) { return response.json(); })
             .catch(this.handleError);
     };
     ProjectService.prototype.handleError = function (error) {

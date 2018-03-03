@@ -3,7 +3,7 @@
     <i class="w3-xlarge fa fa-edit w3-right w3-text-teal w3-button edit-button" (click)='editModal = true;' style="padding:16px 12px;"></i>             
     <h4 class='carer-name'>{{carer.name}}</h4>
 </header>
-<add-visit></add-visit>
+<add-visit [carerId]='carer.carer_id' [familyId]='carer.family_id'></add-visit>
 <div class="w3-container">
     <table class="w3-table w3-text-gray">          
         <tr>
@@ -56,7 +56,7 @@
         </tr>
         <tr>
         <td>Number of Visits:</td>
-        <td class='carer-numvisits'>{{carer.number_of_visits}}</td>
+        <td (click)='visitModal = true;' class='carer-numvisits'>{{carer.number_of_visits}}</td>
         </tr>
     </table>        
     <hr>  
@@ -70,3 +70,12 @@
         </div>
     </div>
 </div>
+
+<div *ngIf="visitModal" (click)='closeVisitModal($event);' id="visit-carer-modal" class="w3-modal">
+    <div class="w3-modal-content">
+        <div class="w3-container" style='padding-left:0px;padding-right:0px;'>
+            <visit-list [visits]='carer.visits'></visit-list>
+        </div>
+    </div>
+</div>
+
