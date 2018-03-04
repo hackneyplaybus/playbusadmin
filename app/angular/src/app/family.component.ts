@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { AgmCoreModule, GoogleMapsAPIWrapper, MapsAPILoader } from '@agm/core';
 import { FamilyService } from './family.service';
 import { ServiceService } from './service.service';
 import { ReferralService } from './referral.service';
@@ -28,7 +29,7 @@ export class FamilyComponent implements OnInit{
     private visitModal = false;
     private childVisitModal = false;
     private projectModal = false;
-
+    
     private services: Service[] = [];
 
     entity:string;
@@ -37,18 +38,23 @@ export class FamilyComponent implements OnInit{
     referralEntity = 'referral';
     referralId = '';
 
+    lat: number = 51.5484201;
+    lng: number = -0.0741668;
+
     closeDeleteModal(event: boolean): void {        
         this.referralDelete = false;
     }
 
-    ngOnInit(): void {
-        this.route.paramMap
+    ngOnInit(): void {   
+        this.mapsLoader.load().then(()=>{
+            this.route.paramMap
             .switchMap((params: ParamMap) => {
                 this.family_id = params.get('familyId');
                 return this.familyService.getFamily(this.family_id);
             })
             .subscribe(family => this.family = family);
-        this.serviceService.getServices().then(services => this.services = services);
+            this.serviceService.getServices().then(services => this.services = services);
+        });
     }
 
     addService(serviceId: string): void {
@@ -88,5 +94,7 @@ export class FamilyComponent implements OnInit{
         private route: ActivatedRoute,
         private router: Router,
         private referralService: ReferralService,
+        private mapsApi: GoogleMapsAPIWrapper,
+        private mapsLoader: MapsAPILoader,
     ){}
 }

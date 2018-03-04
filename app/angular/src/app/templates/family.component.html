@@ -20,7 +20,39 @@
   </div>
   <div class="w3-row w3-padding-8">
       <div class="w3-half w3-container">
-        <div id="map" style="width:100%; height:400px;"></div>
+        <agm-map style="width:100%; height:400px;" [latitude]="lat" [longitude]="lng" [zoom]="12">
+            <agm-marker-cluster [imagePath]="'https://googlemaps.github.io/js-marker-clusterer/images/m1.png'">
+                <agm-marker *ngFor='let carer of family.carers' [latitude]="carer.latitude" [longitude]="carer.longitude">
+                    <agm-info-window>
+                        <div>
+                            <h5>Carer Home</h5>
+                            Name:  {{carer.name}}
+                        </div>
+                    </agm-info-window>
+                </agm-marker>
+                <agm-marker *ngFor='let visit of family.visits' [latitude]="visit.location.latitude" [longitude]="visit.location.longitude">
+                    <agm-info-window>
+                        <div>
+                            <h5><div *ngIf='visit.carer_id'>Carer</div> <div *ngIf='visit.child_id'>Child</div> Visit</h5>
+                            <ng-container *ngIf='visit.carer_id'>
+                                <ng-container *ngFor="let carer of family.carers">
+                                    <div *ngIf='visit.carer_id==carer.carer_id'>
+                                        Name: {{carer.name}}
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf='visit.child_id'>
+                                    <ng-container *ngFor="let child of family.children">
+                                        <div *ngIf='visit.child_id==child.child_id'>
+                                            Name: {{child.name}}
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                        </div>    
+                    </agm-info-window>
+                </agm-marker>
+            </agm-marker-cluster>
+        </agm-map>        
       </div>
       <div class="w3-half w3-container">
         <div class="w3-card-4" style="margin-left:8px">

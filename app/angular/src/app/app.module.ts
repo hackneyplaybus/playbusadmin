@@ -1,7 +1,10 @@
 import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule }    from '@angular/http';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
+import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
 
 import { AppComponent }  from './app.component';
 import { ChildComponent }  from './child.component';
@@ -26,28 +29,32 @@ import { FamilyService } from './family.service';
 import { DeleteService } from './delete.service';
 import { EditNoteService } from './edit-note.service';
 import { EditNoteComponent } from './edit-note.component';
-import { AgmCoreModule } from '@agm/core';
-import { VisitComponent } from './visit.component'
-import { VisitService } from './visit.service'
-import { LocationComponent } from './location.component'
-import { LocationEditComponent } from './location-edit.component'
-import { ProjectComponent } from './project.component'
-import { ProjectEditComponent } from './project-edit.component'
-import { ServiceService } from './service.service'
-import { ServiceComponent } from './service.component'
-import { SearchComponent } from './search.component'
-import { ServiceEditComponent } from './service-edit.component'
-import { ListComponent } from './list.component'
-import { VisitListComponent } from './visit-list.component'
-import { ReferralService } from './referral.service'
-import { SearchService } from './search.service'
+import { VisitComponent } from './visit.component';
+import { VisitService } from './visit.service';
+import { LocationComponent } from './location.component';
+import { LocationEditComponent } from './location-edit.component';
+import { ProjectComponent } from './project.component';
+import { ProjectEditComponent } from './project-edit.component';
+import { ServiceService } from './service.service';
+import { ServiceComponent } from './service.component';
+import { SearchComponent } from './search.component';
+import { ServiceEditComponent } from './service-edit.component';
+import { ListComponent } from './list.component';
+import { VisitListComponent } from './visit-list.component';
+import { ReferralService } from './referral.service';
+import { SearchService } from './search.service';
 
 @NgModule({
-  imports:      [ 
+  imports: [ 
     BrowserModule,
     HttpModule,
+    CommonModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,       
+    AgmCoreModule.forRoot({
+       apiKey: 'AIzaSyA4ktXx-suNdhB-3Ithks2pWCgo6fvSbio'
+    }),
+    AgmJsMarkerClustererModule
   ],
   declarations: [ 
     AppComponent,
@@ -69,7 +76,7 @@ import { SearchService } from './search.service'
     ProjectEditComponent,
     SearchComponent,
     ServiceComponent,
-    ServiceEditComponent,
+    ServiceEditComponent,    
     VisitListComponent
   ],
   providers: [
@@ -87,7 +94,8 @@ import { SearchService } from './search.service'
     VisitService,
     ServiceService,
     ReferralService,
-    SearchService,
+    SearchService,        
+    GoogleMapsAPIWrapper
   ],
   bootstrap:    [ AppComponent ]
 })

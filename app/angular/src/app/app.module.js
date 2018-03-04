@@ -11,7 +11,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var http_1 = require("@angular/http");
+var common_1 = require("@angular/common");
 var forms_1 = require("@angular/forms");
+var core_2 = require("@agm/core");
+var js_marker_clusterer_1 = require("@agm/js-marker-clusterer");
 var app_component_1 = require("./app.component");
 var child_component_1 = require("./child.component");
 var carer_component_1 = require("./carer.component");
@@ -59,8 +62,13 @@ AppModule = __decorate([
         imports: [
             platform_browser_1.BrowserModule,
             http_1.HttpModule,
+            common_1.CommonModule,
             app_routing_module_1.AppRoutingModule,
-            forms_1.FormsModule
+            forms_1.FormsModule,
+            core_2.AgmCoreModule.forRoot({
+                apiKey: 'AIzaSyA4ktXx-suNdhB-3Ithks2pWCgo6fvSbio'
+            }),
+            js_marker_clusterer_1.AgmJsMarkerClustererModule
         ],
         declarations: [
             app_component_1.AppComponent,
@@ -101,6 +109,7 @@ AppModule = __decorate([
             service_service_1.ServiceService,
             referral_service_1.ReferralService,
             search_service_1.SearchService,
+            core_2.GoogleMapsAPIWrapper
         ],
         bootstrap: [app_component_1.AppComponent]
     }),
