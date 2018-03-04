@@ -20,27 +20,31 @@ handlers:
   static_files: angular/src/styles.css
   upload: angular/src/styles\.css
   login: required
-- url: /systemjs-angular-loader.js
-  static_files: angular/src/systemjs-angular-loader.js
-  upload: angular/src/systemjs-angular-loader\.js
+- url: /inline.bundle.js
+  static_files: angular/dist/inline.bundle.js
+  upload: angular/dist/inline\.bundle\.js
   login: required
-- url: /systemjs.config.extras.js
-  static_files: angular/src/systemjs.config.extras.js
-  upload: angular/src/systemjs\.config\.extras\.js
+- url: /polyfills.bundle.js
+  static_files: angular/dist/polyfills.bundle.js
+  upload: angular/dist/polyfills\.bundle\.js
   login: required
-- url: /systemjs.config.js
-  static_files: angular/src/systemjs.config.js
-  upload: angular/src/systemjs\.config\.js
+- url: /styles.bundle.js
+  static_files: angular/dist/styles.bundle.js
+  upload: angular/dist/styles\.bundle\.js
   login: required
-- url: /main.js
-  static_files: angular/src/main.js
-  upload: angular/src/main\.js
+- url: /vendor.bundle.js
+  static_files: angular/dist/vendor.bundle.js
+  upload: angular/dist/vendor\.bundle\.js
+  login: required
+- url: /main.bundle.js
+  static_files: angular/dist/main.bundle.js
+  upload: angular/dist/main\.bundle\.js
   login: required
 - url: /app
   static_dir: angular/src/app
   login: required
 - url: /(.*)
-  static_files: angular/src/index.html
-  upload: angular/src/index\.html
+  static_files: angular/dist/index.html
+  upload: angular/dist/index\.html
   login: required  
 

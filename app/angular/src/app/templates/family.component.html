@@ -21,7 +21,7 @@
   <div class="w3-row w3-padding-8">
       <div class="w3-half w3-container">
         <agm-map style="width:100%; height:400px;" [latitude]="lat" [longitude]="lng" [zoom]="12">
-            <agm-marker-cluster [imagePath]="'https://googlemaps.github.io/js-marker-clusterer/images/m1.png'">
+            <agm-marker-cluster  [maxZoom]="15" [imagePath]="'https://googlemaps.github.io/js-marker-clusterer/images/m'">
                 <agm-marker *ngFor='let carer of family.carers' [latitude]="carer.latitude" [longitude]="carer.longitude">
                     <agm-info-window>
                         <div>
