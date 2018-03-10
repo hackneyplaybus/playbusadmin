@@ -43,6 +43,9 @@ import { ListComponent } from './list.component';
 import { VisitListComponent } from './visit-list.component';
 import { ReferralService } from './referral.service';
 import { SearchService } from './search.service';
+import { Md2Module }  from 'md2';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
 
 @NgModule({
   imports: [ 
@@ -51,6 +54,8 @@ import { SearchService } from './search.service';
     CommonModule,
     AppRoutingModule,
     FormsModule,       
+    Md2Module,
+    BrowserAnimationsModule,
     AgmCoreModule.forRoot({
        apiKey: 'AIzaSyA4ktXx-suNdhB-3Ithks2pWCgo6fvSbio'
     }),

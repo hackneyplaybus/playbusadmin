@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strings"
@@ -18,6 +20,39 @@ import (
 const (
 	bucketStr = "playbus-backups"
 )
+
+func CreateBackup(w http.ResponseWriter, r *http.Request) {
+	ctx := appengine.NewContext(r)
+
+	appID := appengine.AppID(ctx)
+	url := fmt.Sprintf("https://datastore.googleapis.com/v1/projects/%s:export", appID)
+	access_token, _, err := appengine.AccessToken(ctx, "https://www.googleapis.com/auth/datastore")
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	entity_filter := map[string]interface{}{
+		"kinds": []string{"family", "child", "carer", "notes", "referral", "visit", "location", "project"},
+	}
+	request := map[string]interface{}{
+		"project_id":        appID,
+		"output_url_prefix": "gs://" + bucketStr,
+		"entity_filter":     entity_filter,
+	}
+	bb, err := json.Marshal(request)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	req, err := http.NewRequest("POST", url, bytes.NewReader(bb))
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+access_token)
+	http.DefaultClient.Do(req)
+}
 
 func Backup(w http.ResponseWriter, r *http.Request) {
 	ctx := appengine.NewContext(r)

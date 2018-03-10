@@ -14,7 +14,7 @@ export class Carer {
 	longitude: number;
 	phone: string;
 	email: string;
-	benefits: string;
+	benefits: string[];
 	benefits_other: string;
 	lone_carer: boolean;
 	first_seen: string;

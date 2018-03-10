@@ -10,11 +10,11 @@
     <i class="fa fa-remove"></i>
   </div>
   <h4 class="w3-bar-item"><b>Hackney Playbus</b></h4>
-  <a class="w3-bar-item w3-button w3-hover-black" routerLink="/">People</a>
-  <a class="w3-bar-item w3-button w3-hover-black" routerLink="/locations">Locations</a>
-  <a class="w3-bar-item w3-button w3-hover-black" routerLink="/projects">Projects</a>
-  <a class="w3-bar-item w3-button w3-hover-black" routerLink="/services">Services</a>
-  <a class="w3-bar-item w3-button w3-hover-black" routerLink="/search">Search</a>  
+  <a class="w3-bar-item w3-button w3-hover-black" (click)="toggle()" routerLink="/">People</a>
+  <a class="w3-bar-item w3-button w3-hover-black" (click)="toggle()" routerLink="/locations">Locations</a>
+  <a class="w3-bar-item w3-button w3-hover-black" (click)="toggle()" routerLink="/projects">Projects</a>
+  <a class="w3-bar-item w3-button w3-hover-black" (click)="toggle()" routerLink="/services">Services</a>
+  <a class="w3-bar-item w3-button w3-hover-black" (click)="toggle()" routerLink="/search">Search</a>  
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->

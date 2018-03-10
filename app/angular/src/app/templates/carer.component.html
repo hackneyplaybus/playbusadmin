@@ -56,9 +56,9 @@
         <div class="w3-row w3-section">
             <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-users"></i></div>
                 <div class="w3-rest">
-                    <select #carerBenefitBox [(ngModel)]='carer.benefits' class="w3-input w3-border w3-round-medium carer-benefit-dropdown" id='carer-benefits' name="carer-benefit" type="text" placeholder="benefits">                        
-                        <option *ngFor="let benefit of benefitList" value="{{benefit}}">{{benefit}}</option>
-                    </select> 
+                    <md2-select #carerBenefitBox [(ngModel)]='carer.benefits' class="w3-input w3-border w3-round-medium carer-benefit-dropdown" id='carer-benefits' name="carer-benefit" type="text" multiple="true">
+                        <md2-option *ngFor="let benefit of benefitList" value="{{benefit}}">{{benefit}}</md2-option>
+                    </md2-select> 
                     <label class='w3-text-black' for="carer-benefit">benefits</label>                 
                 </div>
             </div>           
