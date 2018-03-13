@@ -142,12 +142,20 @@ func ReadFamilyVisits(ctx context.Context, familyId string) ([]*wire.Visit, erro
 	for _, visit := range visits {
 		visit.Location, err = ReadLocation(ctx, visit.LocationId)
 		if err != nil {
-			return nil, err
+			if err == datastore.ErrNoSuchEntity {
+				log.Warningf(ctx, "Unable to load location: %s", visit.LocationId)
+			} else {
+				return nil, err
+			}
 		}
 		if visit.ProjectId != "" {
 			visit.Project, err = ReadProject(ctx, visit.ProjectId)
 			if err != nil {
-				return nil, err
+				if err == datastore.ErrNoSuchEntity {
+					log.Warningf(ctx, "Unable to load project: %s", visit.ProjectId)
+				} else {
+					return nil, err
+				}
 			}
 		}
 
@@ -214,7 +222,11 @@ func ReadFamilyReferrals(ctx context.Context, familyId string) ([]*wire.Referral
 	for _, ref := range refs {
 		ref.Service, err = ReadService(ctx, ref.ServiceId)
 		if err != nil {
-			return nil, err
+			if err == datastore.ErrNoSuchEntity {
+				log.Warningf(ctx, "Unable to load service: %s", ref.ServiceId)
+			} else {
+				return nil, err
+			}
 		}
 	}
 

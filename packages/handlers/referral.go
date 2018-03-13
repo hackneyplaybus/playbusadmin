@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"time"
 
 	"github.com/hackneyplaybus/playbusadmin/packages/dao"
 	"github.com/hackneyplaybus/playbusadmin/packages/wire"
@@ -32,7 +33,9 @@ func WriteReferralHandler(w http.ResponseWriter, r *http.Request) {
 		if u != nil {
 			referral.ReferredBy = u.Email
 		}
-
+		now := time.Now()
+		referral.DateRecorded = now
+		referral.DateReferred = now
 		err = dao.CreateReferral(ctx, referral)
 		if err != nil {
 			writeError(ctx, w, r, err, http.StatusInternalServerError, "Unable to write to datastore")
