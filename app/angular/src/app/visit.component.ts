@@ -47,8 +47,8 @@ export class VisitComponent implements OnInit{
     }
     this.visit = defaultVisit
     this.setCookie(this.visitCookieKey, JSON.stringify(defaultVisit));
-    this.visitModal = false;
-    location.reload();
+    this.visitModal = false;    
+    window.location.reload(true);
   }
 
   addAndSetVisit(): void {

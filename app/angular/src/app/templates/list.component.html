@@ -2,8 +2,9 @@
     <h3 id='locationselector-title' class="w3-text-teal">{{title}}</h3>    
     <div id='location-list'>
         <div *ngFor='let item of items'>
-            <i  (click)='editItem(item);' id='location-elm' class='location-element active-element jono-button'>{{item.value}}</i>
-            <br/>
+            <div (click)='editItem(item);' id='location-elm' class='location-element active-element jono-button'>
+                <i>{{item.value}}</i>
+            </div>            
         </div>
     </div>
 </div>

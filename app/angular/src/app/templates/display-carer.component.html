@@ -56,7 +56,11 @@
         </tr>
         <tr>
         <td>Number of Visits:</td>
-        <td (click)='visitModal = true;' class='carer-numvisits w3-text-teal'>{{carer.number_of_visits}} (view)</td>
+        <td (click)='visitModal = true;' class='carer-numvisits w3-text-teal'>
+            <div class='w3-hover-opacity jono-button'>
+                {{carer.number_of_visits}} (view)
+            </div>
+        </td>
         </tr>
     </table>        
     <hr>  

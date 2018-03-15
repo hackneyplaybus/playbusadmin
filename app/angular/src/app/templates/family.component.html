@@ -127,7 +127,7 @@
     <div class="w3-modal-content">
         <div class="w3-container" style='padding-left:0px;padding-right:0px;'>
             <div id='visit-placeholder'>
-                <div class='w3-container w3-card-4 w3-margin'>
+                <div class='w3-container w3-card-4'>
                     <h3 id='visit-title' class="w3-text-teal">Visits</h3>    
                     <div id='visit-list'></div>
                 </div>
@@ -186,16 +186,14 @@
 </div>
 
 <div *ngIf="referralModal" (click)='closeModal($event);' id="referral-modal" class="w3-modal">
-    <div class="w3-modal-content">
-        <div class="w3-container" style='padding-left:0px;padding-right:0px;'>
-            <div class='w3-container w3-card-4 w3-margin'>
-                <h3 id='serviceselector-title' class="w3-text-teal">Services</h3>    
-                <div *ngFor='let service of services' id='service-instance' class='active-element jono-button'>
-                    <i (click)='addService(service.service_id); referralModal = false;' id='service-elm' class='service-element'>{{service.name}}</i>
-                    <br/>
-                </div>
+    <div class="w3-modal-content">        
+        <div class='w3-container w3-card-4'>
+            <h3 id='serviceselector-title' class="w3-text-teal">Services</h3>    
+            <div *ngFor='let service of services' id='service-instance' class='active-element jono-button'>
+                <i (click)='addService(service.service_id); referralModal = false;' id='service-elm' class='service-element'>{{service.name}}</i>
+                <br/>
             </div>
-        </div>
+        </div>        
     </div>
 </div>
 

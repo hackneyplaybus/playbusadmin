@@ -46,6 +46,13 @@ handlers:
 - url: /app
   static_dir: angular/src/app
   login: required
+- url: /img
+  static_dir: angular/src/app/img
+  login: required
+- url: /manifest.json
+  static_files: angular/manifest.json
+  upload: angular/manifest\.json
+  login: required
 - url: /
   static_files: angular/dist/index.html
   upload: angular/dist/index\.html
