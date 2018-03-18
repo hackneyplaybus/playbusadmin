@@ -19,49 +19,62 @@ handlers:
 - url: /api/(.*)
   script: _go_app
   login: required
+  secure: always
 - url: /styles.css
   static_files: angular/src/styles.css
   upload: angular/src/styles\.css
   login: required
+  secure: always
 - url: /inline.bundle.js
   static_files: angular/dist/inline.bundle.js
   upload: angular/dist/inline\.bundle\.js
   login: required
+  secure: always
 - url: /polyfills.bundle.js
   static_files: angular/dist/polyfills.bundle.js
   upload: angular/dist/polyfills\.bundle\.js
   login: required
+  secure: always
 - url: /styles.bundle.js
   static_files: angular/dist/styles.bundle.js
   upload: angular/dist/styles\.bundle\.js
   login: required
+  secure: always
 - url: /vendor.bundle.js
   static_files: angular/dist/vendor.bundle.js
   upload: angular/dist/vendor\.bundle\.js
   login: required
+  secure: always
 - url: /main.bundle.js
   static_files: angular/dist/main.bundle.js
   upload: angular/dist/main\.bundle\.js
   login: required
+  secure: always
 - url: /app
   static_dir: angular/src/app
   login: required
+  secure: always
 - url: /img
   static_dir: angular/src/app/img
   login: required
+  secure: always
 - url: /manifest.json
   static_files: angular/manifest.json
   upload: angular/manifest\.json
   login: required
+  secure: always
 - url: /
   static_files: angular/dist/index.html
   upload: angular/dist/index\.html
-  login: required  
-- url: /(family/.*|locations|projects|services|search|consent)
+  login: required
+  secure: always
+- url: /(family/.*|locations|projects|services|search|consent|report)
   static_files: angular/dist/index.html
   upload: angular/dist/index\.html
-  login: required  
+  login: required
+  secure: always
 - url: /(.*)
   script: _go_app
   login: required
+  secure: always
 

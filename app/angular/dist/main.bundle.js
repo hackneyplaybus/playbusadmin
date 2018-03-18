@@ -26,6 +26,7 @@ webpackEmptyContext.id = "../../../../../src async recursive";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__project_component__ = __webpack_require__("../../../../../src/app/project.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__service_component__ = __webpack_require__("../../../../../src/app/service.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__search_component__ = __webpack_require__("../../../../../src/app/search.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__report_component__ = __webpack_require__("../../../../../src/app/report.component.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -42,6 +43,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 var routes = [
     { path: '', component: __WEBPACK_IMPORTED_MODULE_2__people_component__["a" /* PeopleComponent */] },
     { path: 'consent', component: __WEBPACK_IMPORTED_MODULE_3__consent_component__["a" /* ConsentComponent */] },
@@ -49,7 +51,8 @@ var routes = [
     { path: 'locations', component: __WEBPACK_IMPORTED_MODULE_5__location_component__["a" /* LocationComponent */] },
     { path: 'projects', component: __WEBPACK_IMPORTED_MODULE_6__project_component__["a" /* ProjectComponent */] },
     { path: 'services', component: __WEBPACK_IMPORTED_MODULE_7__service_component__["a" /* ServiceComponent */] },
-    { path: 'search', component: __WEBPACK_IMPORTED_MODULE_8__search_component__["a" /* SearchComponent */] }
+    { path: 'search', component: __WEBPACK_IMPORTED_MODULE_8__search_component__["a" /* SearchComponent */] },
+    { path: 'report', component: __WEBPACK_IMPORTED_MODULE_9__report_component__["a" /* ReportComponent */] },
 ];
 var AppRoutingModule = (function () {
     function AppRoutingModule() {
@@ -179,11 +182,12 @@ var _a, _b;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__search_component__ = __webpack_require__("../../../../../src/app/search.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__service_edit_component__ = __webpack_require__("../../../../../src/app/service-edit.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__list_component__ = __webpack_require__("../../../../../src/app/list.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__visit_list_component__ = __webpack_require__("../../../../../src/app/visit-list.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__referral_service__ = __webpack_require__("../../../../../src/app/referral.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__search_service__ = __webpack_require__("../../../../../src/app/search.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44_md2__ = __webpack_require__("../../../../md2/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__angular_platform_browser_animations__ = __webpack_require__("../../../platform-browser/@angular/platform-browser/animations.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__report_component__ = __webpack_require__("../../../../../src/app/report.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__visit_list_component__ = __webpack_require__("../../../../../src/app/visit-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__referral_service__ = __webpack_require__("../../../../../src/app/referral.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__search_service__ = __webpack_require__("../../../../../src/app/search.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45_md2__ = __webpack_require__("../../../../md2/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__angular_platform_browser_animations__ = __webpack_require__("../../../platform-browser/@angular/platform-browser/animations.es5.js");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -191,6 +195,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -250,8 +255,8 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_3__angular_common__["a" /* CommonModule */],
             __WEBPACK_IMPORTED_MODULE_19__app_routing_module__["a" /* AppRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_4__angular_forms__["a" /* FormsModule */],
-            __WEBPACK_IMPORTED_MODULE_44_md2__["a" /* Md2Module */],
-            __WEBPACK_IMPORTED_MODULE_45__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
+            __WEBPACK_IMPORTED_MODULE_45_md2__["a" /* Md2Module */],
+            __WEBPACK_IMPORTED_MODULE_46__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
             __WEBPACK_IMPORTED_MODULE_5__agm_core__["a" /* AgmCoreModule */].forRoot({
                 apiKey: 'AIzaSyA4ktXx-suNdhB-3Ithks2pWCgo6fvSbio'
             }),
@@ -278,7 +283,8 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_38__search_component__["a" /* SearchComponent */],
             __WEBPACK_IMPORTED_MODULE_37__service_component__["a" /* ServiceComponent */],
             __WEBPACK_IMPORTED_MODULE_39__service_edit_component__["a" /* ServiceEditComponent */],
-            __WEBPACK_IMPORTED_MODULE_41__visit_list_component__["a" /* VisitListComponent */]
+            __WEBPACK_IMPORTED_MODULE_41__report_component__["a" /* ReportComponent */],
+            __WEBPACK_IMPORTED_MODULE_42__visit_list_component__["a" /* VisitListComponent */]
         ],
         providers: [
             __WEBPACK_IMPORTED_MODULE_11__complete_name_service__["a" /* CompleteNameService */],
@@ -294,8 +300,8 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_28__edit_note_service__["a" /* EditNoteService */],
             __WEBPACK_IMPORTED_MODULE_31__visit_service__["a" /* VisitService */],
             __WEBPACK_IMPORTED_MODULE_36__service_service__["a" /* ServiceService */],
-            __WEBPACK_IMPORTED_MODULE_42__referral_service__["a" /* ReferralService */],
-            __WEBPACK_IMPORTED_MODULE_43__search_service__["a" /* SearchService */],
+            __WEBPACK_IMPORTED_MODULE_43__referral_service__["a" /* ReferralService */],
+            __WEBPACK_IMPORTED_MODULE_44__search_service__["a" /* SearchService */],
             __WEBPACK_IMPORTED_MODULE_5__agm_core__["b" /* GoogleMapsAPIWrapper */]
         ],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_7__app_component__["a" /* AppComponent */]]
@@ -2354,6 +2360,35 @@ var Referral = (function () {
 
 /***/ }),
 
+/***/ "../../../../../src/app/report.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReportComponent; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var ReportComponent = (function () {
+    function ReportComponent() {
+    }
+    return ReportComponent;
+}());
+ReportComponent = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["l" /* Component */])({
+        selector: 'hpb-report',
+        template: "\n<div class=\"w3-padding-64\">\n  <div class=\"w3-container\">\n  <br/>\n  <a style=\"w3-padding-16\" target=\"_blank\" href='https://docs.google.com/spreadsheets/d/19PsaWN2EcFYbeiNtSRF_o7JykeiM24ErQO3PXQXcCeg/edit?usp=sharing'>Open in Google Sheets</a>\n  <br/>\n    <iframe width=\"100%\" height=\"3500\" src=\"https://datastudio.google.com/embed/reporting/1Jg6tT6ecosuGqlEP8hiYT0NkcepJBUKZ/page/v0eG\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>\n  </div>\n</div>\n",
+    })
+], ReportComponent);
+
+//# sourceMappingURL=report.component.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/search.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2747,7 +2782,7 @@ var Service = (function () {
 /***/ "../../../../../src/app/templates/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"w3-top\">\n  <div class=\"w3-bar w3-theme w3-top w3-left-align w3-large\">\n    <div *ngIf=\"!showSidebar()\" style=\"margin-top:15px;\" class=\"w3-bar-item w3-button w3-right w3-vertical-middle w3-hover-white w3-large w3-theme-l1\" (click)=\"toggle()\"><i class=\"fa fa-bars\"></i></div>\n    <input #navSearchBox (keyup.enter)=\"onSearch(navSearchBox.value);\" style=\"margin-top:11px;margin-right:10px;\" class=\"w3-search w3-bar-item w3-theme-l5 w3-right\" type=\"search\" name=\"search\" placeholder=\"Search...\" id=\"search-bar\">\n    <img routerLink=\"/\" src=\"app/img/playbuslogo.png\" height=\"75\" width=\"75\" class=\"w3-bar-item w3-button w3-theme\">\n  </div>\n</div>\n<nav *ngIf=\"show || showSidebar()\" class=\"jono-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5 w3-animate-left\" style=\"z-index:3;width:150px;margin-top:70px;\" id=\"mySidebar\">\n  <div *ngIf=\"show\" (click)=\"toggle()\" class=\"w3-right w3-xlarge w3-padding-large w3-hover-black\" title=\"Close Menu\">\n    <i class=\"fa fa-remove\"></i>\n  </div>\n  <h4 class=\"w3-bar-item\"><b>Hackney Playbus</b></h4>\n  <a class=\"w3-bar-item w3-button w3-hover-black\" (click)=\"toggle()\" routerLink=\"/\">People</a>\n  <a class=\"w3-bar-item w3-button w3-hover-black\" (click)=\"toggle()\" routerLink=\"/locations\">Locations</a>\n  <a class=\"w3-bar-item w3-button w3-hover-black\" (click)=\"toggle()\" routerLink=\"/projects\">Projects</a>\n  <a class=\"w3-bar-item w3-button w3-hover-black\" (click)=\"toggle()\" routerLink=\"/services\">Services</a>\n  <a class=\"w3-bar-item w3-button w3-hover-black\" (click)=\"toggle()\" routerLink=\"/search\">Search</a>  \n</nav>\n\n<!-- Overlay effect when opening sidebar on small screens -->\n<div *ngIf=\"show\" class=\"w3-overlay\" (click)=\"toggle()\" style=\"cursor:pointer\" title=\"close side menu\" id=\"myOverlay\"></div>\n\n<div [style.margin-left]=\"leftMargin\">\n    <router-outlet></router-outlet>  \n</div>\n"
+module.exports = "<div class=\"w3-top\">\n  <div class=\"w3-bar w3-theme w3-top w3-left-align w3-large\">\n    <div *ngIf=\"!showSidebar()\" style=\"margin-top:15px;\" class=\"w3-bar-item w3-button w3-right w3-vertical-middle w3-hover-white w3-large w3-theme-l1\" (click)=\"toggle()\"><i class=\"fa fa-bars\"></i></div>\n    <input #navSearchBox (keyup.enter)=\"onSearch(navSearchBox.value);\" style=\"margin-top:11px;margin-right:10px;\" class=\"w3-search w3-bar-item w3-theme-l5 w3-right\" type=\"search\" name=\"search\" placeholder=\"Search...\" id=\"search-bar\">\n    <img routerLink=\"/\" src=\"app/img/playbuslogo.png\" height=\"75\" width=\"75\" class=\"w3-bar-item w3-button w3-theme\">\n  </div>\n</div>\n<nav *ngIf=\"show || showSidebar()\" class=\"jono-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5 w3-animate-left\" style=\"z-index:3;width:150px;margin-top:70px;\" id=\"mySidebar\">\n  <div *ngIf=\"show\" (click)=\"toggle()\" class=\"w3-right w3-xlarge w3-padding-large w3-hover-black\" title=\"Close Menu\">\n    <i class=\"fa fa-remove\"></i>\n  </div>\n  <h4 class=\"w3-bar-item\"><b>Hackney Playbus</b></h4>\n  <a class=\"w3-bar-item w3-button w3-hover-black\" (click)=\"toggle()\" routerLink=\"/\">People</a>\n  <a class=\"w3-bar-item w3-button w3-hover-black\" (click)=\"toggle()\" routerLink=\"/locations\">Locations</a>\n  <a class=\"w3-bar-item w3-button w3-hover-black\" (click)=\"toggle()\" routerLink=\"/projects\">Projects</a>\n  <a class=\"w3-bar-item w3-button w3-hover-black\" (click)=\"toggle()\" routerLink=\"/services\">Services</a>\n  <a class=\"w3-bar-item w3-button w3-hover-black\" (click)=\"toggle()\" routerLink=\"/search\">Search</a>\n  <a class=\"w3-bar-item w3-button w3-hover-black\" (click)=\"toggle()\" routerLink=\"/report\">Report</a>    \n</nav>\n\n<!-- Overlay effect when opening sidebar on small screens -->\n<div *ngIf=\"show\" class=\"w3-overlay\" (click)=\"toggle()\" style=\"cursor:pointer\" title=\"close side menu\" id=\"myOverlay\"></div>\n\n<div [style.margin-left]=\"leftMargin\">\n    <router-outlet></router-outlet>  \n</div>\n"
 
 /***/ }),
 

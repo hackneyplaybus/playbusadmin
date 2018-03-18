@@ -40,6 +40,7 @@ import { ServiceComponent } from './service.component';
 import { SearchComponent } from './search.component';
 import { ServiceEditComponent } from './service-edit.component';
 import { ListComponent } from './list.component';
+import { ReportComponent } from './report.component';
 import { VisitListComponent } from './visit-list.component';
 import { ReferralService } from './referral.service';
 import { SearchService } from './search.service';
@@ -82,6 +83,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     SearchComponent,
     ServiceComponent,
     ServiceEditComponent,    
+    ReportComponent,
     VisitListComponent
   ],
   providers: [

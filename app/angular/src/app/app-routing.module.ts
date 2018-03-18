@@ -8,6 +8,7 @@ import { LocationComponent }   from './location.component';
 import { ProjectComponent }   from './project.component';
 import { ServiceComponent } from './service.component';
 import { SearchComponent } from './search.component';
+import { ReportComponent } from './report.component';
 
 const routes: Routes = [
   { path: '', component: PeopleComponent },
@@ -16,7 +17,8 @@ const routes: Routes = [
   { path: 'locations', component: LocationComponent },
   { path: 'projects', component: ProjectComponent },
   { path: 'services', component: ServiceComponent },
-  { path: 'search', component: SearchComponent }
+  { path: 'search', component: SearchComponent },
+  { path: 'report', component: ReportComponent },
 ];
 
 @NgModule({
