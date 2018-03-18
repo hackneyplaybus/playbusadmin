@@ -8,18 +8,18 @@ As this is a charity, one of the main goals of this project is to be as inexpens
 
 The project runs in Google Cloud Project (GCP) and uses a number of managed services therein. 
 * Site and Code execution 
-    Go 1.8 standard Google App Engine
+    * Go 1.8 standard Google App Engine
 * Online storage
-    Google Datastore
+    * Google Datastore
 * Analytics
-    Google BigQuery
+    * Google BigQuery
 * Backups 
-    Google Cloud Storage
+    * Google Cloud Storage
 * Report Generation
-    Google Datastudio
-    Google Sheets
+    * Google Datastudio
+    * Google Sheets
 * Frontend
-    Angular
+    * Angular
 
 ## App Engine 
 Google App Engine (GAE) hosts the static site as well as executes the Go code. It is set up to scale to a single machine on demand and shrink to 0 machines fairly quickly. The google free tier is 9 hours a day of instance time. The Hackney Playbus staff should remain under that bar with regular usage.
@@ -74,3 +74,4 @@ ng build
 ```
 in the angular directory. This is the first angular project I have created as well as the first time I have used typescript... apologies to whoever might one day have to maintain this... I am not a frontend developer.
 
+> One day, I should write some tests for this.
