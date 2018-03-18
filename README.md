@@ -75,3 +75,17 @@ ng build
 in the angular directory. This is the first angular project I have created as well as the first time I have used typescript... apologies to whoever might one day have to maintain this... I am not a frontend developer.
 
 > One day, I should write some tests for this.
+
+
+# Cost
+[Free Tier](https://cloud.google.com/free/) Breakdown
+* Instances:
+    * We will run with a minimum of 0 instances and a max of 1 when needed. This gives us [9 hours a day](https://cloud.google.com/appengine/quotas#Instances) of free instance time. I will set the idle time to 10 minutes so your instance will appear and disappear very quickly and I doubt we'll ever go beyond 9 hours a day.
+* Storage - online
+    * Online storage is done via [datastore](https://cloud.google.com/datastore/). Datastore give us [far more capacity](https://cloud.google.com/appengine/pricing#costs-for-datastore-calls) in the free tier than we will ever need.
+* Storage - offline
+    * Offline storage (for reporting) is done via [BigQuery](https://cloud.google.com/bigquery/). We get [10GB of data free](https://cloud.google.com/bigquery/pricing#free-tier-storage) which should be ample for the playbus.  We also get 1TB of data processing per month. This will also be ample for the playbus.
+* Cloud storage
+    * [Cloud storage](https://cloud.google.com/storage/) is used for a daily batch job that loads your new data from datastore into bigquery. We get [5GB per month] (https://cloud.google.com/storage/pricing#cloud-storage-always-free) for free so this should be fine. 
+* Reporting
+    * [Google data studio](https://cloud.google.com/data-studio/) will be used to generate and maintain reports off the back of BigQuery. Data Studio is free of charge.
