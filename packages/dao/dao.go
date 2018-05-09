@@ -93,8 +93,9 @@ func CreateCarer(ctx context.Context, carer *wire.Carer) error {
 		if err != nil {
 			return err
 		}
-
-		carer.FirstSeen = oldCarer.FirstSeen
+		if carer.FirstSeen.IsZero() {
+			carer.FirstSeen = oldCarer.FirstSeen
+		}
 		carer.PhotoConsent = oldCarer.PhotoConsent
 		carer.InfoConsent = oldCarer.InfoConsent
 	}
@@ -505,8 +506,9 @@ func CreateChild(ctx context.Context, child *wire.Child) error {
 		if err != nil {
 			return err
 		}
-
-		child.FirstSeen = oldChild.FirstSeen
+		if child.FirstSeen.IsZero() {
+			child.FirstSeen = oldChild.FirstSeen
+		}
 		child.PhotoConsent = oldChild.PhotoConsent
 		child.InfoConsent = oldChild.InfoConsent
 	}

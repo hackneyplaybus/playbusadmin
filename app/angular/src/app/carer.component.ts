@@ -32,6 +32,9 @@ export class CarerComponent implements OnInit{
       if (this.familyId) {
         this.carer.family_id = this.familyId;
       }
+      if (this.carer.first_seen && !this.carer.first_seen.endsWith('Z')) {
+        this.carer.first_seen = this.carer.first_seen + 'T00:00:00Z';      
+      }
       this.carerService.submitCarer(this.carer).then(carer => {        
           this.onSubmit.next(carer);
         });

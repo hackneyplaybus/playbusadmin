@@ -23,7 +23,15 @@
             <label class='w3-text-black' for="child-ethnicity">ethnicity</label>
             </div>
         </div>
-
+        <div class="w3-row w3-section">
+            <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-calendar"></i></div>
+                <div class="w3-rest">
+                    <div class="w3-rest">
+                        <input #childFirstSeenBox [(ngModel)]='child.first_seen' class="w3-input w3-border w3-round-medium date-input" id='child-firstseen'  name="child-firstseen" type="date" placeholder="First Seen" min="2010-01-01" max="2030-04-30">
+                        <label class='w3-text-black' for="child-firstseen">First Seen (optional)</label>     
+                    </div>
+                </div>
+            </div>
         <div class="w3-row w3-section">
         <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-transgender-alt"></i></div>
             <div class="w3-rest">

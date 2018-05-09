@@ -38,7 +38,7 @@
                 <div class="w3-row w3-section">
                 <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-calendar"></i></div>
                     <div class="w3-rest">
-                        <input class="w3-input w3-border w3-round-medium date-input" id='visit-date'  name="visit-date" type="date" placeholder="Visit Date" min="1900-01-01" max="2099-04-30">
+                        <input [(ngModel)]='visit.date_attended' class="w3-input w3-border w3-round-medium date-input" id='visit-date'  name="visit-date" type="date" placeholder="Visit Date" min="1900-01-01" max="2030-04-30">
                         <i class="w3-right w3-text-teal w3-small" style='margin-right:3px;'>optional</i>
                     </div>
                 </div>

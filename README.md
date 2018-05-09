@@ -74,3 +74,4 @@ ng build
 ```
 in the angular directory. This is the first angular project I have created as well as the first time I have used typescript... apologies to whoever might one day have to maintain this... I am not a frontend developer.
 
+> One day, I should write some tests for this.

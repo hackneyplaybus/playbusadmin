@@ -67,7 +67,11 @@ export class VisitComponent implements OnInit{
 
     this.visit.family_id = this.familyId;
 
-
+    //  HACK: No idea why this won't bind properly and can't be bothered to fix it atm
+    var vd = (<HTMLInputElement>document.getElementById('visit-date')).value
+    if (vd && !vd.endsWith('Z')) {
+        this.visit.date_attended = vd+'T00:00:00Z';
+    }
     if (this.visit.location_id) {
         this.visitService.addVisit(this.visit).then(() => location.reload())
     }

@@ -31,6 +31,9 @@ export class ChildComponent implements OnInit {
       if (this.familyId) {
         this.child.family_id = this.familyId;
       }
+      if (this.child.first_seen && !this.child.first_seen.endsWith('Z')) {
+        this.child.first_seen = this.child.first_seen + 'T00:00:00Z';  
+      }
       this.childService.submitChild(this.child).then(child => {
           this.onSubmit.next(child);
         });
