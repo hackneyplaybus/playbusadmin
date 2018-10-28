@@ -20,5 +20,7 @@ export class Carer {
 	first_seen: string;
 	photo_consent: boolean;
 	info_consent: boolean;
-    number_of_visits: number;
+	number_of_visits: number;
+	temporary_accommodation: boolean;
+	child_relationship: string;
 }

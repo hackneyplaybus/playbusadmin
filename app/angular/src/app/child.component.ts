@@ -21,6 +21,17 @@ export class ChildComponent implements OnInit {
 
         this.onTerm.emit(termVal);
     }  
+
+    showANText(value: string): void {
+      console.log("We got the value "+ value );
+      if (value.toLowerCase() == 'yes') {
+        document.getElementById('additionalNeedsText').style.display = 'block';
+      } else {
+        document.getElementById('additionalNeedsText').style.display = 'none';
+        this.child.additional_needs_text = '';
+      }
+    }
+
     @Output() onSubmit = new EventEmitter<Child>();
 
     ethnicityList: string[];

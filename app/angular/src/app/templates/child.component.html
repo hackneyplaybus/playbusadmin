@@ -16,13 +16,31 @@
         </div>
         <div class="w3-row w3-section">
         <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-users"></i></div>
-            <div class="w3-rest">
+        <div class="w3-rest">
             <select #childEthnicityBox [(ngModel)]='child.ethnicity' class="w3-input w3-border w3-round-medium child-ethnicity-dropdown" id='child-ethnicity' name="child-ethnicity" type="text" placeholder="Ethnicity">
                 <option *ngFor="let ethnicity of ethnicityList" value="{{ethnicity}}">{{ethnicity}}</option>
             </select>                  
-            <label class='w3-text-black' for="child-ethnicity">ethnicity</label>
+            <label class='w3-text-black' for="child-ethnicity">Ethnicity</label>
             </div>
         </div>
+        <div class="w3-row w3-section">
+            <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-home"></i></div>
+                <div class="w3-rest">
+                    <input #childAddressBox [(ngModel)]='child.address' class="w3-input w3-border w3-round-medium" name="child-address" id="child-address" type="text" placeholder="Address" required>
+                </div>
+        </div>
+        <div class="w3-row w3-section">
+            <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-home"></i></div>
+            <div class="w3-rest">
+                <input #childPostalCodeBox [(ngModel)]='child.postal_code' class="w3-input w3-border w3-round-medium" name="child-postalcode" id="child-postalcode" type="text" placeholder="Postal Code" required>
+            </div>
+        </div>
+        <div class="w3-row w3-section">
+            <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-building"></i></div>
+            <div class="w3-rest">
+                <input #childCityBox [(ngModel)]='child.city' class="w3-input w3-border w3-round-medium" name="child-city" id="child-city" type="text" placeholder="City" required>
+            </div>
+        </div>     
         <div class="w3-row w3-section">
             <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-calendar"></i></div>
                 <div class="w3-rest">
@@ -40,7 +58,31 @@
                     <option value="male">Male</option>
                     <option value="other">Other</option>                  
                 </select>
-                <label class='w3-text-black' for="child-gender">gender</label>
+                <label class='w3-text-black' for="child-gender">Gender</label>
+            </div>
+        </div>
+        <div class="w3-row w3-section">
+        <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-wheelchair"></i></div>
+            <div class="w3-rest">
+                <select #childAdditionalNeedsBox [(ngModel)]='child.additional_needs' (change)='showANText(childAdditionalNeedsBox.value);' class="w3-input w3-border w3-round-medium" id='child-additionalneeds' name="child-additionalneeds" type="text" placeholder="no">
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                    <option value="no_disclose">Do Not Wish To Disclose</option>
+                </select>
+                <label class='w3-text-black' for="child-additionalneeds">Additional Needs</label>
+            </div>
+        </div>
+        <div class="w3-row w3-section" id='additionalNeedsText' style='display: none;'>
+            <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-wheelchair"></i></div>
+            <div class="w3-rest">
+                <input #childAdditionalNeedsTextBox [(ngModel)]='child.additional_needs_text' class="w3-input w3-border w3-round-medium" name="child-additionalneedstext" id="child-additionalneedstext" type="text" placeholder="Additional Needs Description">
+            </div>
+        </div>             
+        <div class="w3-row w3-section">
+            <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-home"></i></div>
+            <div class="w3-rest" style='padding-top:7px;'>
+                <input #childTemporaryAccommodationBox [(ngModel)]='child.temporary_accommodation' class='w3-padding-right' name="child-temporaryaccommodation" id="child-temporaryaccommodation" type="checkbox">
+                <span class='w3-text-black' for="child-temporaryaccommodation">Temporary Accommodation?</span>
             </div>
         </div>
         <input (click)='submitChild();$event.preventDefault();' class="w3-button w3-right w3-text-teal w3-border" type="submit" value="Submit">

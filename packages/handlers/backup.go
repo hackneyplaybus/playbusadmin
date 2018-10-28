@@ -9,10 +9,9 @@ import (
 	"strings"
 	"time"
 
-	"golang.org/x/net/context"
-
 	"cloud.google.com/go/bigquery"
 	"cloud.google.com/go/storage"
+	"golang.org/x/net/context"
 	"google.golang.org/api/iterator"
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/file"
@@ -146,7 +145,22 @@ func getBuckets(ctx context.Context, bucketStr string) ([]string, []*storage.Obj
 		log.Infof(ctx, "Got Object: %v", objAttrs.Name)
 		if strings.HasPrefix(objAttrs.Name, now) && strings.HasSuffix(objAttrs.Name, ".export_metadata") {
 			backups = append(backups, "gs://"+bucketStr+"/"+objAttrs.Name)
-			//backupsAttrs = append(backupsAttrs, objAttrs)
+		}
+
+		// keep a week
+		timeToKeep := time.Now()
+		willKeep := false
+	KeepLabel:
+		for ii := 0; ii < 7; ii++ {
+			keep := timeToKeep.Format("2006-01-02")
+			if strings.HasPrefix(objAttrs.Name, keep) {
+				willKeep = true
+				break KeepLabel
+			}
+			timeToKeep = timeToKeep.Add(-24 * time.Hour)
+		}
+		if !willKeep {
+			backupsAttrs = append(backupsAttrs, objAttrs)
 		}
 
 	}
@@ -163,6 +177,7 @@ func deleteBuckets(ctx context.Context, buckets []*storage.ObjectAttrs, bucketSt
 	bh := gcsClient.Bucket(bucketStr)
 	for _, obj := range buckets {
 		oh := bh.Object(obj.Name)
+		log.Infof(ctx, "Deleting bucket %v", obj.Name)
 		err := oh.Delete(ctx)
 		if err != nil {
 			return err

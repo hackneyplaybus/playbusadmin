@@ -7,9 +7,11 @@ import (
 	"net/http"
 
 	"google.golang.org/appengine"
+	"google.golang.org/appengine/log"
 	"google.golang.org/appengine/user"
 
 	"github.com/hackneyplaybus/playbusadmin/packages/dao"
+	"github.com/hackneyplaybus/playbusadmin/packages/domain"
 	"github.com/hackneyplaybus/playbusadmin/packages/wire"
 )
 
@@ -89,6 +91,14 @@ func WriteChildHandler(w http.ResponseWriter, r *http.Request) {
 		if err = json.Unmarshal(bb, child); err != nil {
 			writeError(ctx, w, r, err, http.StatusBadRequest, "Bad message format")
 			return
+		}
+
+		latlng, err := domain.Geocode(ctx, domain.ConstructAddress(child.Address, child.PostalCode, child.City))
+		if err != nil {
+			log.Warningf(ctx, "Error geocoding address: %v", err)
+		} else {
+			child.Latitude = latlng.Lat
+			child.Longitude = latlng.Lng
 		}
 
 		err = dao.CreateChild(ctx, child)

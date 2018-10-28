@@ -50,7 +50,7 @@
                         <option value="" disabled selected hidden>Ethnicity</option>
                         <option *ngFor="let ethnicity of ethnicityList" value="{{ethnicity}}">{{ethnicity}}</option>
                     </select>
-                    <label class='w3-text-black' for="carer-ethnicity">ethnicity</label>
+                    <label class='w3-text-black' for="carer-ethnicity">Ethnicity</label>
                 </div>
             </div> 
         <div class="w3-row w3-section">
@@ -59,7 +59,7 @@
                     <md2-select #carerBenefitBox [(ngModel)]='carer.benefits' class="w3-input w3-border w3-round-medium carer-benefit-dropdown" id='carer-benefits' name="carer-benefit" type="text" multiple="true">
                         <md2-option *ngFor="let benefit of benefitList" value="{{benefit}}">{{benefit}}</md2-option>
                     </md2-select> 
-                    <label class='w3-text-black' for="carer-benefit">benefits</label>                 
+                    <label class='w3-text-black' for="carer-benefit">Benefits</label>                 
                 </div>
             </div>
         <div class="w3-row w3-section">
@@ -80,7 +80,21 @@
                     <option value="male">Male</option>
                     <option value="other">Other</option>                  
                 </select>
-                <label class='w3-text-black' for="carer-gender">gender</label>
+                <label class='w3-text-black' for="carer-gender">Gender</label>
+            </div>
+        </div>
+        <div class="w3-row w3-section">
+            <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-child"></i></div>
+            <div class="w3-rest">
+                <select #carerChildRelationshipBox [(ngModel)]='carer.child_relationship' class="w3-input w3-border w3-round-medium" id='carer-child_relationship' name="carer-child_relationship" type="text" placeholder="Relationship to child">
+                    <option value="mother">Mother</option>
+                    <option value="father">Father</option>
+                    <option value="grandmother">Grandmother</option>
+                    <option value="grandfather">Grandfather</option>
+                    <option value="childminder">Childminder</option>
+                    <option value="other">Other</option>
+                </select>
+                <label class='w3-text-black' for="carer-child_relationship">Relationship to Child</label>
             </div>
         </div>
         <div class="w3-row w3-section">
@@ -88,6 +102,13 @@
             <div class="w3-rest" style='padding-top:7px;'>
                 <input #carerLoneCarerBox [(ngModel)]='carer.lone_carer' class='w3-padding-right' name="carer-lonecarer" id="carer-lonecarer" type="checkbox">
                 <span class='w3-text-black' for="carer-lonecarer">Single Carer?</span>
+            </div>
+        </div>
+        <div class="w3-row w3-section">
+            <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-home"></i></div>
+            <div class="w3-rest" style='padding-top:7px;'>
+                <input #carerTemporaryAccommodationBox [(ngModel)]='carer.temporary_accommodation' class='w3-padding-right' name="carer-temporaryaccommodation" id="carer-temporaryaccommodation" type="checkbox">
+                <span class='w3-text-black' for="carer-temporaryaccommodation">Temporary Accommodation?</span>
             </div>
         </div>
         

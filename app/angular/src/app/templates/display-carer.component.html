@@ -52,8 +52,16 @@
         </tr>
         <tr>
         <td>Lone Carer?:</td>
-        <td class='carer-lonecarer'>{{carer.lone_carer}}</td>
+        <td class='carer-lonecarer'>{{carer.lone_carer  ? 'Yes' : 'No'}}</td>
         </tr>
+        <tr>
+            <td>Temporary Accommodation?:</td>
+            <td class='carer-temporaryaccommodation'>{{carer.temporary_accommodation  ? 'Yes' : 'No'}}</td>
+        </tr>
+        <tr>
+            <td>Relationship to Child:</td>
+            <td class='carer-childrelationship'>{{carer.child_relationship}}</td>
+        </tr>        
         <tr>
         <td>Number of Visits:</td>
         <td (click)='visitModal = true;' class='carer-numvisits w3-text-teal'>

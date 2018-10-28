@@ -23,8 +23,32 @@
         <td class='child-firstseen'>{{child.first_seen | date:'medium'}}</td>
         </tr>
         <tr>
+        <td>Address:</td>
+        <td class='child-address'>{{child.address}}</td>
+        </tr>
+        <tr>
+        <td>Postal Code:</td>
+        <td class='child-postalcode'>{{child.postal_code}}</td>
+        </tr>
+        <tr>
+        <td>City:</td>
+        <td class='child-city'>{{child.city}}</td>
+        </tr>
+        <tr>
         <td>Photo Consent:</td>
         <td class='child-photoconsent'>{{child.photo_consent ? 'Yes' : 'No'}}</td>
+        </tr>        
+        <tr>
+            <td>Additional Needs:</td>
+            <td class='child-additionalneeds'>{{child.additional_needs}}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class='child-additionalneedstext'>{{child.additional_needs_text}}</td>
+        </tr>
+        <tr>
+            <td>Temporary Accommodation?:</td>
+            <td class='child-temporaryaccommodation'>{{child.temporary_accommodation  ? 'Yes' : 'No'}}</td>
         </tr>
         <tr>
         <td>Number of Visits:</td>

@@ -30,6 +30,14 @@
                         </div>
                     </agm-info-window>
                 </agm-marker>
+                <agm-marker *ngFor='let child of family.children' [latitude]="child.latitude" [longitude]="child.longitude">
+                    <agm-info-window>
+                        <div>
+                            <h5>Child Home</h5>
+                            Name:  {{child.name}}
+                        </div>
+                    </agm-info-window>
+                </agm-marker>
                 <agm-marker *ngFor='let visit of family.visits' [latitude]="visit.location.latitude" [longitude]="visit.location.longitude">
                     <agm-info-window>
                         <div>
@@ -81,6 +89,7 @@
                 <div id='referral-card' class="w3-border-top">
                     <div class="w3-container w3-text-dark-grey" style='padding-top:16px;'>        
                         <i class='referral-service'>{{referral.service.name}}</i>
+                        <i class='referral-service'> on {{referral.date_referred | date:'medium'}}</i>
                         <i class="w3-large fa fa-times w3-text-teal w3-button referral-delete-button" (click)='referralId = referral.referral_id;referralDelete = true;'  style="padding:16px 12px;"></i>
                     </div>
                 </div>

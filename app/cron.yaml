@@ -1,9 +1,9 @@
 cron:
 - description: Datastore backup
   url: /createbackup
-  schedule: every day 00:00
+  schedule: every day 01:05
   timezone: Europe/London  
 - description: Upload backups to BigQuery
   url: /backup
-  schedule: every day 01:00
+  schedule: every day 02:05
   timezone: Europe/London
