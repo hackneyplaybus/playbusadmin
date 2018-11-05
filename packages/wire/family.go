@@ -85,7 +85,7 @@ type Carer struct {
 	Longitude              float64   `json:"longitude,omitempty"`
 	Phone                  string    `json:"phone,omitempty"`
 	Email                  string    `json:"email,omitempty"`
-	Benefits               []string  `json:"benefits,omitempty"`
+	Benefits               bool      `json:"benefits,omitempty"`
 	BenefitsOther          string    `json:"benefits_other,omitempty"`
 	LoneCarer              bool      `json:"lone_carer"`
 	FirstSeen              time.Time `json:"first_seen,omitempty"`
