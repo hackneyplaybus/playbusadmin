@@ -5,7 +5,13 @@
         <div class="w3-row w3-section">
             <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-user"></i></div>
                 <div class="w3-rest">
-                    <input [(ngModel)]='child.name' #childNameBox (keyup)='completeChild(childNameBox.value);' class="w3-input w3-border w3-round-medium" name="child-name" id="child-name" type="text" placeholder="Full Name" required>
+                    <input [(ngModel)]='child.first_name' #childFirstNameBox (keyup)='completeChild("firstName", childFirstNameBox.value);' class="w3-input w3-border w3-round-medium" name="child-first-name" id="child-first-name" type="text" placeholder="First Name" required>
+            </div>
+        </div>
+        <div class="w3-row w3-section">
+                <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-user"></i></div>
+                    <div class="w3-rest">
+                        <input [(ngModel)]='child.last_name' #childLastNameBox (keyup)='completeChild("lastName", childLastNameBox.value);' class="w3-input w3-border w3-round-medium" name="child-last-name" id="child-last-name" type="text" placeholder="Last Name" required>
                 </div>
             </div>
         <div class="w3-row w3-section">

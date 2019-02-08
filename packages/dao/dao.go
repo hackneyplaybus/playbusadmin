@@ -103,7 +103,7 @@ func CreateCarer(ctx context.Context, carer *wire.Carer) error {
 		carer.FamilyId = newKey("family-", DefaultKeyLen)
 	}
 
-	carer.FirstName, carer.LastName, carer.LoweredNameSet = augmentName(carer.Name, carer.FirstName, carer.LastName)
+	carer.Name, carer.FirstName, carer.LastName, carer.LoweredNameSet = augmentName(carer.Name, carer.FirstName, carer.LastName)
 	carer.LoweredNameAndEmailSet = []string{strings.ToLower(carer.Email)}
 	carer.LoweredNameAndEmailSet = append(carer.LoweredNameAndEmailSet, carer.LoweredNameSet...)
 	_, err := datastore.Put(ctx, datastore.NewKey(ctx, KindCarer, carer.CarerId, 0, nil), carer)
@@ -178,6 +178,11 @@ func CreateNote(ctx context.Context, note *wire.Note) error {
 		return err
 	}
 	return nil
+}
+
+func DeleteNote(ctx context.Context, noteId string) error {
+	key := datastore.NewKey(ctx, KindNotes, noteId, 0, nil)
+	return datastore.Delete(ctx, key)
 }
 
 func CreateReferral(ctx context.Context, referral *wire.Referral) error {
@@ -516,7 +521,7 @@ func CreateChild(ctx context.Context, child *wire.Child) error {
 		child.FamilyId = newKey("family-", DefaultKeyLen)
 	}
 
-	child.FirstName, child.LastName, child.LoweredNameSet = augmentName(child.Name, child.FirstName, child.LastName)
+	child.Name, child.FirstName, child.LastName, child.LoweredNameSet = augmentName(child.Name, child.FirstName, child.LastName)
 	_, err := datastore.Put(ctx, datastore.NewKey(ctx, KindChild, child.ChildId, 0, nil), child)
 	if err != nil {
 		return err
@@ -534,7 +539,7 @@ func (a byCount) Len() int           { return len(a) }
 func (a byCount) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 func (a byCount) Less(i, j int) bool { return a[i].count < a[j].count }
 
-func AutoCompleteChild(ctx context.Context, term string) ([]*wire.Child, error) {
+func AutoCompleteChild(ctx context.Context, term string, nameType string) ([]*wire.Child, error) {
 	term = strings.ToLower(term)
 
 	termArr := strings.Fields(term)
@@ -572,15 +577,25 @@ func AutoCompleteChild(ctx context.Context, term string) ([]*wire.Child, error) 
 	}
 	sort.Sort(sort.Reverse(byCount(toArr)))
 
-	children := make([]*wire.Child, len(toArr))
-	for ii, child := range toArr {
-		children[ii] = child.item.(*wire.Child)
+	children := make([]*wire.Child, 0, len(toArr))
+	for _, child := range toArr {
+		cc := child.item.(*wire.Child)
+		if nameType != "" {
+			if nameType == "firstName" && strings.HasPrefix(strings.ToLower(cc.FirstName), term) {
+				children = append(children, cc)
+			}
+			if nameType == "lastName" && strings.HasPrefix(strings.ToLower(cc.LastName), term) {
+				children = append(children, cc)
+			}
+		} else {
+			children = append(children, cc)
+		}
 	}
 
 	return children, nil
 }
 
-func AutoCompleteCarer(ctx context.Context, term string) ([]*wire.Carer, error) {
+func AutoCompleteCarer(ctx context.Context, term, nameType string) ([]*wire.Carer, error) {
 	term = strings.ToLower(term)
 
 	termArr := strings.Fields(term)
@@ -618,9 +633,19 @@ func AutoCompleteCarer(ctx context.Context, term string) ([]*wire.Carer, error) 
 	}
 	sort.Sort(sort.Reverse(byCount(toArr)))
 
-	carers := make([]*wire.Carer, len(toArr))
-	for ii, carer := range toArr {
-		carers[ii] = carer.item.(*wire.Carer)
+	carers := make([]*wire.Carer, 0, len(toArr))
+	for _, carer := range toArr {
+		cc := carer.item.(*wire.Carer)
+		if nameType != "" {
+			if nameType == "firstName" && strings.HasPrefix(strings.ToLower(cc.FirstName), term) {
+				carers = append(carers, cc)
+			}
+			if nameType == "lastName" && strings.HasPrefix(strings.ToLower(cc.LastName), term) {
+				carers = append(carers, cc)
+			}
+		} else {
+			carers = append(carers, cc)
+		}
 	}
 
 	return carers, nil
@@ -672,7 +697,7 @@ func AutoCompleteCarerEmail(ctx context.Context, term string) ([]*wire.Carer, er
 	return carers, nil
 }
 
-func augmentName(name, firstname, lastname string) (string, string, []string) {
+func augmentName(name, firstname, lastname string) (string, string, string, []string) {
 
 	nameArr := strings.Fields(name)
 	if name != "" && firstname == "" && lastname == "" {
@@ -683,11 +708,15 @@ func augmentName(name, firstname, lastname string) (string, string, []string) {
 			lastname = nameArr[len(nameArr)-1]
 		}
 	}
+	if name == "" {
+		name = firstname + " " + lastname
+		nameArr = []string{firstname, lastname}
+	}
 	loweredNameSet := []string{}
 	for _, name := range nameArr {
 		loweredNameSet = append(loweredNameSet, strings.ToLower(name))
 	}
-	return firstname, lastname, loweredNameSet
+	return name, firstname, lastname, loweredNameSet
 }
 
 func prefixSuccessor(prefix string) string {

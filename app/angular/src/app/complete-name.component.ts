@@ -20,7 +20,7 @@ export class CompleteNameComponent {
     this._term = term;
 
     if (this._term &&this._term.term != '' && this._term.type != '') {
-      this.populate(this._term.type, this._term.term);
+      this.populate(this._term.type, this._term.term, this._term.nameType);
     } else {
       this.children = null;
       this.carers = null;
@@ -33,8 +33,8 @@ export class CompleteNameComponent {
     this.router.navigateByUrl('/family/'+familyId);
   }
 
-  populate(type: string, term: string): void {
-    this.completeNameService.getPerson(type, term).then(persons => this.updateChildCarer(persons));
+  populate(type: string, term: string, nameType: string): void {
+    this.completeNameService.getPerson(type, term, nameType).then(persons => this.updateChildCarer(persons));
   }    
 
   private updateChildCarer(childCarer: ChildCarer): void {
@@ -50,4 +50,5 @@ export class CompleteNameComponent {
 export class Term {
   term: string;
   type: string;
+  nameType: string;
 }

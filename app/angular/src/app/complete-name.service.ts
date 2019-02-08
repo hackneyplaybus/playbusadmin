@@ -9,14 +9,14 @@ import { Carer } from './carer';
 @Injectable()
 export class CompleteNameService {
 
-    private autocompleteUrl(type: string, term: string): string {
-        return '/api/'+type+'/autocomplete?term='+term
+    private autocompleteUrl(type: string, term: string, nameType: string): string {
+        return '/api/'+type+'/autocomplete?term='+term+'&name_type='+nameType
     }
 
     constructor(private http: Http) { }
 
-    getPerson(type: string, term: string): Promise<ChildCarer> {        
-        return this.http.get(this.autocompleteUrl(type, term), this.options)
+    getPerson(type: string, term: string, nameType: string): Promise<ChildCarer> {        
+        return this.http.get(this.autocompleteUrl(type, term, nameType), this.options)
              .toPromise()
              .then(response => response.json() as ChildCarer)
              .catch(this.handleError);

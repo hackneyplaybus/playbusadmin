@@ -21,6 +21,7 @@ export class FamilyComponent implements OnInit{
     family_id = 'cruft';
     private referralModal = false;
     private referralDelete = false;
+    private noteDelete = false;
     private childModal = false;
     private deleteModal = false;
     private carerModal = false;
@@ -38,11 +39,15 @@ export class FamilyComponent implements OnInit{
     referralEntity = 'referral';
     referralId = '';
 
+    noteEntity = 'note';
+    noteId = '';
+
     lat: number = 51.5484201;
     lng: number = -0.0741668;
 
     closeDeleteModal(event: boolean): void {        
         this.referralDelete = false;
+        this.noteDelete = false;
     }
 
     ngOnInit(): void {   

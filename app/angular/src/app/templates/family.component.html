@@ -72,8 +72,9 @@
                         <div class='note-text'>{{note.note}}</div>
                         <hr> 
                         <div class='w3-text-grey'>
+                            <i class="w3-large w3-right fa fa-times w3-text-teal w3-button note-delete-button" (click)='noteId = note.note_id;noteDelete = true;' style="padding:16px 12px;"></i>
                             By <i class='note-author'>{{note.note_taker}}</i> <br /> <i class='note-timestamp'>{{note.timestamp | date:'medium'}}</i><br/><br/>
-                        </div>
+                        </div>                        
                     </div>
                 </div>
             </div>
@@ -207,3 +208,4 @@
 </div>
 
 <delete-confirm [deleteModal]='referralDelete' (deleteModalEmitter)='closeDeleteModal($event)' [entity]='referralEntity' [entityId]='referralId'></delete-confirm>
+<delete-confirm [deleteModal]='noteDelete' (deleteModalEmitter)='closeDeleteModal($event)' [entity]='noteEntity' [entityId]='noteId'></delete-confirm>

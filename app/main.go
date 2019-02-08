@@ -23,6 +23,7 @@ func init() {
 	http.HandleFunc("/api/carer", handlers.CatchPanic(handlers.DeleteCarer))
 
 	http.HandleFunc("/api/note/create", handlers.CatchPanic(handlers.WriteNoteHandler))
+	http.HandleFunc("/api/note", handlers.CatchPanic(handlers.DeleteNote))
 
 	http.HandleFunc("/api/location/create", handlers.CatchPanic(handlers.WriteLocationHandler))
 	http.HandleFunc("/api/location/all", handlers.CatchPanic(handlers.ReadLocationsHandler))

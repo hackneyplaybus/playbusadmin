@@ -26,7 +26,7 @@ func AutocompleteCarerHandler(w http.ResponseWriter, r *http.Request) {
 		w.Write(bb)
 		return
 	}
-	carer, err := dao.AutoCompleteCarer(ctx, term)
+	carer, err := dao.AutoCompleteCarer(ctx, term, r.URL.Query().Get("name_type"))
 	if err != nil {
 		writeError(ctx, w, r, err, http.StatusInternalServerError, "Error decoding payload")
 		return

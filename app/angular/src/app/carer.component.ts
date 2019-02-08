@@ -14,11 +14,12 @@ export class CarerComponent implements OnInit{
     @Input() familyId: string;
     @Input() title = 'Register A Carer';
     @Output() onTerm = new EventEmitter<Term>();
-    completeCarer(term: string): void {
+    completeCarer(nameType: string, term: string): void {
         let termVal = new Term();
       
         termVal.term = term;
         termVal.type = 'carer';
+        termVal.nameType = nameType;
 
         this.onTerm.emit(termVal);
     }  

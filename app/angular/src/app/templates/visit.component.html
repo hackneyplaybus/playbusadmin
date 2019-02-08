@@ -2,11 +2,10 @@
     <table style='margin-left:auto;margin-right:auto;text-decoration:none;'>
         <tr>
             <td>
-                <input type="submit" id='visit-row' (click)='addVisit();' class='w3-button w3-center w3-border w3-small visit-row' value='Add Visit'>
+                <input type="submit" id='visit-row' (click)='addVisit();' class='w3-button w3-center w3-border visit-row' value='Add Visit'>
             </td>
             <td>
-                <div class="visit-location w3-small">{{visit?.location?.name || 'Set Location'}}</div>
-                <div class="visit-project w3-small">  {{visit?.project?.name || 'Set Project'}}</div>
+                <div class="visit-location">{{visit?.location?.name || 'Set Location'}}</div>                
             </td>
         </tr>
     </table>

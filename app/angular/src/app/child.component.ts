@@ -13,11 +13,12 @@ export class ChildComponent implements OnInit {
     @Input() familyId: string;
     @Input() title = 'Register A Child';
     @Output() onTerm = new EventEmitter<Term>();
-    completeChild(term: string): void {
+    completeChild(nameType: string, term: string): void {
         let termVal = new Term();
       
         termVal.term = term;
         termVal.type = 'child';
+        termVal.nameType = nameType;
 
         this.onTerm.emit(termVal);
     }  

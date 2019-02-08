@@ -28,7 +28,7 @@ func AutocompleteChildHandler(w http.ResponseWriter, r *http.Request) {
 		w.Write(bb)
 		return
 	}
-	children, err := dao.AutoCompleteChild(ctx, term)
+	children, err := dao.AutoCompleteChild(ctx, term, r.URL.Query().Get("name_type"))
 	if err != nil {
 		writeError(ctx, w, r, err, http.StatusInternalServerError, "Error decoding payload")
 		return
@@ -118,7 +118,7 @@ func WriteChildHandler(w http.ResponseWriter, r *http.Request) {
 
 		name := r.URL.Query().Get("name")
 		if name != "" {
-			newChild, err := dao.AutoCompleteChild(ctx, name)
+			newChild, err := dao.AutoCompleteChild(ctx, name, "")
 			if err != nil {
 				writeError(ctx, w, r, err, http.StatusInternalServerError, "Unable to read from datastore")
 				return
@@ -129,7 +129,7 @@ func WriteChildHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		term := r.URL.Query().Get("prefix")
 		if term != "" {
-			children, err := dao.AutoCompleteChild(ctx, term)
+			children, err := dao.AutoCompleteChild(ctx, term, "")
 			if err != nil {
 				writeError(ctx, w, r, err, http.StatusInternalServerError, "Unable to read from datastore")
 				return

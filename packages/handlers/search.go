@@ -22,7 +22,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 		w.Write(bb)
 		return
 	}
-	children, err := dao.AutoCompleteChild(ctx, term)
+	children, err := dao.AutoCompleteChild(ctx, term, "")
 	if err != nil {
 		writeError(ctx, w, r, err, http.StatusInternalServerError, "Error decoding payload")
 		return
